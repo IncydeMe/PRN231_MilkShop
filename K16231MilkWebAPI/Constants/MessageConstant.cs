@@ -2,5 +2,9 @@
 {
     public static class MessageConstant
     {
+        public static class AuthenticationMessage
+        {
+            public const string IncorrectEmailOrPass = "Incorrect Email or Password";
+        }
     }
 }

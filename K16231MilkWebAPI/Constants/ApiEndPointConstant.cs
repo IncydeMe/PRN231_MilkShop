@@ -6,9 +6,9 @@
         public const string ApiVersion = "/v1";
         public const string ApiEndpoint = RootEndPoint + ApiVersion;
 
-        public static class Test
+        public static class Authentication
         {
-            public const string TestEndpoint = ApiEndpoint + "/test";
+            public const string LoginEndpoint = ApiEndpoint + "/login";
         }
     }
 }

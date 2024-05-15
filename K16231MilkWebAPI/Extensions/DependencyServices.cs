@@ -2,6 +2,8 @@
 using K16231MilkBusiness.Interfaces;
 using K16231MilkData.Entity;
 using K16231MilkWebAPI.Services;
+using K16231MilkWebAPI.Services.Implements;
+using K16231MilkWebAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
@@ -22,7 +24,9 @@ namespace K16231MilkWebAPI.Extensions
         public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration config)
         {
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<ITestService, TestService>(); //Test purpose
+
+            services.AddScoped<IAccountService, AccountService>();
+
             return services;
         }
 
