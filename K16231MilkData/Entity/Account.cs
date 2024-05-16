@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -34,6 +35,8 @@ namespace K16231MilkData.Entity
         public string Role { get; set; } = null!;
         [Range(0, int.MaxValue)]
         public int Point { get; set; }
+        [DefaultValue(true)]
+        public bool IsActive { get; set; }
 
         public virtual List<Feedback> Feedbacks { get; set; }
         public virtual List<Blog> Blogs { get; set; }
