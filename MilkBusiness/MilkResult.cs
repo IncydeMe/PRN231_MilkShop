@@ -25,6 +25,13 @@ namespace MilkBusiness
             Message = "Action Fail";
         }
 
+        public MilkResult(object? data)
+        {
+            Status = 1;
+            Message = "Action Success";
+            Data = data;
+        }
+
         public MilkResult(int staus, string message)
         {
             Status = staus;
