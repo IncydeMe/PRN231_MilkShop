@@ -11,5 +11,11 @@
             public const string LoginEndpoint = ApiEndpoint + "/login";
             public const string RegisterEndpoint = ApiEndpoint + "/register";
         }
+
+        public class Account()
+        {
+            public const string AccountsEndpoint = ApiEndpoint + "/accounts";
+            public const string AccountEndpoint = AccountsEndpoint + "/{id}";
+        }
     }
 }
