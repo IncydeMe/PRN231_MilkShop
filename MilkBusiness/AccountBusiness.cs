@@ -15,7 +15,7 @@ namespace MilkBusiness
 
         public AccountBusiness()
         {
-            if( _context == null )
+            if (_context == null)
                 _context = new Net17112314MilkContext();
         }
 
@@ -27,7 +27,7 @@ namespace MilkBusiness
 
             MilkResult result = new MilkResult();
 
-            if( account == null )
+            if (account == null)
             {
                 result.Status = -1;
                 result.Message = "Incorrect Email or Password";
@@ -61,7 +61,8 @@ namespace MilkBusiness
                 return result;
             }
 
-            Account newAccount = new Account{
+            Account newAccount = new Account
+            {
                 AccountId = 0,
                 FullName = email,
                 Password = password,
@@ -84,7 +85,7 @@ namespace MilkBusiness
         #region Account
         public async Task<IMilkResult> GetAllAccount()
         {
-            var accList =  await _context.Accounts.ToListAsync();
+            var accList = await _context.Accounts.ToListAsync();
             return new MilkResult(accList);
         }
 
@@ -92,6 +93,31 @@ namespace MilkBusiness
         {
             var acc = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == accountId);
             return new MilkResult(acc);
+        }
+
+        public async Task<IMilkResult> UpdateAccountInfo(Account accInfo)
+        {
+            Account currentAcc = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == accInfo.AccountId);
+            if (currentAcc == null) return new MilkResult(-1, "Account cannot be found");
+            else
+            {
+                _context.Entry(currentAcc).CurrentValues.SetValues(accInfo);
+                await _context.SaveChangesAsync();
+            }
+
+            return new MilkResult(accInfo);
+        }
+
+        public async Task<IMilkResult> BanAccount(int accountId)
+        {
+            Account account = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == accountId);
+            if(account == null) return new MilkResult();
+            else
+            {
+                _context.Entry(account).Property("IsActive").CurrentValue = false;
+                await _context.SaveChangesAsync();
+            }
+            return new MilkResult(account);
         }
         #endregion
     }
