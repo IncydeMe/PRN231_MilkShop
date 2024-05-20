@@ -7,7 +7,7 @@ public partial class BlogCategory
 {
     public int BlogCategoryId { get; set; }
 
-    public string BlogCategoryName { get; set; }
+    public string BlogCategoryName { get; set; } = null!;
 
-    public virtual ICollection<Blog> Blogs { get; set; } = new List<Blog>();
+    public virtual ICollection<Blog1> Blog1s { get; set; } = new List<Blog1>();
 }

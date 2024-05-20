@@ -3,9 +3,11 @@ using System.Collections.Generic;
 
 namespace MilkData;
 
-public partial class Blog
+public partial class Blog1
 {
     public int BlogId { get; set; }
+
+    public int BlogCategoryId { get; set; }
 
     public string Title { get; set; } = null!;
 
@@ -20,4 +22,6 @@ public partial class Blog
     public int AccountId { get; set; }
 
     public virtual Account Account { get; set; } = null!;
+
+    public virtual BlogCategory BlogCategory { get; set; } = null!;
 }
