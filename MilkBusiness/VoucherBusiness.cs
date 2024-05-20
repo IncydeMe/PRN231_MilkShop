@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MilkData;
+using MilkData.DAO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,56 +11,98 @@ namespace MilkBusiness
 {
 	public class VoucherBusiness
 	{
-		private readonly Net17112314MilkContext _context;
+		private readonly VoucherDAO _voucherDAO;
 
 		public VoucherBusiness()
 		{
-			if (_context == null)
-				_context = new Net17112314MilkContext();
+			_voucherDAO = new VoucherDAO();
 		}
 
 		public async Task<IMilkResult> GetVoucherList()
 		{
-			List<Voucher> vouchers = await _context.Vouchers.ToListAsync();
-
-			MilkResult result = new MilkResult(1, "Get voucher list successfully", vouchers);
-			return result;
+			var vouchers = await _voucherDAO.GetVoucherListAsync();
+			try
+			{
+				if (vouchers == null)
+				{
+					return new MilkResult(-1, "Get voucher list failed", null);
+				}
+				else
+				{
+					return new MilkResult(1, "Get voucher list successfully", vouchers);
+				}
+			}
+			catch (Exception ex)
+			{
+				return new MilkResult(-1, ex.Message, null);
+			}
 		}
 
 		public async Task<IMilkResult> GetVoucherById(int id)
 		{
-			Voucher voucher = await _context.Vouchers.FindAsync(id);
-
-			MilkResult result = new MilkResult(1, "Get voucher successfully", voucher);
-			return result;
+			var voucher = await _voucherDAO.GetVoucherById(id);
+			try
+			{
+				if (voucher == null)
+				{
+					return new MilkResult(-1, "Get voucher failed", null);
+				}
+				else
+				{
+					return new MilkResult(1, "Get voucher successfully", voucher);
+				}
+			}
+			catch (Exception ex)
+			{
+				return new MilkResult(-1, ex.Message, null);
+			}
 		}
 
 		public async Task<IMilkResult> CreateVoucher(Voucher voucher)
 		{
-			_context.Vouchers.Add(voucher);
-			await _context.SaveChangesAsync();
-
-			MilkResult result = new MilkResult(1, "Create voucher successfully", voucher);
-			return result;
+			try
+			{
+				await _voucherDAO.CreateVoucherAsync(voucher);
+				return new MilkResult(1, "Create voucher successfully", voucher);
+			}
+			catch (Exception ex)
+			{
+				return new MilkResult(-1, ex.Message, null);
+			}
 		}
 
 		public async Task<IMilkResult> UpdateVoucher(Voucher voucher)
 		{
-			_context.Vouchers.Update(voucher);
-			await _context.SaveChangesAsync();
-
-			MilkResult result = new MilkResult(1, "Update voucher successfully", voucher);
-			return result;
+			try
+			{
+				await _voucherDAO.UpdateVoucherAsync(voucher);
+				return new MilkResult(1, "Update voucher successfully", voucher);
+			}
+			catch (Exception ex)
+			{
+				return new MilkResult(-1, ex.Message, null);
+			}
 		}
 
 		public async Task<IMilkResult> DeleteVoucher(int id)
 		{
-			Voucher voucher = await _context.Vouchers.FindAsync(id);
-			_context.Vouchers.Remove(voucher);
-			await _context.SaveChangesAsync();
-
-			MilkResult result = new MilkResult(1, "Delete voucher successfully", voucher);
-			return result;
+			var voucher = await _voucherDAO.GetVoucherById(id);
+			try
+			{
+				if (voucher == null)
+				{
+					return new MilkResult(-1, "Delete voucher failed", null);
+				}
+				else
+				{
+					_voucherDAO.DeleteVoucher(voucher);
+					return new MilkResult(1, "Delete voucher successfully", voucher);
+				}
+			}
+			catch (Exception ex)
+			{
+				return new MilkResult(-1, ex.Message, null);
+			}
 		}
 	}
 }
