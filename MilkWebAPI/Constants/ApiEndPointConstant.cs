@@ -17,5 +17,17 @@
             public const string AccountsEndpoint = ApiEndpoint + "/accounts";
             public const string AccountEndpoint = AccountsEndpoint + "/{id}";
         }
+
+        public class Voucher()
+        {
+			public const string VouchersEndpoint = ApiEndpoint + "/vouchers";
+			public const string VoucherEndpoint = VouchersEndpoint + "/{id}";
+		}
+
+        public class Gift()
+        {
+			public const string GiftsEndpoint = ApiEndpoint + "/gifts";
+			public const string GiftEndpoint = GiftsEndpoint + "/{id}";
+		}
     }
 }
