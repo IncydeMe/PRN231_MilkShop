@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MilkData;
+namespace MilkData.Models;
 
 public partial class Account
 {
@@ -22,8 +22,6 @@ public partial class Account
     public int Point { get; set; }
 
     public bool IsActive { get; set; }
-
-    public virtual ICollection<Blog1> Blog1s { get; set; } = new List<Blog1>();
 
     public virtual ICollection<Blog> Blogs { get; set; } = new List<Blog>();
 

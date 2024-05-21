@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MilkData;
+namespace MilkData.Models;
 
 public partial class Gift
 {

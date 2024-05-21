@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
 using MilkData;
+using MilkData.Models;
 using MilkWebAPI.Constants;
 
 namespace MilkWebAPI.Controllers
