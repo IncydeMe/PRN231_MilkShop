@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace MilkData;
+namespace MilkData.Models;
 
 public partial class Net17112314MilkContext : DbContext
 {
@@ -18,8 +18,6 @@ public partial class Net17112314MilkContext : DbContext
     public virtual DbSet<Account> Accounts { get; set; }
 
     public virtual DbSet<Blog> Blogs { get; set; }
-
-    public virtual DbSet<Blog1> Blogs1 { get; set; }
 
     public virtual DbSet<BlogCategory> BlogCategories { get; set; }
 
@@ -53,22 +51,11 @@ public partial class Net17112314MilkContext : DbContext
 
         modelBuilder.Entity<Blog>(entity =>
         {
-            entity.ToTable("Blog");
-
-            entity.HasOne(d => d.Account).WithMany(p => p.Blogs).HasForeignKey(d => d.AccountId);
-        });
-
-        modelBuilder.Entity<Blog1>(entity =>
-        {
-            entity.HasKey(e => e.BlogId);
-
-            entity.ToTable("Blogs");
-
             entity.Property(e => e.Title).HasMaxLength(100);
 
-            entity.HasOne(d => d.Account).WithMany(p => p.Blog1s).HasForeignKey(d => d.AccountId);
+            entity.HasOne(d => d.Account).WithMany(p => p.Blogs).HasForeignKey(d => d.AccountId);
 
-            entity.HasOne(d => d.BlogCategory).WithMany(p => p.Blog1s).HasForeignKey(d => d.BlogCategoryId);
+            entity.HasOne(d => d.BlogCategory).WithMany(p => p.Blogs).HasForeignKey(d => d.BlogCategoryId);
         });
 
         modelBuilder.Entity<BlogCategory>(entity =>

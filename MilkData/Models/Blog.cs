@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MilkData;
+namespace MilkData.Models;
 
-public partial class Blog1
+public partial class Blog
 {
     public int BlogId { get; set; }
 

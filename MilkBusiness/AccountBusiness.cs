@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MilkBusiness.Utils;
 using MilkData;
+using MilkData.DAO;
+using MilkData.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +13,17 @@ namespace MilkBusiness
 {
     public class AccountBusiness
     {
-        private readonly Net17112314MilkContext _context;
+        private readonly AccountDAO _DAO;
 
         public AccountBusiness()
         {
-            if (_context == null)
-                _context = new Net17112314MilkContext();
+            _DAO = new AccountDAO();
         }
 
         #region Authentization
         public async Task<IMilkResult> Login(string email, string password)
         {
-            Account account = await _context.Accounts.FirstOrDefaultAsync(a =>
-                                    a.Email.Equals(email) && a.Password.Equals(password));
+            Account account = await _DAO.CheckAuthenInput(email, password);
 
             MilkResult result = new MilkResult();
 
@@ -49,8 +49,7 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> Register(string email, string password)
         {
-            Account account = await _context.Accounts.FirstOrDefaultAsync(a =>
-                                    a.Email.Equals(email) && a.Password.Equals(password));
+            Account account = await _DAO.CheckAuthenInput(email, password);
 
             MilkResult result = new MilkResult();
 
@@ -72,12 +71,21 @@ namespace MilkBusiness
                 Role = "Member",
                 IsActive = true
             };
-            _context.Accounts.Add(newAccount);
-            await _context.SaveChangesAsync();
 
-            result.Data = JwtUtil.GenerateJwtToken(newAccount);
-            result.Status = 1;
-            result.Message = "Register successfully";
+            var createResult = await _DAO.CreateAsync(newAccount);
+
+            if (createResult == 0)
+            {
+                result.Status = -1;
+                result.Message = "Create unsuccessfully";
+            }
+            else
+            {
+                result.Data = JwtUtil.GenerateJwtToken(newAccount);
+                result.Status = 1;
+                result.Message = "Register successfully";
+            }
+
             return result;
         }
         #endregion
@@ -85,24 +93,23 @@ namespace MilkBusiness
         #region Account
         public async Task<IMilkResult> GetAllAccount()
         {
-            var accList = await _context.Accounts.ToListAsync();
+            var accList = await _DAO.GetAllAsync();
             return new MilkResult(accList);
         }
 
         public async Task<IMilkResult> GetAccountInfo(int accountId)
         {
-            var acc = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == accountId);
+            var acc = await _DAO.GetByIdAsync(accountId);
             return new MilkResult(acc);
         }
 
         public async Task<IMilkResult> UpdateAccountInfo(Account accInfo)
         {
-            Account currentAcc = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == accInfo.AccountId);
+            Account currentAcc = await _DAO.GetByIdAsync(accInfo.AccountId);
             if (currentAcc == null) return new MilkResult(-1, "Account cannot be found");
             else
             {
-                _context.Entry(currentAcc).CurrentValues.SetValues(accInfo);
-                await _context.SaveChangesAsync();
+                _DAO.UpdateAsync(accInfo);
             }
 
             return new MilkResult(accInfo);
@@ -110,12 +117,11 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> BanAccount(int accountId)
         {
-            Account account = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == accountId);
-            if(account == null) return new MilkResult();
+            Account account = await _DAO.GetByIdAsync(accountId);
+            if (account == null) return new MilkResult();
             else
             {
-                _context.Entry(account).Property("IsActive").CurrentValue = false;
-                await _context.SaveChangesAsync();
+                _DAO.UpdateStatusAsync(account);
             }
             return new MilkResult(account);
         }
