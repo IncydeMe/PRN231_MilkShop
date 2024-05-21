@@ -1,0 +1,178 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Outfit", sans-serif;
+}
+
+body {
+    display: flex;
+}
+
+nav {
+    width: 280px;
+    height: 100vh;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    overflow-y: auto;
+    flex: 1;
+}
+
+    nav img {
+        width: 100%;
+        padding: 20px 0;
+    }
+
+    nav ul {
+        padding: 2rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        align-items: flex-start;
+        justify-content: center;
+        width: 100%;
+        margin: auto;
+    }
+
+#item-orders {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    #item-orders .sub-item {
+        display: none;
+    }
+
+        #item-orders .sub-item li {
+            padding: 2px 0; /* Adjust this value as needed */
+        }
+
+            #item-orders .sub-item li a {
+                width: 100%;
+                box-sizing: border-box;
+                display: block;
+            }
+
+    #item-orders .arrow {
+        cursor: pointer;
+        display: inline-block;
+        transition: transform 0.3s ease;
+    }
+
+    #item-orders:hover .arrow {
+        transform: rotate(180deg);
+    }
+
+    #item-orders:hover .sub-item {
+        display: block;
+    }
+
+    #item-orders .sub-item li:first-child {
+        padding-top: 2px; /* Adjust this value as needed */
+    }
+
+    #item-orders .sub-item li:last-child {
+        padding-bottom: 2px; /* Adjust this value as needed */
+    }
+
+nav ul li {
+    list-style: none;
+    display: block;
+    justify-content: center;
+    width: 100%;
+}
+
+    nav ul li a {
+        text-decoration: none;
+        color: #333;
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: all 0.3s;
+        display: block;
+        width: 100%;
+        margin: auto;
+    }
+
+        nav ul li a:hover {
+            background-color: #EC4899;
+            color: white;
+        }
+
+            nav ul li a:hover svg {
+                stroke: white;
+            }
+.contents {
+    flex: 3;
+    width: 100%;
+    margin-left: 280px;
+    padding: 20px;
+    transition: all 0.3s;
+}
+
+    .contents .personal {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 4rem;
+        position: relative;
+    }
+
+.personal svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+.personal #avatar {
+    border: 1px solid black;
+    border-radius: 100%;
+    width: 2rem;
+    height: 2rem;
+    background: #ccc;
+}
+
+.menu:hover .avatar-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    border-radius: 0.5rem;
+}
+
+.avatar-menu {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    right: 0;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+}
+
+    .avatar-menu a {
+        color: black;
+        text-decoration: none;
+        border-radius: 0.5rem;
+        display: block;
+        margin: 10px 0;
+        padding: 0.75rem 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+        .avatar-menu a:hover {
+            background-color: #EC4899;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
