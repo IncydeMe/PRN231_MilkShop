@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MilkData.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,83 +8,93 @@ using System.Threading.Tasks;
 
 namespace MilkData.Base
 {
-	public class BaseDAO<T> where T : class
-	{
-		protected readonly Net17112314MilkContext _context;
-		protected readonly DbSet<T> _dbSet;
+    public class BaseDAO<T> where T : class
+    {
+        protected readonly Net17112314MilkContext _context;
+        protected readonly DbSet<T> _dbSet;
 
-		public BaseDAO()
-		{
-			_context = new Net17112314MilkContext();
-			_dbSet = _context.Set<T>();
-		}
+        public BaseDAO()
+        {
+            _context = new Net17112314MilkContext();
+            _dbSet = _context.Set<T>();
+        }
 
-		public List<T> GetAll()
-		{
-			return _dbSet.ToList();
-		}
-		public async Task<List<T>> GetAllAsync()
-		{
-			return await _dbSet.ToListAsync();
-		}
-		public void Create(T entity)
-		{
-			_dbSet.Add(entity);
-			_context.SaveChanges();
-		}
+        #region Get Method
+        public List<T> GetAll()
+        {
+            return _dbSet.ToList();
+        }
 
-		public async Task<int> CreateAsync(T entity)
-		{
-			_dbSet.Add(entity);
-			return await _context.SaveChangesAsync();
-		}
+        public async Task<List<T>> GetAllAsync()
+        {
+            return await _dbSet.ToListAsync();
+        }
 
-		public void Update(T entity)
-		{
-			var tracker = _context.Attach(entity);
-			tracker.State = EntityState.Modified;
-			_context.SaveChanges();
-		}
+        public T GetById(int id)
+        {
+            return _dbSet.Find(id);
+        }
 
-		public async Task UpdateAsync(T entity)
-		{
-			var tracker = _context.Attach(entity);
-			tracker.State = EntityState.Modified;
-			await _context.SaveChangesAsync();
-		}
+        public async Task<T> GetByIdAsync(int id)
+        {
+            return await _dbSet.FindAsync(id);
+        }
 
-		public bool Remove(T entity)
-		{
-			_dbSet.Remove(entity);
-			_context.SaveChanges();
-			return true;
-		}
+        public T GetById(string code)
+        {
+            return _dbSet.Find(code);
+        }
 
-		public async Task<bool> RemoveAsync(T entity)
-		{
-			_dbSet.Remove(entity);
-			await _context.SaveChangesAsync();
-			return true;
-		}
+        public async Task<T> GetByIdAsync(string code)
+        {
+            return await _dbSet.FindAsync(code);
+        }
+        #endregion
 
-		public T GetById(int id)
-		{
-			return _dbSet.Find(id);
-		}
+        #region Create Method
+        public void Create(T entity)
+        {
+            _dbSet.Add(entity);
+            _context.SaveChanges();
+        }
 
-		public async Task<T> GetByIdAsync(int id)
-		{
-			return await _dbSet.FindAsync(id);
-		}
+        public async Task<int> CreateAsync(T entity)
+        {
+            _dbSet.Add(entity);
+            return await _context.SaveChangesAsync();
+        }
+        #endregion
 
-		public T GetById(string code)
-		{
-			return _dbSet.Find(code);
-		}
+        #region Update Method
+        public void Update(T entity)
+        {
+            var tracker = _context.Attach(entity);
+            tracker.State = EntityState.Modified;
+            _context.SaveChanges();
+        }
 
-		public async Task<T> GetByIdAsync(string code)
-		{
-			return await _dbSet.FindAsync(code);
-		}
-	}
+        public async void UpdateAsync(T entity)
+        {
+            var tracker = _context.Attach(entity);
+            tracker.State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+        #endregion
+
+        #region Remove Method
+        public bool Remove(T entity)
+        {
+            _dbSet.Remove(entity);
+            _context.SaveChanges();
+            return true;
+        }
+
+        public async Task<bool> RemoveAsync(T entity)
+        {
+            _dbSet.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        #endregion
+    }
 }
