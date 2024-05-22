@@ -1,4 +1,6 @@
-﻿* {
+﻿@import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Outfit:wght@100..900&display=swap');
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -6,75 +8,121 @@
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
     cursor: none;
 }
 
-/* Header */
+/* Cursor */
+#cursor {
+    width: 24px;
+    height: 24px;
+    background-color: #DB2777;
+    border: none;
+    border-radius: 50%;
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    z-index: 10000;
+}
+
+    #cursor.hover {
+        background-color: #FF79B0;
+    }
+
+    #cursor.expand {
+        transform: scale(2);
+        border: 1px solid black;
+        background-color: transparent;
+    }
+
 .header {
-    /* For items in the header */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2rem 4rem;
+    font-family: "Gamja Flower", sans-serif;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     /* For the scrolling parallax effect */
     position: absolute;
     top: 0;
     width: 100%;
     z-index: 100;
-    /* Transition */
-    transition: all 0.3s ease;
 }
 
-.sticky {
-    /* For the position */
-    position: fixed;
-    top: 0;
-    width: 100%;
-    /* For the color of the header */
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Logo Section of Header */
-.header #logo {
+nav {
     display: flex;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+}
+
+    /* Logo Section */
+    nav #logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+    }
+
+#logo h1 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+#logo img {
+    width: 50px;
+    height: 50px;
+}
+
+/* General */
+ul {
+    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 1rem;
-}
-
-    .header #logo h1 {
-        font-size: 1.5rem;
-        font-weight: 600;
-    }
-
-    .header #logo img {
-        width: 36px;
-        height: 36px;
-    }
-
-/* Nav Section of Header */
-.header nav ul {
-    display: flex;
     gap: 4rem;
-    list-style-type: none;
 }
 
-    .header nav ul li a {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #333;
-        text-decoration: none;
-        border-radius: 0.5rem;
-        padding: 0.75rem 1.25rem;
-        transition: background-color 0.3s ease, color 0.3s ease;
+    ul li {
+        list-style: none;
     }
 
-        .header nav ul li a:hover {
-            background-color: #DB2777;
+        ul li a {
+            font-size: 1.45rem;
+            font-weight: 500;
+            color: #333;
+            text-decoration: none;
+        }
+
+/* General Nav Section */
+nav .general {
+    gap: 4rem;
+}
+
+    nav .general a {
+        padding: 0.5rem 1.25rem;
+        border-radius: 5px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+        nav .general a:hover {
+            background-color: #EC4899;
             color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            cursor: none;
+        }
+
+/* Personal Nav Section */
+nav .personal {
+    gap: 4rem;
+}
+
+    nav .personal a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        border-radius: 50%;
+        transition: background-color 0.3s;
+    }
+
+        nav .personal a svg {
+            width: 28px;
+            height: 28px;
         }
 
 /* Footer */
