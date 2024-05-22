@@ -73,7 +73,9 @@ namespace MilkData.Base
             _context.SaveChanges();
         }
 
-        public async void UpdateAsync(T entity)
+        public async 
+        Task
+UpdateAsync(T entity)
         {
             var tracker = _context.Attach(entity);
             tracker.State = EntityState.Modified;
