@@ -133,6 +133,7 @@ nav ul li {
 .personal svg {
     width: 2rem;
     height: 2rem;
+    cursor: pointer;
 }
 
 .personal #avatar {
@@ -180,6 +181,138 @@ nav ul li {
             font-weight: 700;
             cursor: pointer;
         }
+
+/* Notification Menu */
+.menu:hover .noti-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    border-radius: 0.5rem;
+}
+
+.noti-menu {
+    /* Same styles as .avatar-menu */
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    margin-right: 10rem;
+    z-index: 1;
+    right: 0;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+}
+
+    .noti-menu a {
+        /* Same styles as .avatar-menu a */
+        color: black;
+        text-decoration: none;
+        border-radius: 0.5rem;
+        display: block;
+        margin: 10px 0;
+        padding: 0.75rem 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+        .noti-menu a:hover {
+            /* Same styles as .avatar-menu a:hover */
+            background-color: #EC4899;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+    .noti-menu .message {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-start;
+        align-items: center
+    }
+
+        .noti-menu .message h6 {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .noti-menu .message p {
+            font-size: 0.85rem;
+            font-weight: 400;
+        }
+
+    .noti-menu a svg {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+/* Message Menu */
+.menu:hover .mess-menu {
+    /* Same styles as .menu:hover .avatar-menu */
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    border-radius: 0.5rem;
+}
+
+.mess-menu {
+    /* Same styles as .avatar-menu */
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    margin-right: 4rem;
+    z-index: 1;
+    right: 0;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+}
+
+    .mess-menu a {
+        /* Same styles as .avatar-menu a */
+        color: black;
+        text-decoration: none;
+        border-radius: 0.5rem;
+        display: block;
+        margin: 10px 0;
+        padding: 0.75rem 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .mess-menu .message {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+.message h6 {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.message p {
+    font-size: 0.85rem;
+    font-weight: 400;
+}
+
+.mess-menu a img {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 100%;
+}
+
+.mess-menu a:hover {
+    /* Same styles as .avatar-menu a:hover */
+    background-color: #EC4899;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
 
 /* Footer */
 footer {
