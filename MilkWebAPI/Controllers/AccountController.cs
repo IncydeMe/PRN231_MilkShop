@@ -11,6 +11,7 @@ namespace MilkWebAPI.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountBusiness _accountBusiness;
+
         public AccountController()
         {
             _accountBusiness = new AccountBusiness();
