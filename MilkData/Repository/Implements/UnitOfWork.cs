@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MilkData.Models;
 using MilkData.Repository.Intefaces;
 using System;
 using System.Collections.Generic;
@@ -9,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace MilkData.Repository.Implements
 {
-    public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext
+    public class UnitOfWork
     {
-        public TContext Context { get; }
+        public Net17112314MilkContext Context { get; }
         private Dictionary<Type, object> _repositories;
 
-        public UnitOfWork(TContext context)
+        public UnitOfWork()
         {
-            Context = context;
+            Context ??= new Net17112314MilkContext();
         }
 
         public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class

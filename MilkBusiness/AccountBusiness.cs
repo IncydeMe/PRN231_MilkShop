@@ -14,11 +14,11 @@ namespace MilkBusiness
 {
     public class AccountBusiness
     {
-        private readonly IUnitOfWork<Net17112314MilkContext> _unitOfWork;
+        private readonly UnitOfWork _unitOfWork;
 
         public AccountBusiness()
         {
-            _unitOfWork ??= new UnitOfWork<Net17112314MilkContext>(new Net17112314MilkContext());
+            _unitOfWork ??= new UnitOfWork();
         }
 
         #region Authentization
