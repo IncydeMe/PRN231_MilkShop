@@ -11,6 +11,7 @@
     <title>Admin - Milk SHop</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/admin/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MilkWebApp.styles.css" asp-append-version="true" />
 
@@ -35,6 +36,7 @@
 
     <!-- Font Gamja -->
     <link href="https://fonts.googleapis.com/css?family=Gamja+Flower&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -180,15 +182,14 @@
                         <div class="vr"></div>
 
                         <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
+                        <li class="nav-item dropdown menu">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline outfit-regular">Douglas McGee</span>
+                                <span class="me-3 d-none d-lg-inline outfit-regular">Douglas McGee</span>
                                 <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=2380&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" width="42" height="42" class="rounded-circle me-2">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                 aria-labelledby="userDropdown">
+                            <div class="dropdown-menu shadow p-0 avatar-menu" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fa fa-user fa-sm fa-fw me-2"></i>
                                     Profile
@@ -208,9 +209,65 @@
                     </ul>
 
                 </nav>
+
+                <div class="d-flex">
+                <div class="card">
+                    <div class="container-card bg-green-box">
+                        <p class="card-title">Register Average Range</p>
+                        <svg width="80" height="80" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="1" y="1" width="118" height="118" rx="24" fill="url(#paint0_linear_1366_4547)"
+                                  fill-opacity="0.15" stroke="url(#paint1_radial_1366_4547)" stroke-width="2"></rect>
+                            <path d="M87.7143 36.35L78.0543 56H80.1243L89.7843 36.35H87.7143ZM74.6943 40.16C74.6943 42.44 76.4043 44.15 78.6843 44.15C80.9343 44.15 82.7043 42.44 82.7043 40.16C82.7043 37.91 80.9343 36.14 78.6843 36.14C76.4043 36.14 74.6943 37.91 74.6943 40.16ZM77.1243 40.16C77.1243 39.29 77.7543 38.57 78.6843 38.57C79.5543 38.57 80.2743 39.29 80.2743 40.16C80.2743 41.09 79.5543 41.72 78.6843 41.72C77.7543 41.72 77.1243 41.09 77.1243 40.16ZM85.3143 52.31C85.3143 54.59 87.0243 56.3 89.3043 56.3C91.5543 56.3 93.3243 54.59 93.3243 52.31C93.3243 50.06 91.5543 48.29 89.3043 48.29C87.0243 48.29 85.3143 50.06 85.3143 52.31ZM87.7443 52.31C87.7443 51.44 88.3743 50.72 89.3043 50.72C90.1743 50.72 90.8943 51.44 90.8943 52.31C90.8943 53.24 90.1743 53.87 89.3043 53.87C88.3743 53.87 87.7443 53.24 87.7443 52.31Z"
+                                  fill="#2FCB89"></path>
+                            <defs>
+                                <linearGradient id="paint0_linear_1366_4547" x1="0.0063367" y1="0.168432" x2="120.853"
+                                                y2="119.009" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#2FCB89" stop-opacity="0.7"></stop>
+                                    <stop offset="0.489583" stop-color="#2FCB89" stop-opacity="0"></stop>
+                                    <stop offset="1" stop-color="#2FCB89" stop-opacity="0.7"></stop>
+                                </linearGradient>
+                                <radialGradient id="paint1_radial_1366_4547" cx="0" cy="0" r="1"
+                                                gradientUnits="userSpaceOnUse"
+                                                gradientTransform="translate(60 60) rotate(96.8574) scale(122.674 149.921)">
+                                    <stop stop-color="#54E8A9"></stop>
+                                    <stop offset="1" stop-color="#1A3E31" stop-opacity="0.2"></stop>
+                                </radialGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="container-card bg-green-box">
+                        <p class="card-title">Register Average Range</p>
+                        <svg width="80" height="80" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="1" y="1" width="118" height="118" rx="24" fill="url(#paint0_linear_1366_4547)"
+                                  fill-opacity="0.15" stroke="url(#paint1_radial_1366_4547)" stroke-width="2"></rect>
+                            <path d="M87.7143 36.35L78.0543 56H80.1243L89.7843 36.35H87.7143ZM74.6943 40.16C74.6943 42.44 76.4043 44.15 78.6843 44.15C80.9343 44.15 82.7043 42.44 82.7043 40.16C82.7043 37.91 80.9343 36.14 78.6843 36.14C76.4043 36.14 74.6943 37.91 74.6943 40.16ZM77.1243 40.16C77.1243 39.29 77.7543 38.57 78.6843 38.57C79.5543 38.57 80.2743 39.29 80.2743 40.16C80.2743 41.09 79.5543 41.72 78.6843 41.72C77.7543 41.72 77.1243 41.09 77.1243 40.16ZM85.3143 52.31C85.3143 54.59 87.0243 56.3 89.3043 56.3C91.5543 56.3 93.3243 54.59 93.3243 52.31C93.3243 50.06 91.5543 48.29 89.3043 48.29C87.0243 48.29 85.3143 50.06 85.3143 52.31ZM87.7443 52.31C87.7443 51.44 88.3743 50.72 89.3043 50.72C90.1743 50.72 90.8943 51.44 90.8943 52.31C90.8943 53.24 90.1743 53.87 89.3043 53.87C88.3743 53.87 87.7443 53.24 87.7443 52.31Z"
+                                  fill="#2FCB89"></path>
+                            <defs>
+                                <linearGradient id="paint0_linear_1366_4547" x1="0.0063367" y1="0.168432" x2="120.853"
+                                                y2="119.009" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#2FCB89" stop-opacity="0.7"></stop>
+                                    <stop offset="0.489583" stop-color="#2FCB89" stop-opacity="0"></stop>
+                                    <stop offset="1" stop-color="#2FCB89" stop-opacity="0.7"></stop>
+                                </linearGradient>
+                                <radialGradient id="paint1_radial_1366_4547" cx="0" cy="0" r="1"
+                                                gradientUnits="userSpaceOnUse"
+                                                gradientTransform="translate(60 60) rotate(96.8574) scale(122.674 149.921)">
+                                    <stop stop-color="#54E8A9"></stop>
+                                    <stop offset="1" stop-color="#1A3E31" stop-opacity="0.2"></stop>
+                                </radialGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+                </div>
+
+                <div class="m-5">
+                    <canvas id="accountChart"></canvas>
+                </div>
             </div>
             <!-- End of Topbar -->
-
         </div>
     </main>
 
@@ -221,13 +278,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary outfit-regular" style="font-size: 18px !important" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-secondary outfit-regular" style="font-size: 18px !important" type="button" data-bs-dismiss="modal">Cancel</button>
                     <a class="btn text-white outfit-regular" href="/" style="background-color: var(--pink-500); font-size: 18px !important">Logout</a>
                 </div>
             </div>
@@ -294,7 +351,7 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/admin/site.js" asp-append-version="true"></script>
 </body>
 
 </html>
