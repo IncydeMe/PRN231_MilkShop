@@ -21,7 +21,8 @@
                         display: false
                     }
                 }
-            }
+            },
+            responsive: true,
         }
     });
 });
