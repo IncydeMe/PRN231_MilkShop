@@ -27,34 +27,34 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        //[HttpGet(ApiEndPointConstant.Account.AccountEndpoint)]
-        //public async Task<IActionResult> GetAccountInfo(int accountId)
-        //{
-        //    var response = await _accountBusiness.GetAccountInfo(accountId);
-        //    if (response.Status >= 0)
-        //        return Ok(response);
-        //    else
-        //        return BadRequest(response);
-        //}
+        [HttpGet(ApiEndPointConstant.Account.AccountEndpoint)]
+        public async Task<IActionResult> GetAccountInfo(int accountId)
+        {
+            var response = await _accountBusiness.GetAccountInfo(accountId);
+            if (response.Status >= 0)
+                return Ok(response);
+            else
+                return BadRequest(response);
+        }
 
-        //[HttpPut(ApiEndPointConstant.Account.AccountEndpoint)]
-        //public async Task<IActionResult> UpdateAccountInfo(Account account)
-        //{
-        //    var response = await _accountBusiness.UpdateAccountInfo(account);
-        //    if (response.Status >= 0)
-        //        return Ok(response);
-        //    else
-        //        return BadRequest(response);
-        //}
+        [HttpPut(ApiEndPointConstant.Account.AccountEndpoint)]
+        public async Task<IActionResult> UpdateAccountInfo(Account account)
+        {
+            var response = await _accountBusiness.UpdateAccountInfo(account);
+            if (response.Status >= 0)
+                return Ok(response);
+            else
+                return BadRequest(response);
+        }
 
-        //[HttpDelete(ApiEndPointConstant.Account.AccountsEndpoint)]
-        //public async Task<IActionResult> BanAccount(int accountId)
-        //{
-        //    var response = await _accountBusiness.BanAccount(accountId);
-        //    if (response.Status >= 0)
-        //        return Ok(response);
-        //    else
-        //        return BadRequest(response);
-        //}
+        [HttpDelete(ApiEndPointConstant.Account.AccountsEndpoint)]
+        public async Task<IActionResult> BanAccount(int accountId)
+        {
+            var response = await _accountBusiness.BanAccount(accountId);
+            if (response.Status >= 0)
+                return Ok(response);
+            else
+                return BadRequest(response);
+        }
     }
 }
