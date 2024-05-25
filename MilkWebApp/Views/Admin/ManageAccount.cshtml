@@ -1,0 +1,189 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Admin/Layout/_AdminLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/staff/producttable.css" />
+
+<div class="m-5">
+    <h3 class="fw-bold">Account List</h3>
+
+    <div class="d-flex mb-2 align-items-center justify-content-between">
+        <div class="d-flex gap-3">
+            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <div class="input-group">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search account..."
+                            aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn" type="button" style="background-color: var(--pink-300);">
+                            <i class="fa fa-search fa-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        
+            <button type="button" class="rounded" id="filter-button">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 3H2l8 9.46V19l4 2v-8.54z" />
+                    </svg>
+                    <p class="m-0">Filter</p>
+                </span>
+            </button>
+        </div>
+        <select id="sort-select" title="Sort">
+            <option value="">Sort by...</option>
+            <option value="name">Product Name</option>
+            <option value="price">Product Price</option>
+            <option value="quantity">Quantity In Stock</option>
+        </select>
+
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Product Price</th>
+                <th>Quantity In Stock</th>
+                <th>Feedbacks</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Product 1</td>
+                <td>$180,00</td>
+                <td>1800</td>
+                <td><a href="#">View Feedback List</a></td>
+                <td class="action-links">
+                    <a href="#">Details</a>
+                    <a href="#">Edit</a>
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Product 1</td>
+                <td>$180,00</td>
+                <td>1800</td>
+                <td><a href="#">View Feedback List</a></td>
+                <td class="action-links">
+                    <a href="#">Details</a>
+                    <a href="#">Edit</a>
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Product 1</td>
+                <td>$180,00</td>
+                <td>1800</td>
+                <td><a href="#">View Feedback List</a></td>
+                <td class="action-links">
+                    <a href="#">Details</a>
+                    <a href="#">Edit</a>
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Product 1</td>
+                <td>$180,00</td>
+                <td>1800</td>
+                <td><a href="#">View Feedback List</a></td>
+                <td class="action-links">
+                    <a href="#">Details</a>
+                    <a href="#">Edit</a>
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Product 1</td>
+                <td>$180,00</td>
+                <td>1800</td>
+                <td><a href="#">View Feedback List</a></td>
+                <td class="action-links">
+                    <a href="#">Details</a>
+                    <a href="#">Edit</a>
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Product 1</td>
+                <td>$180,00</td>
+                <td>1800</td>
+                <td><a href="#">View Feedback List</a></td>
+                <td class="action-links">
+                    <a href="#">Details</a>
+                    <a href="#">Edit</a>
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Product 1</td>
+                <td>$180,00</td>
+                <td>1800</td>
+                <td><a href="#">View Feedback List</a></td>
+                <td class="action-links">
+                    <a href="#">Details</a>
+                    <a href="#">Edit</a>
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Product 1</td>
+                <td>$180,00</td>
+                <td>1800</td>
+                <td><a href="#">View Feedback List</a></td>
+                <td class="action-links">
+                    <a href="#">Details</a>
+                    <a href="#">Edit</a>
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Product 1</td>
+                <td>$180,00</td>
+                <td>1800</td>
+                <td><a href="#">View Feedback List</a></td>
+                <td class="action-links">
+                    <a href="#">Details</a>
+                    <a href="#">Edit</a>
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Product 1</td>
+                <td>$180,00</td>
+                <td>1800</td>
+                <td><a href="#">View Feedback List</a></td>
+                <td class="action-links">
+                    <a href="#">Details</a>
+                    <a href="#">Edit</a>
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Product 1</td>
+                <td>$240,20</td>
+                <td>155</td>
+                <td><a href="#">View Feedback List</a></td>
+                <td class="action-links">
+                    <a href="#">Details</a>
+                    <a href="#">Edit</a>
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <a href="#">&laquo;</a>
+        <a href="#">1</a>
+        <a href="#" class="active">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">&raquo;</a>
+    </div>
+</div>

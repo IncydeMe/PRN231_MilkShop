@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using MilkBusiness.Utils;
 using MilkData;
-using MilkData.DAO;
 using MilkData.Models;
+using MilkData.Repository.Implements;
+using MilkData.Repository.Intefaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +15,18 @@ namespace MilkBusiness
 {
     public class AccountBusiness
     {
-        private readonly AccountDAO _DAO;
+        private readonly UnitOfWork _unitOfWork;
 
         public AccountBusiness()
         {
-            _DAO = new AccountDAO();
+            _unitOfWork ??= new UnitOfWork();
         }
 
         #region Authentization
         public async Task<IMilkResult> Login(string email, string password)
         {
-            Account account = await _DAO.CheckAuthenInput(email, password);
+            Account account = await _unitOfWork.GetRepository<Account>()
+                .SingleOrDefaultAsync(predicate: a => a.Email.Equals(email) && a.Password.Equals(password));
 
             MilkResult result = new MilkResult();
 
@@ -49,7 +52,8 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> Register(string email, string password)
         {
-            Account account = await _DAO.CheckAuthenInput(email, password);
+            Account account = await _unitOfWork.GetRepository<Account>()
+                .SingleOrDefaultAsync(predicate: a => a.Email.Equals(email) && a.Password.Equals(password));
 
             MilkResult result = new MilkResult();
 
@@ -72,9 +76,10 @@ namespace MilkBusiness
                 IsActive = true
             };
 
-            var createResult = await _DAO.CreateAsync(newAccount);
+            await _unitOfWork.GetRepository<Account>().InsertAsync(new Account());
+            bool isSuccessful = await _unitOfWork.CommitAsync() > 0;
 
-            if (createResult == 0)
+            if (isSuccessful)
             {
                 result.Status = -1;
                 result.Message = "Create unsuccessfully";
@@ -93,23 +98,26 @@ namespace MilkBusiness
         #region Account
         public async Task<IMilkResult> GetAllAccount()
         {
-            var accList = await _DAO.GetAllAsync();
+            var accList = await _unitOfWork.GetRepository<Account>().GetListAsync();
             return new MilkResult(accList);
         }
 
         public async Task<IMilkResult> GetAccountInfo(int accountId)
         {
-            var acc = await _DAO.GetByIdAsync(accountId);
+            var acc = await _unitOfWork.GetRepository<Account>()
+                .SingleOrDefaultAsync(predicate: a => a.AccountId == accountId);
             return new MilkResult(acc);
         }
 
         public async Task<IMilkResult> UpdateAccountInfo(Account accInfo)
         {
-            Account currentAcc = await _DAO.GetByIdAsync(accInfo.AccountId);
+            Account currentAcc = await _unitOfWork.GetRepository<Account>()
+                .SingleOrDefaultAsync(predicate: a => a.AccountId == accInfo.AccountId);
             if (currentAcc == null) return new MilkResult(-1, "Account cannot be found");
             else
             {
-                _DAO.UpdateAsync(accInfo);
+                _unitOfWork.GetRepository<Account>().UpdateAsync(accInfo);
+                await _unitOfWork.CommitAsync();
             }
 
             return new MilkResult(accInfo);
@@ -117,11 +125,15 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> BanAccount(int accountId)
         {
-            Account account = await _DAO.GetByIdAsync(accountId);
+            Account account = await _unitOfWork.GetRepository<Account>()
+                .SingleOrDefaultAsync(predicate: a => a.AccountId == accountId);
             if (account == null) return new MilkResult();
             else
             {
-                _DAO.UpdateStatusAsync(account);
+                account.IsActive = !account.IsActive;
+
+                _unitOfWork.GetRepository<Account>().UpdateAsync(account);
+                await _unitOfWork.CommitAsync();
             }
             return new MilkResult(account);
         }
