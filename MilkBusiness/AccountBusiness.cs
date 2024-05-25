@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using MilkBusiness.Utils;
 using MilkData;
 using MilkData.Models;
@@ -14,81 +15,84 @@ namespace MilkBusiness
 {
     public class AccountBusiness
     {
-        private readonly IUnitOfWork<Net17112314MilkContext> _unitOfWork;
+        private readonly UnitOfWork _unitOfWork;
 
         public AccountBusiness()
         {
-            _unitOfWork ??= new UnitOfWork<Net17112314MilkContext>(new Net17112314MilkContext());
+            _unitOfWork ??= new UnitOfWork();
         }
 
         #region Authentization
-        //public async Task<IMilkResult> Login(string email, string password)
-        //{
-        //    Account account = await _DAO.CheckAuthenInput(email, password);
+        public async Task<IMilkResult> Login(string email, string password)
+        {
+            Account account = await _unitOfWork.GetRepository<Account>()
+                .SingleOrDefaultAsync(predicate: a => a.Email.Equals(email) && a.Password.Equals(password));
 
-        //    MilkResult result = new MilkResult();
+            MilkResult result = new MilkResult();
 
-        //    if (account == null)
-        //    {
-        //        result.Status = -1;
-        //        result.Message = "Incorrect Email or Password";
-        //        return result;
-        //    }
+            if (account == null)
+            {
+                result.Status = -1;
+                result.Message = "Incorrect Email or Password";
+                return result;
+            }
 
-        //    if (!account.IsActive)
-        //    {
-        //        result.Status = -1;
-        //        result.Message = "Your account is currently inactive (banned)";
-        //        return result;
-        //    }
+            if (!account.IsActive)
+            {
+                result.Status = -1;
+                result.Message = "Your account is currently inactive (banned)";
+                return result;
+            }
 
-        //    result.Data = JwtUtil.GenerateJwtToken(account);
-        //    result.Status = 1;
-        //    result.Message = "Login successfully";
-        //    return result;
-        //}
+            result.Data = JwtUtil.GenerateJwtToken(account);
+            result.Status = 1;
+            result.Message = "Login successfully";
+            return result;
+        }
 
-        //public async Task<IMilkResult> Register(string email, string password)
-        //{
-        //    Account account = await _DAO.CheckAuthenInput(email, password);
+        public async Task<IMilkResult> Register(string email, string password)
+        {
+            Account account = await _unitOfWork.GetRepository<Account>()
+                .SingleOrDefaultAsync(predicate: a => a.Email.Equals(email) && a.Password.Equals(password));
 
-        //    MilkResult result = new MilkResult();
+            MilkResult result = new MilkResult();
 
-        //    if (account != null)
-        //    {
-        //        result.Status = -1;
-        //        result.Message = "Email has already used";
-        //        return result;
-        //    }
+            if (account != null)
+            {
+                result.Status = -1;
+                result.Message = "Email has already used";
+                return result;
+            }
 
-        //    Account newAccount = new Account
-        //    {
-        //        AccountId = 0,
-        //        FullName = email,
-        //        Password = password,
-        //        Email = email,
-        //        Phone = string.Empty,
-        //        Address = string.Empty,
-        //        Role = "Member",
-        //        IsActive = true
-        //    };
+            Account newAccount = new Account
+            {
+                AccountId = 0,
+                FullName = email,
+                Password = password,
+                Email = email,
+                Phone = string.Empty,
+                Address = string.Empty,
+                Role = "Member",
+                IsActive = true
+            };
 
-        //    var createResult = await _DAO.CreateAsync(newAccount);
+            await _unitOfWork.GetRepository<Account>().InsertAsync(new Account());
+            bool isSuccessful = await _unitOfWork.CommitAsync() > 0;
 
-        //    if (createResult == 0)
-        //    {
-        //        result.Status = -1;
-        //        result.Message = "Create unsuccessfully";
-        //    }
-        //    else
-        //    {
-        //        result.Data = JwtUtil.GenerateJwtToken(newAccount);
-        //        result.Status = 1;
-        //        result.Message = "Register successfully";
-        //    }
+            if (isSuccessful)
+            {
+                result.Status = -1;
+                result.Message = "Create unsuccessfully";
+            }
+            else
+            {
+                result.Data = JwtUtil.GenerateJwtToken(newAccount);
+                result.Status = 1;
+                result.Message = "Register successfully";
+            }
 
-        //    return result;
-        //}
+            return result;
+        }
         #endregion
 
         #region Account
@@ -98,34 +102,41 @@ namespace MilkBusiness
             return new MilkResult(accList);
         }
 
-        //public async Task<IMilkResult> GetAccountInfo(int accountId)
-        //{
-        //    var acc = await _DAO.GetByIdAsync(accountId);
-        //    return new MilkResult(acc);
-        //}
+        public async Task<IMilkResult> GetAccountInfo(int accountId)
+        {
+            var acc = await _unitOfWork.GetRepository<Account>()
+                .SingleOrDefaultAsync(predicate: a => a.AccountId == accountId);
+            return new MilkResult(acc);
+        }
 
-        //public async Task<IMilkResult> UpdateAccountInfo(Account accInfo)
-        //{
-        //    Account currentAcc = await _DAO.GetByIdAsync(accInfo.AccountId);
-        //    if (currentAcc == null) return new MilkResult(-1, "Account cannot be found");
-        //    else
-        //    {
-        //        _DAO.UpdateAsync(accInfo);
-        //    }
+        public async Task<IMilkResult> UpdateAccountInfo(Account accInfo)
+        {
+            Account currentAcc = await _unitOfWork.GetRepository<Account>()
+                .SingleOrDefaultAsync(predicate: a => a.AccountId == accInfo.AccountId);
+            if (currentAcc == null) return new MilkResult(-1, "Account cannot be found");
+            else
+            {
+                _unitOfWork.GetRepository<Account>().UpdateAsync(accInfo);
+                await _unitOfWork.CommitAsync();
+            }
 
-        //    return new MilkResult(accInfo);
-        //}
+            return new MilkResult(accInfo);
+        }
 
-        //public async Task<IMilkResult> BanAccount(int accountId)
-        //{
-        //    Account account = await _DAO.GetByIdAsync(accountId);
-        //    if (account == null) return new MilkResult();
-        //    else
-        //    {
-        //        _DAO.UpdateStatusAsync(account);
-        //    }
-        //    return new MilkResult(account);
-        //}
+        public async Task<IMilkResult> BanAccount(int accountId)
+        {
+            Account account = await _unitOfWork.GetRepository<Account>()
+                .SingleOrDefaultAsync(predicate: a => a.AccountId == accountId);
+            if (account == null) return new MilkResult();
+            else
+            {
+                account.IsActive = !account.IsActive;
+
+                _unitOfWork.GetRepository<Account>().UpdateAsync(account);
+                await _unitOfWork.CommitAsync();
+            }
+            return new MilkResult(account);
+        }
         #endregion
     }
 }
