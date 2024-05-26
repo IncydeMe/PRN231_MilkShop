@@ -1,17 +1,40 @@
 ﻿<!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title</title>
-    <link rel="stylesheet" href="~/css/customer/layout/customerlayout.css">
-    <script src="~/js/customer/layout/customerlayout.js"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/customer/customerlayout.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    
+    <!-- Icon -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Font Gaegu -->
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Outfit -->
+    <link href="https://fonts.googleapis.com/css?family=Outfit&display=swap" rel="stylesheet" />
+
+    <!-- Font Inter -->
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+
+    <!-- Font Gamja -->
+    <link href="https://fonts.googleapis.com/css?family=Gamja+Flower&display=swap" rel="stylesheet" />
 </head>
 <body>
     <header class="header">
         <nav id="navigation">
             <div id="logo">
-                <img src="hugeicons--milk-bottle.svg" alt="Logo" />
+                <img src="~/img/hugeicons--milk-bottle.svg" alt="Logo" />
                 <h1>Milk Store</h1>
             </div>
             <ul class="general">
@@ -48,9 +71,13 @@
             </ul>
         </nav>
     </header>
-    <div>
-        @RenderBody()
+
+    <div class="container-fuild">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
     </div>
+
     <footer>
         <div id="footer-content">
             <div id="footer-logo">
@@ -107,5 +134,10 @@
             </div>
         </div>
     </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/customer/layout/customerlayout.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
