@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Customer\Profile\ChangePwd.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Customer\Profile\ChangePwd.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Login\Index.cshtml" />
     <None Include="Views\Login\Register.cshtml" />
@@ -15,6 +20,14 @@
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <None Include="Views\_ViewImports.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Customer\Profile\ChangePwd.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Customer\Profile\ChangePwd.cshtml" />
   </ItemGroup>
 
 </Project>

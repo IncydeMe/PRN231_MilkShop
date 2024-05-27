@@ -20,6 +20,12 @@ namespace MilkWebApp.Controllers
             return View("~/Views/Customer/Profile/PersonalInfo.cshtml");
         }
 
+        [Route("Customer/Profile/ChangePwd")]
+        public IActionResult ChangePwd()
+        {
+            return View("~/Views/Customer/Profile/ChangePwd.cshtml");
+        }
+
         [Route("Customer/Profile/Addresses")]
         public IActionResult Addresses()
         {

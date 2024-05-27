@@ -14,71 +14,51 @@
     <form class="mx-5 pb-3">
         <div class="d-flex">
             <div class="w-50">
-            <div class="mb-3">
-                <label for="fullname" class="form-label outfit-regular fs-4">Full name</label>
-                <div class="d-flex">
-                    <i class="fa fa-user border rounded-3 text-secondary"
-                        style="padding: 10px; min-width: 50px; text-align: center;"></i>
-                    <input type="text" id="fullname" class="form-control outfit-regular fs-5" placeholder="Enter your fullname" aria-describedby="emailExc" autocomplete="on" required value="Jane Cooper" />
+                <div class="mb-3">
+                    <label for="fullname" class="form-label outfit-regular fs-4">Full name</label>
+                    <div class="d-flex">
+                        <i class="fa fa-user border rounded-3 text-secondary"
+                            style="padding: 10px; min-width: 50px; text-align: center;"></i>
+                        <input type="text" id="fullname" class="form-control outfit-regular fs-5" placeholder="Enter your fullname" aria-describedby="fullNameExc" autocomplete="on" required value="Jane Cooper" />
+                    </div>
+                    <p id="fullNameExc" class="form-text text-danger">This is error/exception</p>
                 </div>
-                <p id="emailExc" class="form-text text-danger">This is error/exception</p>
-            </div>
-            <div class="mb-3 w-100">
-                <label for="email" class="form-label outfit-regular fs-4">Email</label>
-                <div class="d-flex">
-                    <i class="fa fa-envelope border rounded-3 text-secondary"
-                        style="padding: 10px; min-width: 50px; text-align: center;"></i>
-                    <input type="email" id="email" class="form-control outfit-regular fs-5" placeholder="Enter your email" aria-describedby="emailExc" autocomplete="on" required />
-                    <span class="input-group-text" id="basic-addon2">@@email.com</span>
+                <div class="mb-3 w-100">
+                    <label for="email" class="form-label outfit-regular fs-4">Email</label>
+                    <div class="d-flex">
+                        <i class="fa fa-envelope border rounded-3 text-secondary"
+                            style="padding: 10px; min-width: 50px; text-align: center;"></i>
+                        <input type="email" id="email" class="form-control outfit-regular fs-5" placeholder="Enter your email" aria-describedby="emailExc" autocomplete="on" required />
+                        <span class="input-group-text" id="basic-addon2">@@email.com</span>
+                    </div>
+                    <p id="emailExc" class="form-text text-danger">This is error/exception</p>
                 </div>
-                <p id="emailExc" class="form-text text-danger">This is error/exception</p>
-            </div>
-            <div class="mb-3 w-100">
-                <label for="phonenumber" class="form-label outfit-regular fs-4">Phone number</label>
-                <div class="d-flex">
-                    <i class="fa fa-envelope border rounded-3 text-secondary"
-                        style="padding: 10px; min-width: 50px; text-align: center;"></i>
-                    <input type="text" id="phonenumber" class="form-control outfit-regular fs-5" placeholder="Enter your phone number" aria-describedby="emailExc" autocomplete="on" required value="0987654321" />
+                <div class="mb-3 w-100">
+                    <label for="phonenumber" class="form-label outfit-regular fs-4">Phone number</label>
+                    <div class="d-flex">
+                        <i class="fa fa-envelope border rounded-3 text-secondary"
+                            style="padding: 10px; min-width: 50px; text-align: center;"></i>
+                        <input type="text" id="phonenumber" class="form-control outfit-regular fs-5" placeholder="Enter your phone number" aria-describedby="phoneExc" autocomplete="on" required value="0987654321" />
+                    </div>
+                    <p id="phoneExc" class="form-text text-danger">This is error/exception</p>
                 </div>
-                <p id="emailExc" class="form-text text-danger">This is error/exception</p>
-            </div>
-            <div class="mb-3">
-                <label for="address" class="form-label outfit-regular fs-4">Address</label>
-                <div class="d-flex">
-                    <i class="fa fa-map-marker border rounded-3 text-secondary"
-                        style="padding: 10px; min-width: 50px; text-align: center;"></i>
-                    <input type="text" id="address" class="form-control outfit-regular fs-5" placeholder="Enter your address"
-                            aria-describedby="passExc" />
+                <div class="mb-3">
+                    <label for="address" class="form-label outfit-regular fs-4">Address</label>
+                    <div class="d-flex">
+                        <i class="fa fa-map-marker border rounded-3 text-secondary"
+                            style="padding: 10px; min-width: 50px; text-align: center;"></i>
+                        <input type="text" id="address" class="form-control outfit-regular fs-5" placeholder="Enter your address"
+                                aria-describedby="addressExc" />
+                    </div>
+                    <p id="addressExc" class="form-text text-danger">This is address error/exception</p>
                 </div>
-                <p id="passExc" class="form-text text-danger">This is password error/exception</p>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label outfit-regular fs-4">Password</label>
-                <div class="d-flex">
-                    <i class="fa fa-key border rounded-3 text-secondary"
-                        style="padding: 10px; min-width: 50px; text-align: center;"></i>
-                    <input type="password" id="password" class="form-control outfit-regular fs-5" placeholder="Enter your password"
-                            aria-describedby="passExc" autocomplete="current-password" required />
-                </div>
-                <p id="passExc" class="form-text text-danger">This is password error/exception</p>
-            </div>
-            <div class="mb-3">
-                <label for="confirmpwd" class="form-label outfit-regular fs-4">Confirm password</label>
-                <div class="d-flex">
-                    <i class="fa fa-key border rounded-3 text-secondary"
-                        style="padding: 10px; min-width: 50px; text-align: center;"></i>
-                    <input type="password" id="confirmpwd" class="form-control outfit-regular fs-5" placeholder="Re-Enter your password"
-                            aria-describedby="passExc" autocomplete="current-password" required />
-                </div>
-                <p id="passExc" class="form-text text-danger">This is password error/exception</p>
-            </div>
             </div>
             <div class="d-flex flex-column flex-grow-1 align-items-center justify-content-center">
                 <img src="~/img/Avatar.png" class="rounded-circle" alt="upload avatar" width="200" height="200" />
                 <div class="d-flex flex-column align-items-center justify-content-center m-3">
                     <input type="file" id="uploadBtnHidden" hidden />
                     <span class="mb-3" id="file-chosen">No file chosen</span>
-                    <label class="p-2 rounded text-white" for="uploadBtnHidden" style="background-color: var(--pink-500);"><i class="fa fa-camera me-2"></i>Upload picture</label>
+                    <label class="p-2 rounded text-white" for="uploadBtnHidden" style="background-color: var(--pink-500);"><i class="fa fa-camera me-2"></i>Upload your avatar</label>
                 </div>
             </div>
         </div>
