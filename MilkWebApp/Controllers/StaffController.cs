@@ -21,5 +21,15 @@ namespace MilkWebApp.Controllers
 		{
             return View();
         }
+
+		public IActionResult EditBasicProductDetails()
+		{
+            return View();
+        }
+
+		public IActionResult EditProductDescription()
+		{
+			return View();
+		}
 	}
 }

@@ -1,0 +1,31 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Product Details - Edit Product Description";
+    Layout = "~/Views/Staff/Layout/_StaffLayout.cshtml";
+}
+
+<link href="~/css/staff/editproductdescription.css" rel="stylesheet"/>
+<link rel="stylesheet" href="~/richtexteditor/richtexteditor/rte_theme_default.css" />
+<script src="~/richtexteditor/richtexteditor/rte.js"></script>
+<script src="~/richtexteditor/richtexteditor/plugins/all_plugins.js"></script>
+
+<h2>Edit Product Description</h2>
+
+<div id="editor">
+    
+</div>
+
+<section class="actions">
+	<button type="submit" class="finish-editing">Finish Editing</button>
+    
+    <button type="submit">
+        <a href="../Staff/ProductDetails">Cancel Editing</a>
+    </button>
+    
+    
+<script type="text/javascript">
+    var editor = new RichTextEditor("#editor");
+</script>
+
