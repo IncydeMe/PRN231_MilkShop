@@ -1,11 +1,9 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
-
-* {
+﻿* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     cursor: none;
-    font-family: "Gamja Flower", sans-serif;
+    font-family: "Nunito", sans-serif;
 }
 
 body {
@@ -144,17 +142,15 @@ body {
             /* For text of the button */
             color: white;
             font-size: 1rem;
-            text-decoration:none;
+            text-decoration: none;
             width: 100%;
-
             transition: all 0.3s ease;
-
             z-index: 100;
         }
 
-        #hero .container a:hover {
-            background-color: #EC4899;
-        }
+            #hero .container a:hover {
+                background-color: #EC4899;
+            }
 
 /* Main Section 1 */
 #special {

@@ -1,5 +1,5 @@
 ﻿.header {
-    font-family: "Gamja Flower", sans-serif;
+    font-family: "Nunito", sans-serif;
     background: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     /* For the scrolling parallax effect */
@@ -90,7 +90,7 @@ nav .personal {
 /* Profile */
 .borderBotPr {
     width: 100%;
-    border-bottom-width: 5px;
+    border-bottom-width: 4px;
     border-bottom-style: solid;
     border-bottom-color: #F54282;
 }
