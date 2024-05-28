@@ -8,7 +8,15 @@
 
 <link href="~/css/staff/productdetails.css" rel="stylesheet" />
 
-<h2>Product Details</h2>
+<section class="details-header">
+    <h2>Product Details</h2>
+    <div class="cta-return">
+        <button class="return">
+            <a href="../Staff/Product">Return to Product List</a>
+        </button>
+    </div>
+</section>
+
 <section class="basic-details">
     <section class="title">
         <h3>Basic Details</h3>
@@ -17,38 +25,41 @@
             <path class="path2" fill="#01a09e" stroke-width="3" stroke="black" d="M0 0 l1120 0" />
         </svg>
     </section>
-    <section class="cta-basic">
-        <a href="../Staff/EditBasicProductDetails" class="edit-basic">Edit Basic Details</a>
-    </section>
-    <div class="details">
-        <img src="https://via.placeholder.com/150" alt="Product Image" />
-        <div class="infos">
-            <div class="detail">
-                <label for="product-name">
-                    <h4>Product Name</h4>
-                </label>
-                <p>Test Product</p>
-            </div>
-            <div class="detail">
-                <label for="product-name">
-                    <h4>Product Brand</h4>
-                </label>
-                <p>Test Brand</p>
-            </div>
-            <div class="detail">
-                <label for="product-price">
-                    <h4>Product Price</h4>
-                </label>
-                <p>1.000.000đ</p>
-            </div>
-            <div class="detail">
-                <label for="product-quantity">
-                    <h4>Product Quantity</h4>
-                </label>
-                <p>1000</p>
+    <section class="info-1">
+        <div class="details">
+            <img src="https://via.placeholder.com/150" alt="Product Image" />
+            <div class="infos">
+                <div class="detail">
+                    <label for="product-name">
+                        <h4>Product Name</h4>
+                    </label>
+                    <p>Test Product</p>
+                </div>
+                <div class="detail">
+                    <label for="product-name">
+                        <h4>Product Brand</h4>
+                    </label>
+                    <p>Test Brand</p>
+                </div>
+                <div class="detail">
+                    <label for="product-price">
+                        <h4>Product Price</h4>
+                    </label>
+                    <p>1.000.000đ</p>
+                </div>
+                <div class="detail">
+                    <label for="product-quantity">
+                        <h4>Product Quantity</h4>
+                    </label>
+                    <p>1000</p>
+                </div>
             </div>
         </div>
-    </div>
+        <section class="cta-basic">
+            <a href="../Staff/EditBasicProductDetails" class="edit-basic">Edit Basic Details</a>
+        </section>
+    </section>
+    
 </section>
 <section class="full-details">
     <section class="basic-details">
@@ -57,8 +68,8 @@
             <svg version="1.1" id="line_2" xmlns="http://www.w3.org/2000/svg"
                  xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1200px" height="5px"
                  xml:space="preserve">
-            <path class="path2" fill="#01a09e" stroke-width="3" stroke="black" d="M0 0 l1120 0" />
-                </svg>
+                <path class="path2" fill="#01a09e" stroke-width="3" stroke="black" d="M0 0 l1120 0" />
+            </svg>
         </section>
         <section class="cta-details">
             <a href="../Staff/EditProductDescription" class="edit-details">Edit Description</a>
