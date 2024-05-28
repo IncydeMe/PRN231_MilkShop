@@ -11,8 +11,8 @@
         <div class="d-flex align-items-center m-3">
             <img src="~/img/Avatar.png" alt="Logo" width="75" height="75" />
             <div class="d-flex flex-column flex-grow-1 ms-3 h-100 justify-content-between">
-                <h3 class="m-0 outfit-regular text-secondary fw-bold">Parent Name</h3>
-                <span class="rounded-pill bg-warning p-2 text-center fw-bold">You have 128 points</span>
+                <h3 class="m-0 gaegu-bold text-secondary fw-bold">Parent Name</h3>
+                <span class="rounded-pill bg-warning p-2 text-center fw-bold gaegu-bold">You have 128 points</span>
             </div>
         </div>
         <hr>
@@ -20,14 +20,14 @@
             <li class="nav-item w-100 mb-2">
                 <a asp-controller="Customer" asp-action="PersonalInfo" class="d-flex align-items-center justify-content-between nav-link active text-black outfit-regular" aria-current="page" style="background-color: var(--pink-300);">
                     <i class="fa fa-user me-3"></i>
-                    <p class="flex-grow-1 m-0">Personal information</p>
+                    <p class="flex-grow-1 m-0 gaegu-regular">Personal information</p>
                     <i class="fa fa-angle-right ms-2"></i>
                 </a>
             </li>
             <li class="nav-item w-100">
                 <a asp-controller="Customer" asp-action="Addresses" class="d-flex align-items-center justify-content-between nav-link text-black outfit-regular">
                     <i class="fa fa-address-book-o me-3"></i>
-                    <p class="flex-grow-1 m-0">Addresses</p>
+                    <p class="flex-grow-1 m-0 gaegu-regular">Addresses</p>
                     <i class="fa fa-angle-right ms-2"></i>
                 </a>
             </li>
@@ -37,20 +37,20 @@
             <li class="nav-item w-100 mb-2">
                 <a asp-controller="Customer" asp-action="Orders" class="d-flex align-items-center justify-content-between nav-link text-black outfit-regular">
                     <i class="fa fa-list-alt me-3"></i>
-                    <p class="flex-grow-1 m-0">Orders</p>
+                    <p class="flex-grow-1 m-0 gaegu-regular">Orders</p>
                     <i class="fa fa-angle-right ms-2"></i>
                 </a>
             </li>
             <li class="nav-item w-100">
                 <a asp-controller="Customer" asp-action="Vouchers" class="d-flex align-items-center justify-content-between nav-link text-black outfit-regular">
                     <i class="fa fa-percent me-3"></i>
-                    <p class="flex-grow-1 m-0">My Vourchers</p>
+                    <p class="flex-grow-1 m-0 gaegu-regular">My Vourchers</p>
                     <i class="fa fa-angle-right ms-2"></i>
                 </a>
             </li>
         </ul>
         <hr />
-        <a href="#" class="nav-link text-black outfit-regular" style="background-color: var(--pink-700); color: white !important;" data-bs-toggle="modal" data-bs-target="#showingLogoutModal">
+        <a href="#" class="nav-link text-black gaegu-regular" style="background-color: var(--pink-700); color: white !important;" data-bs-toggle="modal" data-bs-target="#showingLogoutModal">
             <i class="fa fa-sign-out me-2"></i>
             Logout
         </a>
@@ -60,4 +60,6 @@
     <div class="container">
         @RenderBody()
     </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
 </div>
