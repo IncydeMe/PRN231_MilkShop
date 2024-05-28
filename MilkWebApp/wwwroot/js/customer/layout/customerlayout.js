@@ -34,3 +34,11 @@
     });
 }
 
+// Upload image change
+const btnUploadImg = document.getElementById('uploadBtnHidden');
+
+const fileChosen = document.getElementById('file-chosen');
+
+btnUploadImg.addEventListener('change', function () {
+    fileChosen.textContent = this.files[0].name
+})
