@@ -1,17 +1,38 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MilkData.Models;
+using System.Text.Json.Serialization;
 
-namespace MilkWebApp.Controllers
+namespace MilkWebApp.Controllers;
+
+public class CustomerController : Controller
 {
-    public class CustomerController : Controller
+    public IActionResult Index()
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        return View();
+    }
 
-        public IActionResult Browse()
+    [HttpGet]
+    public async Task<List<Account>> GetAll()
+    {
+        try
         {
-            return View();
+            var result = new List<Account>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(apiUrl + "GetAll"))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
+                        result = JsonConverter.DeserializeObject<List<Account>>(content);
+                    }
+                }
+            }
+            return result;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
         }
     }
 }

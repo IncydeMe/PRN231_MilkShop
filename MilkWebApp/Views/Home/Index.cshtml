@@ -1,177 +1,222 @@
-﻿@{
-    ViewData["Title"] = "Milk Shop";
-    Layout = null;
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="~/css/landing-page/landingpage.css">
-    <script src="~/js/landing-page/landingpage.js"></script>
-    <script src="~/js/cursor/cursor.js"></script>
-</head>
-<body>
-    <div id="cursor"></div>
-    <!-- Header Section -->
-    <header class="header">
-        <div id="logo">
-            <img src="../img/hugeicons--milk-bottle.svg" alt="Logo" />
-            <h1>Milk Store</h1>
-        </div>
-        <nav id="navigation">
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Browse</a></li>
-                <li><a href="#">Blogs</a></li>
-                <li><a href="../Login">Login/Signup</a></li>
-            </ul>
-        </nav>
-    </header>
+<div class="row">
+    <div class="col-md-10">
+        <h3 class="display-6">TopUp List</h3>
+    </div>
+    <div class="col-md-2 text-end">
+        <button type="button" class="btn btn-primary" onclick="add();">Add</button>
+    </div>
+</div>
 
-    <!-- Hero -->
-    <section id="hero">
-        <div class="container">
-            <h2>Nurturing babies today for a glowing future ahead</h2>
-            <button>Explore More</button>
-        </div>
-    </section>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr class="card-header">
+                    <th class="card-title text-center">Date</th>
+                    <th class="card-title text-center">Code</th>
+                    <th class="card-title text-center">Type</th>
+                    <th class="card-title text-center">Description</th>
+                    <th class="card-title text-center">Currency</th>
+                    <th class="card-title text-center">Amount Gross</th>
+                    <th class="card-title text-center">Amount Net</th>
+                    <th class="card-title text-center">Fee</th>
+                    <th class="card-title text-center">Tax</th>
+                    <th class="card-title text-center"></th>
+                </tr>
+            </thead>
+            <tbody class="tblTopUpList">
+            </tbody>
+        </table>
+    </div>
+</div>
 
-    <!-- Main Section 1: Special Feature -->
-    <section id="special">
-        <div id="special-1">
-            <img src="~/img/landing_image_2.jpg" alt="Special Feature" />
-            <div>
-                <h3>Babies Milk to the Rescue!</h3>
-                <p>Every children has their own unique interest towards certain milk product. And in our shop, we provide a wide variety for parents to select what’s best for their children</p>
-                <button>Learn More</button>
-            </div>
+<div class="modal fade" id="topUpModal" tabindex="-1" aria-labelledby="topUpModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "frm", id = "frm" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h5 class="modal-title" id="topUpModalLabel">TopUp Transaction</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="topUpModalContent"></div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btSave" type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            }
         </div>
+    </div>
+</div>
 
-        <div id="special-2">
-            <div>
-                <h3>Weekly Blogs of...kids and parents?</h3>
-                <p>Each week, our shop provides articles related to parenting essentials, and some other interesting bits about a child’s growth. Who knows, you might find the nature of a kid quite fascinating in many ways!</p>
-                <button>Learn More</button>
-            </div>
-            <img src="~/img/landing_image_3.jpg" alt="Special Feature" />
-        </div>
-    </section>
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            loadData();
 
-    <!-- Main Section 2: Member Exclusive -->
-    <section id="mem-exclusive">
-        <h3>Join our membership for exclusive benefits!</h3>
-        <ul>
-            <li>
-                <div>
-                    <img src="~/img/mdi--star-four-points-circle-outline.svg" alt="Star">
-                    <p>More exclusive products available for Members</p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="~/img/icon-park-outline--order.svg" alt="Order">
-                    <p>Pre-order out of stock products</p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="~/img/mdi--voucher-outline.svg" alt="Voucher">
-                    <p>Over 200+ Discount and Vouchers awaits</p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="~/img/fluent-mdl2--feedback.svg" alt="Feedback">
-                    <p>Provide feedback for products</p>
-                </div>
-            </li>
-        </ul>
-    </section>
+            $("#btSave").click(function () {
+                var formData = new FormData();
+                formData.append("ID", $("#ID").val());
+                formData.append("TypeCode", $("#TypeCode").val());
+                formData.append("AmountGross", $("#AmountGross").val());
+                formData.append("CurrencyCode", $("#CurrencyCode").val());
+                formData.append("Description", $("#Description").val());
+                formData.append("IsIncluded", $("#IsIncluded").val());
 
-    <!-- Main Section 3: Best Products -->
-    <section id="best-products">
-        <h3>Best Products</h3>
-        <p>These products are famous among all Members of the shop. Explore further and pick what’s best for yourself (and your baby)</p>
-        <div id="product-list">
-            <div class="product">
-                <img src="~/img/landing_image_5.jpg" alt="Product" />
-                <h4>Oat Milk</h4>
-                <p>Packed with nutrition, this product is perfect for mothers to regenerate energy</p>
-                <button>View Product</button>
-            </div>
-            <div class="product">
-                <img src="~/img/landing_image_5.jpg" alt="Product" />
-                <h4>Oat Milk</h4>
-                <p>Packed with nutrition, this product is perfect for mothers to regenerate energy</p>
-                <button>View Product</button>
-            </div>
-            <div class="product">
-                <img src="~/img/landing_image_5.jpg" alt="Product" />
-                <h4>Oat Milk</h4>
-                <p>Packed with nutrition, this product is perfect for mothers to regenerate energy</p>
-                <button>View Product</button>
-            </div>
-        </div>
-    </section>
-    <!-- Footer -->
-    <footer>
-        <div id="footer-content">
-            <div id="footer-logo">
-                <img src="~/img/hugeicons--milk-bottle-white.svg" alt="Logo" />
-                <h1>Milk Store</h1>
-            </div>
-            <div id="footer-options">
-                <div id="footer-options-contact">
-                    <h3>Contacts</h3>
-                    <span>
-                        <h6>Phone Number:</h6>
-                        <p>+6012-3456789</p>
-                    </span>
-                    <span>
-                        <h6>Email:</h6>
-                        <p>test@test.com</p>
-                    </span>
-                    <span>
-                        <h6>Address:</h6>
-                        <p>123, Jalan Test, Test City, 12345</p>
-                    </span>
-                    <div id="footer-social">
-                        <h6>Social Links:</h6>
-                        <div id="images">
-                            <a href="facebook.com">
-                                <img src="~/img/logos_facebook.png" alt="Facebook" />
-                            </a>
-                            <a href="instagram.com">
-                                <img src="~/img/skill-icons_instagram.png" alt="Instagram" />
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div id="footer-options-nav">
-                    <h3>More</h3>
-                    <ul>
-                        <li>
-                            <a href="#">FAQs</a>
-                        </li>
-                        <li>
-                            <a href="#">Browse</a>
-                        </li>
-                        <li>
-                            <a href="#">Account</a>
-                        </li>
-                        <li>
-                            <a href="#">Privacy Policy</a>
-                        </li>
-                        <li>
-                            <a href="#">Terms and Conditions</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
-</body>
-</html>
+                console.log("Form Data: " + formData);
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Save", "Home")",
+                    // contentType: "application/json;charset=utf-8",
+                    // dataType: "json",
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (result) {
+                        console.log("Result success: " + result);
+
+                        if (result.status >= 1) {
+                            $("#topUpModal").modal("hide");
+                            loadData();
+                        }
+                        alert(result.message);
+                    }
+                                    error: function (xhr, error) {
+                        // alert(xhr.responseText);
+                        console.log(xhr);
+                    }
+                });
+            });
+        });
+
+        function loadData() {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetAll", "Home")",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var html = "";
+                    $.each(result, function (key, item) {
+                        //console.log(item);
+                        html += "<tr>";
+                        html += "<td>" + item.crtDate + "</td>";
+                        html += "<td>" + item.id + "</td>";
+                        html += "<td>" + item.typeCode + "</td>";
+                        html += "<td>" + item.description + "</td>";
+                        html += "<td>" + item.currencyCode + "</td>";
+                        html += "<td>" + item.amountGross + "</td>";
+                        html += "<td>" + item.amountNet + "</td>";
+                        html += "<td>" + item.feeAmount + "</td>";
+                        html += "<td>" + item.taxAmount + "</td>";
+                        html += '<td><a href="#" onclick="return edit(\'' + item.id + '\')">Edit</a> | <a href="#" onclick="delete(\'' + item.id + '\')">Delete</a></td>';
+                        html += "</tr>";
+                    });
+                    $('.tblTopUpList').html(html);
+                },
+                error: function (xhr, error) {
+                    alert(xhr.statusText);
+                }
+            });
+        }
+
+        function add() {
+            $("#topUpModalContent").html("");
+            $("#topUpModalLabel").html("Add New");
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("Add", "Home")",
+                success: function (result) {
+                    $("#topUpModalContent").html(result);
+                    $("#topUpModal").modal("show");
+                },
+                error: function (message) {
+                    alert(message);
+                }
+            });
+        }
+
+        function edit(id) {
+            $("#topUpModalContent").html("");
+            $("#topUpModalLabel").html("Add New");
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("Add", "Home")",
+                success: function (result) {
+                    $("#topUpModalContent").html(result);
+                    $("#topUpModal").modal("show");
+                },
+                error: function (message) {
+                    alert(message);
+                }
+            });
+        }
+
+        function edit(id) {
+            $("#topUpModalContent").html("");
+            $("#topUpModalLabel").html("Update");
+
+            var formData = new FormData();
+            formData.append("id", id);
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Edit", "Home")",
+                // contentType: "applicatioin/json;charset=utf-8",
+                // dataType: "json",
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (result) {
+                    $("#topUpModalContent").html(result);
+                    $("#topUpModal").modal("show");
+                },
+                error: function (message) {
+                    alert(message);
+                }
+            });
+        }
+
+        function delete (id) {
+            var result = confirm("Are you sure to delete?");
+
+            if (result) {
+                //alert(id);
+                var formData = new FormData();
+                formData.append("id", id);
+
+                $.ajax({
+                    type: "DELETE",
+                    url: "@Url.Action("Delete", "Home")",
+                    // contentType: "application/json;charset=utf-8",
+                    // dataType: "json",
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (result) {
+                        if (result.status >= 1) {
+                            $("#topUpModal").modal("hide");
+                            loadData();
+                        }
+                        alert(result.message);
+                    },
+                    error: function (message) {
+                        alert(message);
+                    }
+                })
+            }
+        }
+    </script>
+}
