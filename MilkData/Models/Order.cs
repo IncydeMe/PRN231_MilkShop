@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace MilkData.Models;
 
@@ -15,6 +16,7 @@ public partial class Order
 
     public string Status { get; set; } = null!;
 
+    [JsonIgnore]
     public virtual Account Account { get; set; } = null!;
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();

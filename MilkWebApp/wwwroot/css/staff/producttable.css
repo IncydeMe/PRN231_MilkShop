@@ -55,6 +55,10 @@ h3 {
     background-color: #F472B6;
     color: white;
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
 }
 
     #filter-button:hover {
@@ -63,6 +67,7 @@ h3 {
 
     #filter-button span {
         display: flex;
+        justify-content: center;
         align-items: center;
         gap: 1rem;
     }

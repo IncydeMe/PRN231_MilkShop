@@ -8,5 +8,15 @@ namespace MilkWebApp.Controllers
         {
             return View();
         }
+
+        public IActionResult ManageAccount()
+        {
+            return View();
+        }
+
+        public IActionResult Profile()
+        {
+            return View();
+        }
     }
 }
