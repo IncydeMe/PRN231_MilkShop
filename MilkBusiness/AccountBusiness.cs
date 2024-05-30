@@ -109,10 +109,10 @@ namespace MilkBusiness
             return new MilkResult(acc);
         }
 
-        public async Task<IMilkResult> UpdateAccountInfo(Account accInfo)
+        public async Task<IMilkResult> UpdateAccountInfo(int id, Account accInfo)
         {
             Account currentAcc = await _unitOfWork.GetRepository<Account>()
-                .SingleOrDefaultAsync(predicate: a => a.AccountId == accInfo.AccountId);
+                .SingleOrDefaultAsync(predicate: a => a.AccountId == id);
             if (currentAcc == null) return new MilkResult(-1, "Account cannot be found");
             else
             {
