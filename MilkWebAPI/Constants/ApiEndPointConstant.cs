@@ -42,5 +42,11 @@
             public const string ProductEndPoint = ProductsEndPoint + "/{id}";
         }
 
+        public class Order()
+        {
+            public const string OrdersEndPoint = ApiEndpoint + "/orders";
+            public const string OrderEndPoint = OrdersEndPoint + "/{id}";
+            public const string OrderCreateEndPoint = OrdersEndPoint + "/create";
+        }
     }
 }

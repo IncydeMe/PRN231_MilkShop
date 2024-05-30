@@ -79,7 +79,7 @@ namespace MilkBusiness
             await _unitOfWork.GetRepository<Account>().InsertAsync(new Account());
             bool isSuccessful = await _unitOfWork.CommitAsync() > 0;
 
-            if (isSuccessful)
+            if (!isSuccessful)
             {
                 result.Status = -1;
                 result.Message = "Create unsuccessfully";
