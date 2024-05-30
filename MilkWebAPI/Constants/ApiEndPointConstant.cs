@@ -18,6 +18,18 @@
             public const string AccountEndpoint = AccountsEndpoint + "/{id}";
         }
 
+        public class Blog()
+        {
+            public const string BlogsEndpoint = ApiEndpoint + "/blogs";
+            public const string BlogEndpoint = ApiEndpoint + "/blogs/{id}";
+        }
+
+        public class BlogCategory()
+        {
+            public const string BlogCategorysEndpoint = ApiEndpoint + "/blog-categories";
+            public const string BlogCategoryEndpoint = ApiEndpoint + "/blog-categories/{id}";
+        }
+
         public class Voucher()
         {
 			public const string VouchersEndpoint = ApiEndpoint + "/vouchers";
