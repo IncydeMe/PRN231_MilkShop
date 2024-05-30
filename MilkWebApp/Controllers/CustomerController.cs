@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MilkData.Models;
+using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 
 namespace MilkWebApp.Controllers;
@@ -24,7 +25,7 @@ public class CustomerController : Controller
                     if (response.IsSuccessStatusCode)
                     {
                         var content = await response.Content.ReadAsStringAsync();
-                        result = JsonConverter.DeserializeObject<List<Account>>(content);
+                        result = JsonConvert.DeserializeObject<List<Account>>(content);
                     }
                 }
             }
