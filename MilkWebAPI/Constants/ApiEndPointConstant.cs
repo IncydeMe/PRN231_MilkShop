@@ -29,5 +29,18 @@
 			public const string GiftsEndpoint = ApiEndpoint + "/gifts";
 			public const string GiftEndpoint = GiftsEndpoint + "/{id}";
 		}
+
+        public class Category()   
+        {
+            public const string CategoriesEndPoint = ApiEndpoint + "/categories";
+            public const string CategoryEndPoint = CategoriesEndPoint + "/{id}";
+        }
+
+        public class Product()
+        {
+            public const string ProductsEndPoint = ApiEndpoint + "/products";
+            public const string ProductEndPoint = ProductsEndPoint + "/{id}";
+        }
+
     }
 }

@@ -55,7 +55,7 @@ html {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #DB2777;
 }
 
 html {
@@ -69,7 +69,7 @@ html {
 
 .btn-hover:hover {
     background-color: #DB2777 !important;
-    color: white;
+    color: white !important;
     border-color: hotpink;
 }
 
@@ -77,22 +77,52 @@ html {
     opacity: .75;
 }
 
-.gamja-flower-regular {
-    font-family: "Gamja Flower", sans-serif;
-    font-size: 64px;
+.nunito-extraLight {
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+}
+
+.nunito-light {
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.nunito-regular {
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
 }
 
-.gaegu-regular {
-    font-family: "Gaegu", sans-serif;
-    font-weight: 400;
+.nunito-medium {
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
     font-style: normal;
 }
 
-.gaegu-bold {
-    font-family: "Gaegu", sans-serif;
+.nunito-semiBold {
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.nunito-bold {
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
     font-weight: 700;
+    font-style: normal;
+}
+
+.nunito-extraBold {
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
     font-style: normal;
 }
 
