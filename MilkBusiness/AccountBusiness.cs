@@ -2,6 +2,7 @@
 using Microsoft.Identity.Client;
 using MilkBusiness.Utils;
 using MilkData;
+using MilkData.DTOs;
 using MilkData.Models;
 using MilkData.Repository.Implements;
 using MilkData.Repository.Intefaces;
@@ -98,29 +99,45 @@ namespace MilkBusiness
         #region Account
         public async Task<IMilkResult> GetAllAccount()
         {
-            var accList = await _unitOfWork.GetRepository<Account>().GetListAsync();
+            var accList = await _unitOfWork.GetRepository<Account>().GetListAsync(predicate: a => a.IsActive);
             return new MilkResult(accList);
         }
 
         public async Task<IMilkResult> GetAccountInfo(int accountId)
         {
             var acc = await _unitOfWork.GetRepository<Account>()
-                .SingleOrDefaultAsync(predicate: a => a.AccountId == accountId);
+                .SingleOrDefaultAsync(predicate: a => a.AccountId == accountId && a.IsActive);
             return new MilkResult(acc);
         }
 
-        public async Task<IMilkResult> UpdateAccountInfo(int id, Account accInfo)
+        public async Task<IMilkResult> UpdateAccountInfo(Account accInfo)
         {
             Account currentAcc = await _unitOfWork.GetRepository<Account>()
-                .SingleOrDefaultAsync(predicate: a => a.AccountId == id);
+                .SingleOrDefaultAsync(predicate: a => a.AccountId == accInfo.AccountId);
             if (currentAcc == null) return new MilkResult(-1, "Account cannot be found");
             else
             {
+                //currentAcc
+
                 _unitOfWork.GetRepository<Account>().UpdateAsync(accInfo);
                 await _unitOfWork.CommitAsync();
             }
 
             return new MilkResult(accInfo);
+        }
+
+        public async Task<IMilkResult> DeleteAccount(int id)
+        {
+            Account currentAcc = await _unitOfWork.GetRepository<Account>()
+               .SingleOrDefaultAsync(predicate: a => a.AccountId == id);
+            if (currentAcc == null) return new MilkResult(-1, "Account cannot be found");
+            else
+            {
+                _unitOfWork.GetRepository<Account>().DeleteAsync(currentAcc);
+                await _unitOfWork.CommitAsync();
+            }
+
+            return new MilkResult("Delete Successfull");
         }
 
         public async Task<IMilkResult> BanAccount(int accountId)
