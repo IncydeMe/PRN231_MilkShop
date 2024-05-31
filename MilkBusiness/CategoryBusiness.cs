@@ -43,7 +43,7 @@ namespace MilkBusiness
             return result;
         }
 
-        public async Task<IMilkResult> UpdateCategory(Category category)
+        public async Task<IMilkResult> UpdateCategory(int id, Category category)
         {
             _context.Categories.Update(category);
             await _context.SaveChangesAsync();
