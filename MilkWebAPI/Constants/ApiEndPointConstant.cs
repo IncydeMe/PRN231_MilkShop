@@ -18,6 +18,18 @@
             public const string AccountEndpoint = AccountsEndpoint + "/{id}";
         }
 
+        public class Blog()
+        {
+            public const string BlogsEndpoint = ApiEndpoint + "/blogs";
+            public const string BlogEndpoint = ApiEndpoint + "/blogs/{id}";
+        }
+
+        public class BlogCategory()
+        {
+            public const string BlogCategoriesEndpoint = ApiEndpoint + "/blog-categories";
+            public const string BlogCategoryEndpoint = ApiEndpoint + "/blog-categories/{id}";
+        }
+
         public class Voucher()
         {
 			public const string VouchersEndpoint = ApiEndpoint + "/vouchers";
@@ -42,5 +54,18 @@
             public const string ProductEndPoint = ProductsEndPoint + "/{id}";
         }
 
+        public class Order()
+        {
+            public const string OrdersEndPoint = ApiEndpoint + "/orders";
+            public const string OrderEndPoint = OrdersEndPoint + "/{id}";
+            public const string OrderCreateEndPoint = OrdersEndPoint + "/create";
+        }
+
+        public class Feedback()
+        {
+            public const string FeedbacksEndPoint = ApiEndpoint + "/feedbacks";
+            public const string FeedbackEndPoint = FeedbacksEndPoint + "/{id}";
+            public const string FeedbackCreateEndPoint = FeedbacksEndPoint + "/create";
+        }
     }
 }
