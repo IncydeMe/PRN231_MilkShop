@@ -16,7 +16,7 @@ namespace MilkWebAPI.Controllers
             _blogCategoryBusiness = new BlogCategoryBusiness();
         }
 
-        [HttpGet(ApiEndPointConstant.BlogCategory.BlogCategorysEndpoint)]
+        [HttpGet(ApiEndPointConstant.BlogCategory.BlogCategoriesEndpoint)]
         public async Task<IActionResult> GetAllBlogCategoriess()
         {
             var response = await _blogCategoryBusiness.GetAllBlogCategory();
@@ -36,7 +36,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [HttpPut(ApiEndPointConstant.BlogCategory.BlogCategorysEndpoint)]
+        [HttpPut(ApiEndPointConstant.BlogCategory.BlogCategoryEndpoint)]
         public async Task<IActionResult> UpdateAccountInfo(int id, [FromBody] BlogCategory blogCategory)
         {
             var response = await _blogCategoryBusiness.UpdateBlogCategoryInfo(id, blogCategory);
@@ -46,7 +46,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [HttpDelete(ApiEndPointConstant.Blog.BlogEndpoint)]
+        [HttpDelete(ApiEndPointConstant.BlogCategory.BlogCategoryEndpoint)]
         public async Task<IActionResult> BanAccount(int id)
         {
             var response = await _blogCategoryBusiness.DeleteBlogCategory(id);
