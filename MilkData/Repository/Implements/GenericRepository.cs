@@ -120,6 +120,8 @@ namespace MilkData.Repository.Implements
         public void UpdateAsync(T entity)
         {
             _dbSet.Update(entity);
+            //var tracker = _dbContext.Attach(entity);
+            //tracker.State = EntityState.Modified;
         }
 
         public void UpdateRange(IEnumerable<T> entities)
