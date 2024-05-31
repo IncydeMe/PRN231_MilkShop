@@ -5,6 +5,7 @@ using MilkData.Repository.Implements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,16 +36,34 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> CreateOrder(OrderDTO.CreateOrderDTO createOrder)
         {
-            await _unitOfWork.GetRepository<Order>().InsertAsync(createOrder.Order);
+            Order order = new Order
+            {
+                AccountId = createOrder.AccountId,
+                VoucherCode = createOrder.VoucherCode,
+                TotalPrice = createOrder.TotalPrice,
+                Status = createOrder.Status
+            };
+            await _unitOfWork.GetRepository<Order>().InsertAsync(order);
+            await _unitOfWork.CommitAsync();
 
-            await _unitOfWork.GetRepository<OrderDetail>().InsertRangeAsync(createOrder.OrderDetails);
+            foreach (var item in createOrder.OrderDetails)
+            {
+                OrderDetail orderDetail = new OrderDetail
+                {
+                    OrderId = order.OrderId,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity
+                };
+                await _unitOfWork.GetRepository<OrderDetail>().InsertAsync(orderDetail);
+                
+            }
 
             MilkResult result = new MilkResult();
 
             bool status = await _unitOfWork.CommitAsync() > 0;
             if (status)
             {
-                result.Data = GetOrderById(createOrder.Order.OrderId).Result.Data;
+                result.Data = GetOrderById(order.OrderId);
                 result.Status = 1;
                 result.Message = "Order created successfully";
             } else
