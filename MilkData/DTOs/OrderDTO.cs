@@ -11,8 +11,26 @@ namespace MilkData.DTOs
     {
         public class CreateOrderDTO
         {
-            public Order Order { get; set; }
-            public List<OrderDetail> OrderDetails { get; set; }
+            //Order
+            public int AccountId { get; set; }
+
+            public Guid VoucherCode { get; set; }
+
+            public float TotalPrice { get; set; }
+
+            public string Status { get; set; } = null!;
+
+
+            //OrderDetail
+            public List<CreateOrderDetailDTO> OrderDetails { get; set; }
+        }
+
+        public class CreateOrderDetailDTO
+        {
+
+            public int Quantity { get; set; }
+
+            public int ProductId { get; set; }
         }
     }
 }
