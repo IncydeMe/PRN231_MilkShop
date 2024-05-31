@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
+using MilkData.DTOs;
 using MilkData.Models;
 using MilkWebAPI.Constants;
 
@@ -36,25 +37,25 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [HttpPost(ApiEndPointConstant.Product.ProductsEndPoint)]
-        public async Task<IActionResult> CreateProduct(Product product)
+        [HttpPost(ApiEndPointConstant.Product.ProductCreateEndPoint)]
+        public async Task<IActionResult> CreateProduct(ProductDTO.CreateProductDTO createProduct)
         {
-            var response = await _productBusiness.CreateProduct(product);
+            var response = await _productBusiness.CreateProduct(createProduct);
             if (response.Status >= 0)
                 return Ok(response);
             else
                 return BadRequest(response);
         }
 
-        [HttpPut(ApiEndPointConstant.Product.ProductEndPoint)]
-        public async Task<IActionResult> UpdateProduct(Product product)
-        {
-            var response = await _productBusiness.UpdateProduct(product);
-            if (response.Status >= 0)
-                return Ok(response);
-            else
-                return BadRequest(response);
-        }
+        //[HttpPut(ApiEndPointConstant.Product.ProductEndPoint)]
+        //public async Task<IActionResult> UpdateProduct(Product product)
+        //{
+        //    var response = await _productBusiness.UpdateProduct(product);
+        //    if (response.Status >= 0)
+        //        return Ok(response);
+        //    else
+        //        return BadRequest(response);
+        //}
 
         [HttpDelete(ApiEndPointConstant.Product.ProductEndPoint)]
         public async Task<IActionResult> DeleteProduct(int id)
