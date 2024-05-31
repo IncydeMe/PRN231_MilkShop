@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
 using MilkData;
+using MilkData.DTOs;
 using MilkData.Models;
 using MilkWebAPI.Constants;
 
@@ -37,10 +38,10 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [HttpPut(ApiEndPointConstant.Account.AccountEndpoint)]
-        public async Task<IActionResult> UpdateAccountInfo(int id, [FromBody]Account account)
+        [HttpPut(ApiEndPointConstant.Account.AccountsEndpoint)]
+        public async Task<IActionResult> UpdateAccountInfo(Account account)
         {
-            var response = await _accountBusiness.UpdateAccountInfo(id, account);
+            var response = await _accountBusiness.UpdateAccountInfo(account);
             if (response.Status >= 0)
                 return Ok(response);
             else
