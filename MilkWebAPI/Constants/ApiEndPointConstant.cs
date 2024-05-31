@@ -60,5 +60,12 @@
             public const string OrderEndPoint = OrdersEndPoint + "/{id}";
             public const string OrderCreateEndPoint = OrdersEndPoint + "/create";
         }
+
+        public class Feedback()
+        {
+            public const string FeedbacksEndPoint = ApiEndpoint + "/feedbacks";
+            public const string FeedbackEndPoint = FeedbacksEndPoint + "/{id}";
+            public const string FeedbackCreateEndPoint = FeedbacksEndPoint + "/create";
+        }
     }
 }
