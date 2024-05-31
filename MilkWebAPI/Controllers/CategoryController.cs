@@ -27,9 +27,9 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.Category.CategoryEndPoint)]
-        public async Task<IActionResult> GetCategoryById(int categoryId)
+        public async Task<IActionResult> GetCategoryById(int id)
         {
-            var response = await _categoryBusiness.GetCategoryById(categoryId);
+            var response = await _categoryBusiness.GetCategoryById(id);
             if (response.Status >= 0)
                 return Ok(response);
             else

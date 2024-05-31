@@ -27,9 +27,9 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.Product.ProductEndPoint)]
-        public async Task<IActionResult> GetProductById(int productId)
+        public async Task<IActionResult> GetProductById(int id)
         {
-            var response = await _productBusiness.GetProductById(productId);
+            var response = await _productBusiness.GetProductById(id);
             if (response.Status >= 0)
                 return Ok(response);
             else
