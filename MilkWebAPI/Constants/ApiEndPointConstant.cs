@@ -26,7 +26,7 @@
 
         public class BlogCategory()
         {
-            public const string BlogCategorysEndpoint = ApiEndpoint + "/blog-categories";
+            public const string BlogCategoriesEndpoint = ApiEndpoint + "/blog-categories";
             public const string BlogCategoryEndpoint = ApiEndpoint + "/blog-categories/{id}";
         }
 
