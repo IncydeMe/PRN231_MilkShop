@@ -7,6 +7,8 @@ namespace MilkWebApp.Controllers;
 
 public class CustomerController : Controller
 {
+    private readonly string apiUrl = "";
+
     public IActionResult Index()
     {
         return View();

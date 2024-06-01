@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    ViewData["Title"] = "Dashboard";
 }
 
 <div class="row">
@@ -36,7 +37,27 @@
     </div>
 </div>
 
-
+<div class="modal fade" id="topUpModal" tabindex="-1" aria-labelledby="topUpModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "frm", id = "frm" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h5 class="modal-title" id="topUpModalLabel">TopUp Transaction</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="topUpModalContent"></div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btSave" type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
 
 @section scripts {
     <script type="text/javascript">
@@ -71,7 +92,7 @@
                         }
                         alert(result.message);
                     },
-                                    error: function (xhr, error) {
+                                                    error: function (xhr, error) {
                         // alert(xhr.responseText);
                         console.log(xhr);
                     }
@@ -116,7 +137,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "@Url.Action("Add", "Home")",
+                url: "@Url.Action("Add", "Test")",
                 success: function (result) {
                     $("#topUpModalContent").html(result);
                     $("#topUpModal").modal("show");
@@ -127,22 +148,22 @@
             });
         }
 
-        function edit(id) {
-            $("#topUpModalContent").html("");
-            $("#topUpModalLabel").html("Add New");
+        // function edit(id) {
+        //     $("#topUpModalContent").html("");
+        //     $("#topUpModalLabel").html("Add New");
 
-            $.ajax({
-                type: "GET",
-                url: "@Url.Action("Add", "Home")",
-                success: function (result) {
-                    $("#topUpModalContent").html(result);
-                    $("#topUpModal").modal("show");
-                },
-                error: function (message) {
-                    alert(message);
-                }
-            });
-        }
+        //     $.ajax({
+        //         type: "GET",
+        //         url: "@Url.Action("Add", "Home")",
+        //         success: function (result) {
+        //             $("#topUpModalContent").html(result);
+        //             $("#topUpModal").modal("show");
+        //         },
+        //         error: function (message) {
+        //             alert(message);
+        //         }
+        //     });
+        // }
 
         function edit(id) {
             $("#topUpModalContent").html("");
@@ -169,7 +190,7 @@
             });
         }
 
-        // function delete(id) {
+        // function delete (id) {
         //     var result = confirm("Are you sure to delete?");
 
         //     if (result) {
