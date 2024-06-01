@@ -40,7 +40,7 @@ namespace MilkWebApp.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Add()
+		public IActionResult AddNew()
 		{
 			return PartialView("Add");
 		}
