@@ -23,9 +23,9 @@ namespace MilkWebAPI.Controllers
         {
             var response = await _accountBusiness.GetAllAccount();
             if (response.Status >= 0)
-                return Ok(response);
+                return Ok(response.Data);
             else
-                return BadRequest(response);
+                return BadRequest(response.Message);
         }
 
         [HttpGet(ApiEndPointConstant.Account.AccountEndpoint)]
