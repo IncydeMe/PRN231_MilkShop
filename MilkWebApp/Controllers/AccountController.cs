@@ -38,5 +38,11 @@ namespace MilkWebApp.Controllers
 				throw new Exception(ex.Message);
 			}
 		}
+
+		[HttpGet]
+		public IActionResult Add()
+		{
+			return PartialView("Add");
+		}
 	}
 }
