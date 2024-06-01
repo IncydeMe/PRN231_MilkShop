@@ -98,7 +98,40 @@
         $(document).ready(function () {
             loadData();
 
+            $("#btSave").click(function () {
+                var formData = new FormData();
+                formData.append("ID", $("#ID").val());
+                formData.append("TypeCode", $("#TypeCode").val());
+                formData.append("AmountGross", $("#AmountGross").val());
+                formData.append("CurrencyCode", $("#CurrencyCode").val());
+                formData.append("Description", $("#Description").val());
+                formData.append("IsIncluded", $("#IsIncluded").val());
 
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Save", "Home")',
+                    //contentType: 'application/json;charset=utf-8',
+                    //dataType: "json",
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (result) {
+                        //console.log(result);
+
+                        if (result.status >= 1) {
+                            $('#topUpModal').modal('hide');
+                            loadData();
+                        }
+                        alert(result.message);
+                    },
+                    error: function (xhr, error) {
+                        //alert(xhr.responseText);
+                        console.log(xhr);
+                    }
+                });
+            });
+
+            ////////
         });
 
         function loadData() {
@@ -140,7 +173,7 @@
                 type: "GET",
                 success: function (result) {
                     $("#topUpModalContent").html(result);
-                    $('#topUpModalLabel').modal('show');
+                    $('#topUpModal').modal('show');
                 },
                 error: function (message) {
                     alert(message);

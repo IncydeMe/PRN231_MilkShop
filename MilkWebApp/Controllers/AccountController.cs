@@ -44,5 +44,11 @@ namespace MilkWebApp.Controllers
 		{
 			return PartialView("Add");
 		}
+
+		[HttpPost]
+		public IActionResult CreateNew()
+		{
+			return View();
+		}
 	}
 }
