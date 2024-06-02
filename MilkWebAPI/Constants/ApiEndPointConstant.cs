@@ -46,12 +46,14 @@
         {
             public const string CategoriesEndPoint = ApiEndpoint + "/categories";
             public const string CategoryEndPoint = CategoriesEndPoint + "/{id}";
+            public const string CategoryCreateEndPoint = CategoriesEndPoint + "/create";
         }
 
         public class Product()
         {
             public const string ProductsEndPoint = ApiEndpoint + "/products";
             public const string ProductEndPoint = ProductsEndPoint + "/{id}";
+            public const string ProductCreateEndPoint = ProductsEndPoint + "/create";
         }
 
         public class Order()

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
+using MilkData.DTOs;
 using MilkData.Models;
 using MilkWebAPI.Constants;
 
@@ -36,25 +37,25 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [HttpPost(ApiEndPointConstant.Category.CategoriesEndPoint)]
-        public async Task<IActionResult> CreateCategory(Category category)
+        [HttpPost(ApiEndPointConstant.Category.CategoryCreateEndPoint)]
+        public async Task<IActionResult> CreateCategory(CategoryDTO.CreateCategoryDTO createCategory)
         {
-            var response = await _categoryBusiness.CreateCategory(category);
+            var response = await _categoryBusiness.CreateCategory(createCategory);
             if (response.Status >= 0)
                 return Ok(response);
             else
                 return BadRequest(response);
         }
 
-        [HttpPut(ApiEndPointConstant.Category.CategoryEndPoint)]
-        public async Task<IActionResult> UpdateCategory(int id, Category category)
-        {
-            var response = await _categoryBusiness.UpdateCategory(id, category);
-            if (response.Status >= 0)
-                return Ok(response);
-            else
-                return BadRequest(response);
-        }
+        //[HttpPut(ApiEndPointConstant.Category.CategoryEndPoint)]
+        //public async Task<IActionResult> UpdateCategory(int id, Category category)
+        //{
+        //    var response = await _categoryBusiness.UpdateCategory(id, category);
+        //    if (response.Status >= 0)
+        //        return Ok(response);
+        //    else
+        //        return BadRequest(response);
+        //}
 
         [HttpDelete(ApiEndPointConstant.Category.CategoryEndPoint)]
         public async Task<IActionResult> DeleteCategory(int id)
