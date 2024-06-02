@@ -27,9 +27,9 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.Category.CategoryEndPoint)]
-        public async Task<IActionResult> GetCategoryById(int categoryId)
+        public async Task<IActionResult> GetCategoryById(int id)
         {
-            var response = await _categoryBusiness.GetCategoryById(categoryId);
+            var response = await _categoryBusiness.GetCategoryById(id);
             if (response.Status >= 0)
                 return Ok(response);
             else
@@ -47,9 +47,9 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPut(ApiEndPointConstant.Category.CategoryEndPoint)]
-        public async Task<IActionResult> UpdateCategory(Category category)
+        public async Task<IActionResult> UpdateCategory(int id, Category category)
         {
-            var response = await _categoryBusiness.UpdateCategory(category);
+            var response = await _categoryBusiness.UpdateCategory(id, category);
             if (response.Status >= 0)
                 return Ok(response);
             else

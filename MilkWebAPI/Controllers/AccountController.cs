@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
 using MilkData;
+using MilkData.DTOs;
 using MilkData.Models;
 using MilkWebAPI.Constants;
 
@@ -22,22 +23,22 @@ namespace MilkWebAPI.Controllers
         {
             var response = await _accountBusiness.GetAllAccount();
             if (response.Status >= 0)
-                return Ok(response);
+                return Ok(response.Data);
             else
-                return BadRequest(response);
+                return BadRequest(response.Message);
         }
 
         [HttpGet(ApiEndPointConstant.Account.AccountEndpoint)]
-        public async Task<IActionResult> GetAccountInfo(int accountId)
+        public async Task<IActionResult> GetAccountInfo(int id)
         {
-            var response = await _accountBusiness.GetAccountInfo(accountId);
+            var response = await _accountBusiness.GetAccountInfo(id);
             if (response.Status >= 0)
                 return Ok(response);
             else
                 return BadRequest(response);
         }
 
-        [HttpPut(ApiEndPointConstant.Account.AccountEndpoint)]
+        [HttpPut(ApiEndPointConstant.Account.AccountsEndpoint)]
         public async Task<IActionResult> UpdateAccountInfo(Account account)
         {
             var response = await _accountBusiness.UpdateAccountInfo(account);
@@ -47,10 +48,10 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [HttpDelete(ApiEndPointConstant.Account.AccountsEndpoint)]
-        public async Task<IActionResult> BanAccount(int accountId)
+        [HttpDelete(ApiEndPointConstant.Account.AccountEndpoint)]
+        public async Task<IActionResult> BanAccount(int id)
         {
-            var response = await _accountBusiness.BanAccount(accountId);
+            var response = await _accountBusiness.BanAccount(id);
             if (response.Status >= 0)
                 return Ok(response);
             else

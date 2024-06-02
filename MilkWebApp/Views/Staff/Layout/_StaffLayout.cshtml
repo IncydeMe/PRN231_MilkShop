@@ -32,6 +32,18 @@
 					<span>Dashboard</span>
 				</a>
 			</li>
+			<li id="item-account">
+				<a href="../Account">
+					<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+						<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+							<rect width="18" height="7" x="3" y="3" rx="1" />
+							<rect width="9" height="7" x="3" y="14" rx="1" />
+							<rect width="5" height="7" x="16" y="14" rx="1" />
+						</g>
+					</svg>
+					<span>Account</span>
+				</a>
+			</li>
 			<li id="item-products">
 				<a href="../Staff/Product">
 					<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
@@ -251,5 +263,6 @@
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/staff/bar.js"></script>
 	<script src="~/js/staff/pie.js"></script>
+	@RenderSectionAsync("scripts", required: false)
 </body>
 </html>
