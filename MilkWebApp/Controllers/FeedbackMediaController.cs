@@ -6,9 +6,9 @@ using Newtonsoft.Json;
 
 namespace MilkWebApp.Controllers
 {
-	public class ProductController : Controller
-	{
-        private readonly string apiUrl = "https://localhost:7120/api/v1/products";
+    public class FeedbackMediaController : Controller
+    {
+        private readonly string apiUrl = "https://localhost:7120/api/v1/feedback-media";
 
         public IActionResult Index()
         {
@@ -16,11 +16,11 @@ namespace MilkWebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Product>> GetList()
+        public async Task<List<FeedbackMedia>> GetList()
         {
             try
             {
-                var result = new List<Product>();
+                var result = new List<FeedbackMedia>();
                 using (var httpClient = new HttpClient())
                 {
                     using (var response = await httpClient.GetAsync(apiUrl))
@@ -28,7 +28,7 @@ namespace MilkWebApp.Controllers
                         if (response.IsSuccessStatusCode)
                         {
                             var content = await response.Content.ReadAsStringAsync();
-                            result = JsonConvert.DeserializeObject<List<Product>>(content);
+                            result = JsonConvert.DeserializeObject<List<FeedbackMedia>>(content);
                         }
                     }
                 }
@@ -52,7 +52,7 @@ namespace MilkWebApp.Controllers
         {
             try
             {
-                var result = new Product();
+                var result = new FeedbackMedia();
                 using (var httpClient = new HttpClient())
                 {
                     using (var response = await httpClient.GetAsync(apiUrl + $"/{id}"))
@@ -60,7 +60,7 @@ namespace MilkWebApp.Controllers
                         if (response.IsSuccessStatusCode)
                         {
                             var content = await response.Content.ReadAsStringAsync();
-                            result = JsonConvert.DeserializeObject<Product>(content);
+                            result = JsonConvert.DeserializeObject<FeedbackMedia>(content);
                         }
                     }
                 }
@@ -78,7 +78,7 @@ namespace MilkWebApp.Controllers
         {
             try
             {
-                var result = new Product();
+                var result = new FeedbackMedia();
                 using (var httpClient = new HttpClient())
                 {
                     using (var response = await httpClient.GetAsync(apiUrl + $"/{id}"))
@@ -86,7 +86,7 @@ namespace MilkWebApp.Controllers
                         if (response.IsSuccessStatusCode)
                         {
                             var content = await response.Content.ReadAsStringAsync();
-                            result = JsonConvert.DeserializeObject<Product>(content);
+                            result = JsonConvert.DeserializeObject<FeedbackMedia>(content);
                         }
                     }
                 }
@@ -126,7 +126,7 @@ namespace MilkWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<MilkResult> Save(ProductDTO product)
+        public async Task<MilkResult> Save(FeedbackMediaDTO feedbackMedia)
         {
             try
             {
@@ -134,10 +134,10 @@ namespace MilkWebApp.Controllers
                 using (var httpClient = new HttpClient())
                 {
                     //Set condition
-                    switch (product.HttpMethod)
+                    switch (feedbackMedia.HttpMethod)
                     {
                         case "POST":
-                            using (var response = await httpClient.PostAsJsonAsync(apiUrl, product))
+                            using (var response = await httpClient.PostAsJsonAsync(apiUrl, feedbackMedia))
                             {
                                 if (response.IsSuccessStatusCode)
                                 {
@@ -147,7 +147,7 @@ namespace MilkWebApp.Controllers
                             }
                             break;
                         case "PUT":
-                            using (var response = await httpClient.PutAsJsonAsync(apiUrl + $"/{product.ProductId}", product))
+                            using (var response = await httpClient.PutAsJsonAsync(apiUrl + $"/{feedbackMedia.FeedbackMediaId}", feedbackMedia))
                             {
                                 if (response.IsSuccessStatusCode)
                                 {
