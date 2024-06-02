@@ -21,10 +21,11 @@ namespace MilkBusiness
 
         #region Product
 
-        public async Task<IMilkResult> CreateProduct(ProductDTO.CreateProductDTO createProduct)
+        public async Task<IMilkResult> CreateProduct(ProductDTO createProduct)
         {
             Product product = new Product
             {
+                ProductId = createProduct.ProductId,
                 Name = createProduct.Name,
                 Description = createProduct.Description,
                 ImageUrl = createProduct.ImageUrl,
@@ -63,14 +64,27 @@ namespace MilkBusiness
             return new MilkResult(product);
         }
 
-        //public async Task<IMilkResult> UpdateProduct(Product product)
-        //{
-        //    _context.Products.Update(product);
-        //    await _context.SaveChangesAsync();
+        public async Task<IMilkResult> UpdateProduct(ProductDTO product)
+        {
+            Product currentProduct = await _unitOfWork.GetRepository<Product>()
+                            .SingleOrDefaultAsync(predicate: p => p.ProductId == product.ProductId);
+            if (currentProduct == null) return new MilkResult(-1, "Product cannot be found");
+            else
+            {
+                currentProduct.Name = String.IsNullOrEmpty(product.Name) ? currentProduct.Name : product.Name;
+                currentProduct.Price = product.Price;
+                currentProduct.Quantity = product.Quantity;
+                currentProduct.Description = String.IsNullOrEmpty(product.Description) ? currentProduct.Description : product.Description;
+                currentProduct.CategoryId = product.CategoryId;
+                currentProduct.ImageUrl = String.IsNullOrEmpty(product.ImageUrl) ? currentProduct.ImageUrl : product.ImageUrl;
+                currentProduct.TotalRating = product.TotalRating;
 
-        //    MilkResult result = new MilkResult(1, "Update product successfully", product);
-        //    return result;
-        //}
+                _unitOfWork.GetRepository<Product>().UpdateAsync(currentProduct);
+                await _unitOfWork.CommitAsync();
+            }
+
+            return new MilkResult(currentProduct);
+        }
 
         public async Task<IMilkResult> DeleteProduct(int id)
         {

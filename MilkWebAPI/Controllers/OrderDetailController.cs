@@ -36,7 +36,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPost(ApiEndPointConstant.OrderDetail.OrderDetailsEndPoint)]
-        public async Task<IActionResult> CreateOrderDetail(CreateOrderDetailDTO createOrderDetail)
+        public async Task<IActionResult> CreateOrderDetail(OrderDetailDTO createOrderDetail)
         {
             var response = await _orderDetailBusiness.CreateOrderDetail(createOrderDetail);
             if (response.Status >= 0)

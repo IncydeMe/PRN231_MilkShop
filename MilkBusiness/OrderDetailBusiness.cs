@@ -30,10 +30,11 @@ namespace MilkBusiness
             return new MilkResult(orderDetail);
         }
 
-        public async Task<IMilkResult> CreateOrderDetail(CreateOrderDetailDTO createOrderDetail)
+        public async Task<IMilkResult> CreateOrderDetail(OrderDetailDTO createOrderDetail)
         {
             OrderDetail orderDetail = new OrderDetail
             {
+                OrderDetailId = createOrderDetail.OrderDetailId,
                 OrderId = createOrderDetail.OrderId,
                 ProductId = createOrderDetail.ProductId,
                 Quantity = createOrderDetail.Quantity,

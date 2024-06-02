@@ -37,8 +37,8 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [HttpPost(ApiEndPointConstant.Category.CategoryCreateEndPoint)]
-        public async Task<IActionResult> CreateCategory(CategoryDTO.CreateCategoryDTO createCategory)
+        [HttpPost(ApiEndPointConstant.Category.CategoriesEndPoint)]
+        public async Task<IActionResult> CreateCategory(CategoryDTO createCategory)
         {
             var response = await _categoryBusiness.CreateCategory(createCategory);
             if (response.Status >= 0)
@@ -47,15 +47,15 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        //[HttpPut(ApiEndPointConstant.Category.CategoryEndPoint)]
-        //public async Task<IActionResult> UpdateCategory(int id, Category category)
-        //{
-        //    var response = await _categoryBusiness.UpdateCategory(id, category);
-        //    if (response.Status >= 0)
-        //        return Ok(response);
-        //    else
-        //        return BadRequest(response);
-        //}
+        [HttpPut(ApiEndPointConstant.Category.CategoryEndPoint)]
+        public async Task<IActionResult> UpdateCategory(int id, CategoryDTO category)
+        {
+            var response = await _categoryBusiness.UpdateCategory(id, category);
+            if (response.Status >= 0)
+                return Ok(response);
+            else
+                return BadRequest(response);
+        }
 
         [HttpDelete(ApiEndPointConstant.Category.CategoryEndPoint)]
         public async Task<IActionResult> DeleteCategory(int id)

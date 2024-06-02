@@ -22,6 +22,7 @@ namespace MilkBusiness
         {
             Feedback feedback = new Feedback
             {
+                FeedbackId = createFeedbackDTO.FeedbackId,
                 AccountId = createFeedbackDTO.AccountId,
                 ProductId = createFeedbackDTO.ProductId,
                 Content = createFeedbackDTO.Content,
@@ -49,7 +50,7 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> GetFeedbackById(int feedbackId)
         {
-            var feedback = _unitOfWork.GetRepository<Feedback>().GetListAsync().Result.Where(x => x.FeedbackId == feedbackId);
+            var feedback = await _unitOfWork.GetRepository<Feedback>().GetListAsync(predicate: f => f.FeedbackId == feedbackId);
             return new MilkResult(feedback);
         }
 
@@ -57,6 +58,26 @@ namespace MilkBusiness
         {
             var feedbackList = await _unitOfWork.GetRepository<Feedback>().GetListAsync();
             return new MilkResult(feedbackList);
+        }
+
+        public async Task<IMilkResult> UpdateFeedBack(FeedbackDTO feedback)
+        {
+            Feedback currentFeedback = await _unitOfWork.GetRepository<Feedback>()
+                .SingleOrDefaultAsync(predicate: f => f.FeedbackId == feedback.FeedbackId);
+            if (currentFeedback == null) return new MilkResult(-1, "Feedback cannot be found");
+            else
+            {
+                currentFeedback.AccountId = feedback.AccountId;
+                currentFeedback.ProductId = feedback.ProductId;
+                currentFeedback.Content = String.IsNullOrEmpty(feedback.Content) ? currentFeedback.Content : feedback.Content;
+                currentFeedback.CreatedDate = feedback.CreatedDate; 
+                currentFeedback.Rating = feedback.Rating;
+
+                _unitOfWork.GetRepository<Feedback>().UpdateAsync(currentFeedback);
+                await _unitOfWork.CommitAsync();
+            }
+
+            return new MilkResult(currentFeedback);
         }
         #endregion
     }
