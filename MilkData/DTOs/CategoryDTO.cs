@@ -8,14 +8,10 @@ namespace MilkData.DTOs
 {
     public class CategoryDTO
     {
-        public class CreateCategoryDTO
-        {
-            public string CategoryName { get; set; } = null!;
-        }
+        public int CategoryId { get; set; }
 
-        public class UpdateCategoryDTO
-        {
-            public string CategoryName { get; set; } = null!;
-        }
+        public string CategoryName { get; set; } = null!;
+
+        public string HttpMethod { get; set; }
     }
 }

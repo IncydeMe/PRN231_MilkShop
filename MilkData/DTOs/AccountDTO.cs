@@ -6,25 +6,17 @@ using System.Threading.Tasks;
 
 namespace MilkData.DTOs
 {
-    public record AccountDTO
-    (
-        int AccountId,
-        string FullName,
-        string Email,
-        string Password,
-        string Phone,
-        string Address,
-        string Role,
-        int Point,
-        bool IsActive
-    );
-
-    public record CreateAccountDTO
-    (
-        string FullName,
-        string Email,
-        string Password,
-        string Phone,
-        string Address
-    );
+    public class AccountDTO
+    {
+        public int AccountId { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
+        public string Role { get; set; }
+        public int Point { get; set; }
+        public bool IsActive { get; set; }
+        public string HttpMethod { get; set; }
+    }
 }

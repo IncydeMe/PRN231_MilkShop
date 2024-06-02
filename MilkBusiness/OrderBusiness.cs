@@ -30,11 +30,11 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> GetOrderById(int id)
         {
-            var order = await _unitOfWork.GetRepository<Order>().SingleOrDefaultAsync(include: x => x.Include(x => x.OrderDetails));
+            var order = await _unitOfWork.GetRepository<Order>().SingleOrDefaultAsync(predicate: o => o.OrderId == id);
             return new MilkResult(order);
         }
 
-        public async Task<IMilkResult> CreateOrder(OrderDTO.CreateOrderDTO createOrder)
+        public async Task<IMilkResult> CreateOrder(CreateOrderDTO createOrder)
         {
             Order order = new Order
             {
@@ -44,26 +44,13 @@ namespace MilkBusiness
                 Status = createOrder.Status
             };
             await _unitOfWork.GetRepository<Order>().InsertAsync(order);
-            await _unitOfWork.CommitAsync();
-
-            foreach (var item in createOrder.OrderDetails)
-            {
-                OrderDetail orderDetail = new OrderDetail
-                {
-                    OrderId = order.OrderId,
-                    ProductId = item.ProductId,
-                    Quantity = item.Quantity
-                };
-                await _unitOfWork.GetRepository<OrderDetail>().InsertAsync(orderDetail);
-                
-            }
 
             MilkResult result = new MilkResult();
 
             bool status = await _unitOfWork.CommitAsync() > 0;
             if (status)
             {
-                result.Data = GetOrderById(order.OrderId);
+                result.Data = await GetOrderById(order.OrderId);
                 result.Status = 1;
                 result.Message = "Order created successfully";
             } else

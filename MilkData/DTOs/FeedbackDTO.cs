@@ -8,15 +8,18 @@ namespace MilkData.DTOs
 {
     public class FeedbackDTO
     {
-        public class CreateFeedbackDTO
-        {
-            public int AccountId { get; set; }
+        public int FeedbackId { get; set; }
 
-            public int ProductId { get; set; }
+        public int AccountId { get; set; }
 
-            public string Content { get; set; } = null!;
+        public int ProductId { get; set; }
 
-            public int Rating { get; set; }
-        }
+        public string Content { get; set; } = null!;
+
+        public DateTime CreatedDate { get; set; }
+
+        public int Rating { get; set; }
+
+        public string HttpMethod { get; set; }
     }
 }
