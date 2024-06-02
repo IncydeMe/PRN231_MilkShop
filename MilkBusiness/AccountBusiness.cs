@@ -2,6 +2,7 @@
 using Microsoft.Identity.Client;
 using MilkBusiness.Utils;
 using MilkData;
+using MilkData.DTOs;
 using MilkData.Models;
 using MilkData.Repository.Implements;
 using MilkData.Repository.Intefaces;
@@ -98,29 +99,87 @@ namespace MilkBusiness
         #region Account
         public async Task<IMilkResult> GetAllAccount()
         {
-            var accList = await _unitOfWork.GetRepository<Account>().GetListAsync();
+            var accList = await _unitOfWork.GetRepository<Account>().GetListAsync(predicate: a => a.IsActive);
             return new MilkResult(accList);
         }
 
         public async Task<IMilkResult> GetAccountInfo(int accountId)
         {
             var acc = await _unitOfWork.GetRepository<Account>()
-                .SingleOrDefaultAsync(predicate: a => a.AccountId == accountId);
+                .SingleOrDefaultAsync(predicate: a => a.AccountId == accountId && a.IsActive);
             return new MilkResult(acc);
         }
 
-        public async Task<IMilkResult> UpdateAccountInfo(int id, Account accInfo)
+        public async Task<IMilkResult> CreateAccount(AccountDTO inputedAccount)
+        {
+            Account account = await _unitOfWork.GetRepository<Account>()
+                .SingleOrDefaultAsync(predicate: a => a.Email.Equals(inputedAccount.Email));
+
+            MilkResult result = new MilkResult();
+
+            if (account != null)
+            {
+                result.Status = -1;
+                result.Message = "Email has already used";
+                return result;
+            }
+
+            Account newAccount = new Account
+            {
+                AccountId = inputedAccount.AccountId,
+                FullName = inputedAccount.FullName,
+                Password = inputedAccount.Password,
+                Email = inputedAccount.Email,
+                Phone = inputedAccount.Phone,
+                Address = inputedAccount.Address,
+                Role = inputedAccount.Role,
+                IsActive = inputedAccount.IsActive
+            };
+
+            await _unitOfWork.GetRepository<Account>().InsertAsync(newAccount);
+            bool isSuccessful = await _unitOfWork.CommitAsync() > 0;
+
+            if (!isSuccessful)
+            {
+                result.Status = -1;
+                result.Message = "Create unsuccessfully";
+            }
+            else
+            { 
+                result = new MilkResult(1, "Create Susscessfull");
+            }
+
+            return result;
+        }
+
+        public async Task<IMilkResult> UpdateAccountInfo(Account accInfo)
         {
             Account currentAcc = await _unitOfWork.GetRepository<Account>()
-                .SingleOrDefaultAsync(predicate: a => a.AccountId == id);
+                .SingleOrDefaultAsync(predicate: a => a.AccountId == accInfo.AccountId);
             if (currentAcc == null) return new MilkResult(-1, "Account cannot be found");
             else
             {
+                //currentAcc
+
                 _unitOfWork.GetRepository<Account>().UpdateAsync(accInfo);
                 await _unitOfWork.CommitAsync();
             }
 
             return new MilkResult(accInfo);
+        }
+
+        public async Task<IMilkResult> DeleteAccount(int id)
+        {
+            Account currentAcc = await _unitOfWork.GetRepository<Account>()
+               .SingleOrDefaultAsync(predicate: a => a.AccountId == id);
+            if (currentAcc == null) return new MilkResult(-1, "Account cannot be found");
+            else
+            {
+                _unitOfWork.GetRepository<Account>().DeleteAsync(currentAcc);
+                await _unitOfWork.CommitAsync();
+            }
+
+            return new MilkResult("Delete Successfull");
         }
 
         public async Task<IMilkResult> BanAccount(int accountId)

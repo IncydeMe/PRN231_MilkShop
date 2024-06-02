@@ -36,7 +36,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPost(ApiEndPointConstant.Feedback.FeedbackCreateEndPoint)]
-        public async Task<IActionResult> CreateFeedback(FeedbackDTO.CreateFeedbackDTO createFeedback)
+        public async Task<IActionResult> CreateFeedback(FeedbackDTO createFeedback)
         {
             var response = await _feedbackBusiness.CreateFeedback(createFeedback);
             if (response.Status >= 0)
