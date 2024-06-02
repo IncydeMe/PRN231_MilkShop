@@ -95,6 +95,7 @@
                 formData.append("ImageUrl", $("#ImageUrl").val());
                 formData.append("Point", $("#Point").val());
                 formData.append("Quantity", $("#Quantity").val());
+                formData.append("HttpMethod", method);
 
                 $.ajax({
                     type: 'POST',

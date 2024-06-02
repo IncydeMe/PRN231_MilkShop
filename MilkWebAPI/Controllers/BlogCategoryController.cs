@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
+using MilkData.DTOs;
 using MilkData.Models;
 using MilkWebAPI.Constants;
 
@@ -21,7 +22,7 @@ namespace MilkWebAPI.Controllers
         {
             var response = await _blogCategoryBusiness.GetAllBlogCategory();
             if (response.Status >= 0)
-                return Ok(response);
+                return Ok(response.Data);
             else
                 return BadRequest(response);
         }
@@ -31,13 +32,13 @@ namespace MilkWebAPI.Controllers
         {
             var response = await _blogCategoryBusiness.GetBlogInfo(id);
             if (response.Status >= 0)
-                return Ok(response);
+                return Ok(response.Data);
             else
                 return BadRequest(response);
         }
 
         [HttpPut(ApiEndPointConstant.BlogCategory.BlogCategoryEndpoint)]
-        public async Task<IActionResult> UpdateAccountInfo(int id, [FromBody] BlogCategory blogCategory)
+        public async Task<IActionResult> UpdateAccountInfo(int id, BlogCategoryDTO blogCategory)
         {
             var response = await _blogCategoryBusiness.UpdateBlogCategoryInfo(id, blogCategory);
             if (response.Status >= 0)
@@ -50,6 +51,16 @@ namespace MilkWebAPI.Controllers
         public async Task<IActionResult> BanAccount(int id)
         {
             var response = await _blogCategoryBusiness.DeleteBlogCategory(id);
+            if (response.Status >= 0)
+                return Ok(response);
+            else
+                return BadRequest(response);
+        }
+
+        [HttpPost(ApiEndPointConstant.BlogCategory.BlogCategoriesEndpoint)]
+        public async Task<IActionResult> CreateBlogCategory(BlogCategoryDTO blogCategory)
+        {
+            var response = await _blogCategoryBusiness.CreateBlogCategory(blogCategory);
             if (response.Status >= 0)
                 return Ok(response);
             else
