@@ -8,7 +8,7 @@ namespace MilkWebApp.Controllers
 {
     public class VoucherController : Controller
     {
-        private readonly string apiUrl = "https://localhost:7120/api/v1/blogs";
+        private readonly string apiUrl = "https://localhost:7120/api/v1/vouchers";
 
         public IActionResult Index()
         {

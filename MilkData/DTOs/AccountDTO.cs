@@ -15,7 +15,7 @@ namespace MilkData.DTOs
         public string Phone { get; set; }
         public string Address { get; set; }
         public string Role { get; set; }
-        public int Point {  get; set; }
+        public int Point { get; set; }
         public bool IsActive { get; set; }
         public string HttpMethod { get; set; }
     }

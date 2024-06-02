@@ -91,6 +91,7 @@
                 formData.append("Value", $("#Value").val());
                 formData.append("StartDate", $("#StartDate").val());
                 formData.append("EndDate", $("#EndDate").val());
+                formData.append("HttpMethod", method);
 
                 $.ajax({
                     type: 'POST',
