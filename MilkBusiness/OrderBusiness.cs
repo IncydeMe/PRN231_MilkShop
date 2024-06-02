@@ -34,7 +34,7 @@ namespace MilkBusiness
             return new MilkResult(order);
         }
 
-        public async Task<IMilkResult> CreateOrder(OrderDTO.CreateOrderDTO createOrder)
+        public async Task<IMilkResult> CreateOrder(CreateOrderDTO createOrder)
         {
             Order order = new Order
             {

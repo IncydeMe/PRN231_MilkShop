@@ -18,7 +18,7 @@ namespace MilkBusiness
             _unitOfWork ??= new UnitOfWork();
         }
         #region Feedback
-        public async Task<IMilkResult> CreateFeedback(FeedbackDTO.CreateFeedbackDTO createFeedbackDTO)
+        public async Task<IMilkResult> CreateFeedback(FeedbackDTO createFeedbackDTO)
         {
             Feedback feedback = new Feedback
             {
