@@ -60,16 +60,6 @@
     </tbody>
 </table>
 
-<div class="pagination">
-    <a href="#">&laquo;</a>
-    <a href="#">1</a>
-    <a href="#" class="active">2</a>
-    <a href="#">3</a>
-    <a href="#">4</a>
-    <a href="#">5</a>
-    <a href="#">&raquo;</a>
-</div>
-
 <div class="modal fade" id="topUpModal" tabindex="-1" aria-labelledby="topUpModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -95,29 +85,33 @@
 
 @section scripts {
     <script type="text/javascript">
+        var method = "";
+
         $(document).ready(function () {
             loadData();
 
             $("#btSave").click(function () {
                 var formData = new FormData();
-                formData.append("ID", $("#ID").val());
-                formData.append("TypeCode", $("#TypeCode").val());
-                formData.append("AmountGross", $("#AmountGross").val());
-                formData.append("CurrencyCode", $("#CurrencyCode").val());
-                formData.append("Description", $("#Description").val());
-                formData.append("IsIncluded", $("#IsIncluded").val());
+                formData.append("AccountId", $("#AccountId").val());
+                formData.append("FullName", $("#FullName").val());
+                formData.append("Email", $("#Email").val());
+                formData.append("Password", $("#Password").val());
+                formData.append("Phone", $("#Phone").val());
+                formData.append("Address", $("#Address").val());
+                formData.append("Role", $("#Role").val());
+                formData.append("Point", $("#Point").val());
+                formData.append("IsActive", $("#IsActive").val());
+                formData.append("HttpMethod", method);
 
                 $.ajax({
                     type: 'POST',
-                    url: '@Url.Action("Save", "Home")',
+                    url: '@Url.Action("Save", "Account")',
                     //contentType: 'application/json;charset=utf-8',
                     //dataType: "json",
                     processData: false,
                     contentType: false,
                     data: formData,
                     success: function (result) {
-                        //console.log(result);
-
                         if (result.status >= 1) {
                             $('#topUpModal').modal('hide');
                             loadData();
@@ -130,8 +124,6 @@
                     }
                 });
             });
-
-            ////////
         });
 
         function loadData() {
@@ -167,6 +159,7 @@
         function add() {
             $("#topUpModalContent").html("");
             $("#topUpModalLabel").html("Add New");
+            method = "POST";
 
             $.ajax({
                 url: '@Url.Action("AddNew", "Account")',
@@ -181,15 +174,42 @@
             });
         }
 
-        function edit(id) {
+        function detail(id) {
             $("#topUpModalContent").html("");
-            $("#topUpModalLabel").html("Update");
+            $("#topUpModalLabel").html("Detail");
 
             var formData = new FormData();
             formData.append("id", id);
 
             $.ajax({
-                url: '@Url.Action("Edit", "Home")',
+                url: '@Url.Action("Detail", "Account")',
+                type: "GET",
+                // contentType: 'application/json;charset=utf-8',
+                // dataType: "json",
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (result) {
+                    $("#topUpModalContent").html(result);
+                    $('#topUpModal').modal('show');
+                },
+                error: function (message) {
+                    console.log(message)
+                    alert(message);
+                }
+            });
+        }
+
+        function edit(id) {
+            $("#topUpModalContent").html("");
+            $("#topUpModalLabel").html("Update");
+            method = "PUT";
+
+            var formData = new FormData();
+            formData.append("id", id);
+
+            $.ajax({
+                url: '@Url.Action("Edit", "Account")',
                 type: "POST",
                 //contentType: 'application/json;charset=utf-8',
                 //dataType: "json",
@@ -201,6 +221,7 @@
                     $('#topUpModal').modal('show');
                 },
                 error: function (message) {
+                    console.log(message)
                     alert(message);
                 }
             });
@@ -208,14 +229,15 @@
 
         function delele(id) {
             var result = confirm("Are you sure to delete?");
+            method = "DELETE";
             if (result) {
                 //alert(id);
                 var formData = new FormData();
                 formData.append("id", id);
 
                 $.ajax({
-                    url: '@Url.Action("Delete", "Home")',
-                    type: "POST",
+                    url: '@Url.Action("Delete", "Account")',
+                    type: "DELETE",
                     //contentType: 'application/json;charset=utf-8',
                     //dataType: "json",
                     processData: false,
@@ -226,7 +248,6 @@
                             $('#topUpModal').modal('hide');
                             loadData();
                         }
-                        alert(result.message);
                     },
                     error: function (message) {
                         alert(message);

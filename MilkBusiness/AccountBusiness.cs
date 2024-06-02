@@ -110,6 +110,48 @@ namespace MilkBusiness
             return new MilkResult(acc);
         }
 
+        public async Task<IMilkResult> CreateAccount(AccountDTO inputedAccount)
+        {
+            Account account = await _unitOfWork.GetRepository<Account>()
+                .SingleOrDefaultAsync(predicate: a => a.Email.Equals(inputedAccount.Email));
+
+            MilkResult result = new MilkResult();
+
+            if (account != null)
+            {
+                result.Status = -1;
+                result.Message = "Email has already used";
+                return result;
+            }
+
+            Account newAccount = new Account
+            {
+                AccountId = inputedAccount.AccountId,
+                FullName = inputedAccount.FullName,
+                Password = inputedAccount.Password,
+                Email = inputedAccount.Email,
+                Phone = inputedAccount.Phone,
+                Address = inputedAccount.Address,
+                Role = inputedAccount.Role,
+                IsActive = inputedAccount.IsActive
+            };
+
+            await _unitOfWork.GetRepository<Account>().InsertAsync(newAccount);
+            bool isSuccessful = await _unitOfWork.CommitAsync() > 0;
+
+            if (!isSuccessful)
+            {
+                result.Status = -1;
+                result.Message = "Create unsuccessfully";
+            }
+            else
+            { 
+                result = new MilkResult(1, "Create Susscessfull");
+            }
+
+            return result;
+        }
+
         public async Task<IMilkResult> UpdateAccountInfo(Account accInfo)
         {
             Account currentAcc = await _unitOfWork.GetRepository<Account>()
