@@ -5,6 +5,7 @@ using MilkData;
 using MilkData.DTOs;
 using MilkData.Models;
 using MilkWebAPI.Constants;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MilkWebAPI.Controllers
 {
@@ -18,6 +19,7 @@ namespace MilkWebAPI.Controllers
 		}
 
 		[HttpGet(ApiEndPointConstant.Gift.GiftsEndpoint)]
+		[SwaggerOperation(Summary = "Get all gifts")]
 		public async Task<IActionResult> GetGiftList()
 		{
 			var response = await _giftBusiness.GetGiftList();
@@ -28,6 +30,7 @@ namespace MilkWebAPI.Controllers
 		}
 
 		[HttpGet(ApiEndPointConstant.Gift.GiftEndpoint)]
+		[SwaggerOperation(Summary = "Get gift by its id")]
 		public async Task<IActionResult> GetGiftById(int id)
 		{
 			var response = await _giftBusiness.GetGiftById(id);
@@ -38,6 +41,7 @@ namespace MilkWebAPI.Controllers
 		}
 
 		[HttpPost(ApiEndPointConstant.Gift.GiftsEndpoint)]
+		[SwaggerOperation(Summary = "Create a new gift")]
 		public async Task<IActionResult> CreateGift(GiftDTO gift)
 		{
 			var response = await _giftBusiness.CreateGift(gift);
@@ -48,6 +52,7 @@ namespace MilkWebAPI.Controllers
 		}
 
 		[HttpPut(ApiEndPointConstant.Gift.GiftEndpoint)]
+		[SwaggerOperation(Summary = "Update a gift")]
 		public async Task<IActionResult> UpdateGift(int id, GiftDTO gift)
 		{
 			var response = await _giftBusiness.UpdateGift(gift);
@@ -58,6 +63,7 @@ namespace MilkWebAPI.Controllers
 		}
 
 		[HttpDelete(ApiEndPointConstant.Gift.GiftEndpoint)]
+		[SwaggerOperation(Summary = "Delete a gift")]
 		public async Task<IActionResult> DeleteGift(int id)
 		{
 			var response = await _giftBusiness.DeleteGift(id);

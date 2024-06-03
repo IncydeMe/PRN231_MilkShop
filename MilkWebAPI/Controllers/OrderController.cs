@@ -3,6 +3,7 @@ using MilkBusiness;
 using MilkData.DTOs;
 using MilkData.Models;
 using MilkWebAPI.Constants;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MilkWebAPI.Controllers
 {
@@ -17,6 +18,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.Order.OrdersEndPoint)]
+        [SwaggerOperation(Summary = "Get all Orders")]
         public async Task<IActionResult> GetAllOrders()
         {
             var response = await _orderBusiness.GetAllOrders();
@@ -27,6 +29,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.Order.OrderEndPoint)]
+        [SwaggerOperation(Summary = "Get Order by its id")]
         public async Task<IActionResult> GetOrderById(int id)
         {
             var response = await _orderBusiness.GetOrderById(id);
@@ -37,6 +40,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPost(ApiEndPointConstant.Order.OrdersEndPoint)]
+        [SwaggerOperation(Summary = "Create a new Order")]
         public async Task<IActionResult> CreateOrder(OrderDTO createOrder)
         {
             var response = await _orderBusiness.CreateOrder(createOrder);

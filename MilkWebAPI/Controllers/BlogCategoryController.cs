@@ -4,6 +4,7 @@ using MilkBusiness;
 using MilkData.DTOs;
 using MilkData.Models;
 using MilkWebAPI.Constants;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MilkWebAPI.Controllers
 {
@@ -18,6 +19,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.BlogCategory.BlogCategoriesEndpoint)]
+        [SwaggerOperation(Summary = "Get all Blog Categories")]
         public async Task<IActionResult> GetAllBlogCategoriess()
         {
             var response = await _blogCategoryBusiness.GetAllBlogCategory();
@@ -28,6 +30,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.BlogCategory.BlogCategoryEndpoint)]
+        [SwaggerOperation(Summary = "Get Blog Category by its id")]
         public async Task<IActionResult> GetBlogCategoryInfo(int id)
         {
             var response = await _blogCategoryBusiness.GetBlogInfo(id);
@@ -38,7 +41,8 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPut(ApiEndPointConstant.BlogCategory.BlogCategoryEndpoint)]
-        public async Task<IActionResult> UpdateAccountInfo(int id, BlogCategoryDTO blogCategory)
+        [SwaggerOperation(Summary = "Update Blog Category Info")]
+        public async Task<IActionResult> UpdateBlogInfo(int id, BlogCategoryDTO blogCategory)
         {
             var response = await _blogCategoryBusiness.UpdateBlogCategoryInfo(id, blogCategory);
             if (response.Status >= 0)
@@ -48,7 +52,8 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpDelete(ApiEndPointConstant.BlogCategory.BlogCategoryEndpoint)]
-        public async Task<IActionResult> BanAccount(int id)
+        [SwaggerOperation(Summary = "Delete Blog")]
+        public async Task<IActionResult> DeleteBlog(int id)
         {
             var response = await _blogCategoryBusiness.DeleteBlogCategory(id);
             if (response.Status >= 0)
@@ -58,6 +63,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPost(ApiEndPointConstant.BlogCategory.BlogCategoriesEndpoint)]
+        [SwaggerOperation(Summary = "Create a new Blog Category")]
         public async Task<IActionResult> CreateBlogCategory(BlogCategoryDTO blogCategory)
         {
             var response = await _blogCategoryBusiness.CreateBlogCategory(blogCategory);
