@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MilkData;
+using MilkData.DTOs;
 using MilkData.Models;
 using MilkData.Repository.Implements;
 using System;
@@ -10,8 +11,8 @@ using System.Threading.Tasks;
 
 namespace MilkBusiness
 {
-	public class VoucherBusiness
-	{
+    public class VoucherBusiness
+    {
         private readonly UnitOfWork _unitOfWork;
 
         public VoucherBusiness()
@@ -34,14 +35,24 @@ namespace MilkBusiness
             return result;
         }
 
-        public async Task<IMilkResult> CreateVoucher(Voucher voucher)
+        public async Task<IMilkResult> CreateVoucher(VoucherDTO voucher)
         {
-            await _unitOfWork.GetRepository<Voucher>().InsertAsync(voucher);
+            if(!DateCompare(voucher.StartDate, voucher.EndDate)) return new MilkResult(-1, "Start date cannot smaller than End date");
+
+            Voucher newVoucher = new Voucher()
+            {
+                VoucherId = voucher.VoucherId,
+                Value = voucher.Value,
+                EndDate = voucher.EndDate,
+                StartDate = voucher.StartDate,
+            };
+
+            await _unitOfWork.GetRepository<Voucher>().InsertAsync(newVoucher);
             var res = await _unitOfWork.CommitAsync();
 
             if (res > 0)
             {
-                return new MilkResult(1, "Create voucher successfully", voucher);
+                return new MilkResult(1, "Create voucher successfully", newVoucher);
             }
             else
             {
@@ -49,12 +60,25 @@ namespace MilkBusiness
             }
         }
 
-        public async Task<IMilkResult> UpdateVoucher(Voucher voucher)
+        public async Task<IMilkResult> UpdateVoucher(VoucherDTO voucher)
         {
-            _unitOfWork.GetRepository<Voucher>().UpdateAsync(voucher);
-            await _unitOfWork.CommitAsync();
+            if (!DateCompare(voucher.StartDate, voucher.EndDate)) return new MilkResult(-1, "Start date cannot smaller than End date");
 
-            return new MilkResult(1, "Update voucher successfully", voucher);
+            Voucher currentVoucher = await _unitOfWork.GetRepository<Voucher>()
+                .SingleOrDefaultAsync(predicate: v => v.VoucherId == voucher.VoucherId);
+
+            if (currentVoucher == null) return new MilkResult(-1, "Account cannot be found");
+            else
+            {
+                currentVoucher.Value = voucher.Value;
+                currentVoucher.EndDate = voucher.EndDate;
+                currentVoucher.StartDate = voucher.StartDate;
+
+                _unitOfWork.GetRepository<Voucher>().UpdateAsync(currentVoucher);
+                await _unitOfWork.CommitAsync();
+            }
+
+            return new MilkResult(currentVoucher);
         }
 
         public async Task<IMilkResult> DeleteVoucher(Guid id)
@@ -72,6 +96,12 @@ namespace MilkBusiness
 
                 return new MilkResult(1, "Delete voucher successfully", voucher);
             }
+        }
+
+
+        private bool DateCompare(DateTime date1, DateTime date2)
+        {
+            return date1 < date2;
         }
     }
 }

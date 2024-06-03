@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MilkData;
+using MilkData.DTOs;
 using MilkData.Models;
 using MilkData.Repository.Implements;
 using System;
@@ -34,9 +35,20 @@ namespace MilkBusiness
             return result;
         }
 
-        public async Task<IMilkResult> CreateGift(Gift gift)
+        public async Task<IMilkResult> CreateGift(GiftDTO gift)
         {
-            await _unitOfWork.GetRepository<Gift>().InsertAsync(gift);
+            Gift newGift = new Gift()
+            {
+                GiftId = gift.GiftId,
+                Description = gift.Description,
+                ImageUrl = gift.ImageUrl,
+                Name = gift.Name,
+                Point = gift.Point,
+                Quantity = gift.Quantity,
+            };
+
+
+            await _unitOfWork.GetRepository<Gift>().InsertAsync(newGift);
             var res = await _unitOfWork.CommitAsync();
 
             if (res > 0)
@@ -50,12 +62,24 @@ namespace MilkBusiness
 
         }
 
-        public async Task<IMilkResult> UpdateGift(Gift gift)
+        public async Task<IMilkResult> UpdateGift(GiftDTO gift)
         {
-            _unitOfWork.GetRepository<Gift>().UpdateAsync(gift);
-            await _unitOfWork.CommitAsync();
+            Gift currentGift =  await _unitOfWork.GetRepository<Gift>()
+                .SingleOrDefaultAsync(predicate: g => g.GiftId == gift.GiftId);
+            if (currentGift == null) return new MilkResult(-1, "Account cannot be found");
+            else
+            {
+                currentGift.Name = String.IsNullOrEmpty(gift.Name) ? currentGift.Name : gift.Name;
+                currentGift.Description = String.IsNullOrEmpty(gift.Description) ? currentGift.Description : gift.Description;
+                currentGift.ImageUrl = String.IsNullOrEmpty(gift.ImageUrl) ? currentGift.ImageUrl : gift.ImageUrl;
+                currentGift.Point = gift.Point;
+                currentGift.Quantity = gift.Quantity;
 
-            return new MilkResult(1, "Update gift successfully", gift);
+                _unitOfWork.GetRepository<Gift>().UpdateAsync(currentGift);
+                await _unitOfWork.CommitAsync();
+            }
+
+            return new MilkResult(currentGift);
         }
 
         public async Task<IMilkResult> DeleteGift(int id)

@@ -46,12 +46,14 @@
         {
             public const string CategoriesEndPoint = ApiEndpoint + "/categories";
             public const string CategoryEndPoint = CategoriesEndPoint + "/{id}";
+            public const string CategoryCreateEndPoint = CategoriesEndPoint + "/create";
         }
 
         public class Product()
         {
             public const string ProductsEndPoint = ApiEndpoint + "/products";
             public const string ProductEndPoint = ProductsEndPoint + "/{id}";
+            public const string ProductCreateEndPoint = ProductsEndPoint + "/create";
         }
 
         public class Order()
@@ -59,6 +61,13 @@
             public const string OrdersEndPoint = ApiEndpoint + "/orders";
             public const string OrderEndPoint = OrdersEndPoint + "/{id}";
             public const string OrderCreateEndPoint = OrdersEndPoint + "/create";
+        }
+
+        public class OrderDetail()
+        {
+            public const string OrderDetailsEndPoint = ApiEndpoint + "/order-details";
+            public const string OrderDetailEndPoint = OrderDetailsEndPoint + "/{id}";
+            public const string OrderDetailCreateEndPoint = OrderDetailsEndPoint + "/create";
         }
 
         public class Feedback()
