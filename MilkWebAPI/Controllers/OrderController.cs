@@ -21,7 +21,7 @@ namespace MilkWebAPI.Controllers
         {
             var response = await _orderBusiness.GetAllOrders();
             if (response.Status >= 0)
-                return Ok(response);
+                return Ok(response.Data);
             else
                 return BadRequest(response);
         }
@@ -31,13 +31,13 @@ namespace MilkWebAPI.Controllers
         {
             var response = await _orderBusiness.GetOrderById(id);
             if (response.Status >= 0)
-                return Ok(response);
+                return Ok(response.Data);
             else
                 return BadRequest(response);
         }
 
         [HttpPost(ApiEndPointConstant.Order.OrdersEndPoint)]
-        public async Task<IActionResult> CreateOrder(CreateOrderDTO createOrder)
+        public async Task<IActionResult> CreateOrder(OrderDTO createOrder)
         {
             var response = await _orderBusiness.CreateOrder(createOrder);
             if (response.Status >= 0)
