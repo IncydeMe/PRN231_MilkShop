@@ -2,6 +2,7 @@
 using MilkBusiness;
 using MilkData.DTOs;
 using MilkWebAPI.Constants;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MilkWebAPI.Controllers
 {
@@ -16,6 +17,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.Feedback.FeedbacksEndPoint)]
+        [SwaggerOperation(Summary = "Get all Feedbacks")]
         public async Task<IActionResult> GetAllFeedbacks()
         {
             var response = await _feedbackBusiness.GetAllFeedback();
@@ -26,6 +28,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.Feedback.FeedbackEndPoint)]
+        [SwaggerOperation(Summary = "Get Feedback by its id")]
         public async Task<IActionResult> GetFeedbackById(int id)
         {
             var response = await _feedbackBusiness.GetFeedbackById(id);
@@ -36,6 +39,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPost(ApiEndPointConstant.Feedback.FeedbacksEndPoint)]
+        [SwaggerOperation(Summary = "Create a new Feedback")]
         public async Task<IActionResult> CreateFeedback(FeedbackDTO createFeedback)
         {
             var response = await _feedbackBusiness.CreateFeedback(createFeedback);
@@ -46,6 +50,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPut(ApiEndPointConstant.Feedback.FeedbackEndPoint)]
+        [SwaggerOperation(Summary = "Update Feedback Info")]
         public async Task<IActionResult> UpdateFeedback(int id, FeedbackDTO feedback)
         {
             var response = await _feedbackBusiness.UpdateFeedBack(feedback);
@@ -56,6 +61,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpDelete(ApiEndPointConstant.Feedback.FeedbackEndPoint)]
+        [SwaggerOperation(Summary = "Delete Feedback")]
         public async Task<IActionResult> DeleteFeedback(int id)
         {
             var response = await _feedbackBusiness.DeleteFeedback(id);

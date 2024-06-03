@@ -10,12 +10,14 @@
         <p class="fs-4 nunito-regular">
             Please login to continue
         </p>
-        <form>
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "loginForm", id = "loginForm" }))
+        {
+            @Html.AntiForgeryToken()
             <div class="mb-3">
                 <label for="email" class="form-label nunito-regular fs-4">Email</label>
                 <div class="d-flex">
                     <i class="fa fa-envelope border rounded-3 text-secondary"
-                       style="padding: 10px; min-width: 50px; text-align: center;"></i>
+                    style="padding: 10px; min-width: 50px; text-align: center;"></i>
                     <input type="email" id="email" class="form-control nunito-regular fs-5" placeholder="Enter your email" aria-describedby="emailExc" autocomplete="on" required />
                 </div>
                 <p id="emailExc" class="form-text text-danger">This is error/exception</p>
@@ -24,9 +26,9 @@
                 <label for="password" class="form-label nunito-regular fs-4">Password</label>
                 <div class="d-flex">
                     <i class="fa fa-key border rounded-3 text-secondary"
-                       style="padding: 10px; min-width: 50px; text-align: center;"></i>
+                    style="padding: 10px; min-width: 50px; text-align: center;"></i>
                     <input type="password" id="password" class="form-control nunito-regular fs-5" placeholder="Enter your password"
-                           aria-describedby="passExc" autocomplete="current-password" required />
+                    aria-describedby="passExc" autocomplete="current-password" required />
                 </div>
                 <p id="passExc" class="form-text text-danger">This is password error/exception</p>
             </div>
@@ -39,10 +41,10 @@
                     <a href="#" class="text-end link-secondary nunito-regular fs-5" style="text-decoration: none;">Forgot Password?</a>
                 </div>
             </div>
-            <button type="submit" class="w-100 btn btn-hover nunito-bold fs-4" style="background-color: #F9A8D4;">
+            <button id="#btnLogin" type="submit" class="w-100 btn btn-hover nunito-bold fs-4" style="background-color: #F9A8D4;">
                 Login
             </button>
-        </form>
+        }
 
 
 
@@ -75,3 +77,28 @@
              class="w-100 rounded-3 shadow" height="800" />
     </div>
 </div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () { 
+            $("#btnLogin").click(function () {
+                var formLogin = new FormData();
+                formLogin.append("Email", $("#email").val());
+                formLogin.append("Password", $("#password").val());
+
+                console.log("Form login: " + formLogin);
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("LoginRequest", "Login")",
+                    success: function (result) {
+                        console.log("Successfully logged in");
+                    },
+                    error: function (xhr, error) {
+                        console.error(xhr, error);
+                    }
+                })
+            })
+        })
+    </script>
+}
