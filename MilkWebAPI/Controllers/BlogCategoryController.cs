@@ -38,7 +38,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPut(ApiEndPointConstant.BlogCategory.BlogCategoryEndpoint)]
-        public async Task<IActionResult> UpdateAccountInfo(int id, BlogCategoryDTO blogCategory)
+        public async Task<IActionResult> UpdateBlogCategoryInfo(int id, BlogCategoryDTO blogCategory)
         {
             var response = await _blogCategoryBusiness.UpdateBlogCategoryInfo(id, blogCategory);
             if (response.Status >= 0)
@@ -48,7 +48,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpDelete(ApiEndPointConstant.BlogCategory.BlogCategoryEndpoint)]
-        public async Task<IActionResult> BanAccount(int id)
+        public async Task<IActionResult> DeleteBlogCategory(int id)
         {
             var response = await _blogCategoryBusiness.DeleteBlogCategory(id);
             if (response.Status >= 0)
