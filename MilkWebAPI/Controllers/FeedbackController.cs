@@ -35,10 +35,20 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [HttpPost(ApiEndPointConstant.Feedback.FeedbackCreateEndPoint)]
+        [HttpPost(ApiEndPointConstant.Feedback.FeedbacksEndPoint)]
         public async Task<IActionResult> CreateFeedback(FeedbackDTO createFeedback)
         {
             var response = await _feedbackBusiness.CreateFeedback(createFeedback);
+            if (response.Status >= 0)
+                return Ok(response);
+            else
+                return BadRequest(response);
+        }
+
+        [HttpPut(ApiEndPointConstant.Feedback.FeedbackEndPoint)]
+        public async Task<IActionResult> UpdateFeedback(int id, FeedbackDTO feedback)
+        {
+            var response = await _feedbackBusiness.UpdateFeedBack(feedback);
             if (response.Status >= 0)
                 return Ok(response);
             else

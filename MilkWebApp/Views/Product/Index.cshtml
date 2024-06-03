@@ -99,6 +99,7 @@
                 formData.append("CategoryId", $("#CategoryId").val());
                 formData.append("ImageUrl", $("#ImageUrl").val());
                 formData.append("TotalRating", $("#TotalRating").val());
+                formData.append("HttpMethod", method);
 
                 $.ajax({
                     type: 'POST',
