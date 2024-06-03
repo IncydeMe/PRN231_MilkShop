@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
 using MilkData.DTOs;
 using MilkWebAPI.Constants;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MilkWebAPI.Controllers
 {
@@ -16,6 +17,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.FeedbackMedia.FeedbackMediaEndPoint)]
+        [SwaggerOperation(Summary = "Get all Feedback Media")]
         public async Task<IActionResult> GetAllFeedbackMedia()
         {
             var response = await _feedbackMediaBusiness.GetAllFeMedia();
@@ -26,6 +28,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.FeedbackMedia.FeedbacMediumkEndPoint)]
+        [SwaggerOperation(Summary = "Get Feedback Media by its id")]
         public async Task<IActionResult> GetAllFeedbackMedia(int id)
         {
             var response = await _feedbackMediaBusiness.GetFeMedaiInfo(id);
@@ -36,6 +39,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPost(ApiEndPointConstant.FeedbackMedia.FeedbackMediaEndPoint)]
+        [SwaggerOperation(Summary = "Create a new Feedback Media")]
         public async Task<IActionResult> CreateFeedbackMedia(FeedbackMediaDTO feedbackMedia)
         {
             var response = await _feedbackMediaBusiness.CreateFeMedia(feedbackMedia);
@@ -46,6 +50,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPut(ApiEndPointConstant.FeedbackMedia.FeedbacMediumkEndPoint)]
+        [SwaggerOperation(Summary = "Update Feedback Media Info")]
         public async Task<IActionResult> UpdateFeedbackMedia(int id, FeedbackMediaDTO feedbackMedia)
         {
             var response = await _feedbackMediaBusiness.UpdateFeMediaInfo(feedbackMedia);
@@ -56,6 +61,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpDelete(ApiEndPointConstant.FeedbackMedia.FeedbacMediumkEndPoint)]
+        [SwaggerOperation(Summary = "Delete Feedback Media")]
         public async Task<IActionResult> DeleteFeedbackMedia(int id)
         {
             var response = await _feedbackMediaBusiness.DeleteFeedbackMedia(id);
