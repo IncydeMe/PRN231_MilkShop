@@ -20,7 +20,7 @@ namespace MilkWebAPI.Controllers
         {
             var response = await _feedbackBusiness.GetAllFeedback();
             if (response.Status >= 0)
-                return Ok(response);
+                return Ok(response.Data);
             else
                 return BadRequest(response);
         }
@@ -30,7 +30,7 @@ namespace MilkWebAPI.Controllers
         {
             var response = await _feedbackBusiness.GetFeedbackById(id);
             if (response.Status >= 0)
-                return Ok(response);
+                return Ok(response.Data);
             else
                 return BadRequest(response);
         }
@@ -49,6 +49,16 @@ namespace MilkWebAPI.Controllers
         public async Task<IActionResult> UpdateFeedback(int id, FeedbackDTO feedback)
         {
             var response = await _feedbackBusiness.UpdateFeedBack(feedback);
+            if (response.Status >= 0)
+                return Ok(response);
+            else
+                return BadRequest(response);
+        }
+
+        [HttpDelete(ApiEndPointConstant.Feedback.FeedbackEndPoint)]
+        public async Task<IActionResult> DeleteFeedback(int id)
+        {
+            var response = await _feedbackBusiness.DeleteFeedback(id);
             if (response.Status >= 0)
                 return Ok(response);
             else

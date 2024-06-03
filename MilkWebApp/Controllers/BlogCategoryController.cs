@@ -47,7 +47,7 @@ namespace MilkWebApp.Controllers
 			return PartialView("Add");
 		}
 
-		[HttpGet]
+		[HttpPost]
 		public async Task<IActionResult> Detail(string id)
 		{
 			try

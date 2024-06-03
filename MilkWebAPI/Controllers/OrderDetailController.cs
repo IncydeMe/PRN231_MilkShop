@@ -20,7 +20,7 @@ namespace MilkWebAPI.Controllers
         {
             var response = await _orderDetailBusiness.GetAllOrderDetail();
             if (response.Status >= 0)
-                return Ok(response);
+                return Ok(response.Data);
             else
                 return BadRequest(response);
         }
@@ -30,7 +30,7 @@ namespace MilkWebAPI.Controllers
         {
             var response = await _orderDetailBusiness.GetOrderDetailById(id);
             if (response.Status >= 0)
-                return Ok(response);
+                return Ok(response.Data);
             else
                 return BadRequest(response);
         }

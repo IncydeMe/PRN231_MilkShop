@@ -31,7 +31,8 @@ namespace MilkBusiness
                 ImageUrl = createProduct.ImageUrl,
                 Quantity = createProduct.Quantity,
                 Price = createProduct.Price,
-                CategoryId = createProduct.CategoryId
+                CategoryId = createProduct.CategoryId,
+                TotalRating = createProduct.TotalRating,
             };
 
             await _unitOfWork.GetRepository<Product>().InsertAsync(product);
@@ -60,7 +61,7 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> GetProductById(int productId)
         {
-            var product = _unitOfWork.GetRepository<Product>().GetListAsync().Result.Where(x => x.ProductId == productId);
+            var product = await _unitOfWork.GetRepository<Product>().SingleOrDefaultAsync(predicate: p => p.ProductId == productId);
             return new MilkResult(product);
         }
 
