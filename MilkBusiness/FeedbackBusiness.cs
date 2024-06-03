@@ -50,7 +50,7 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> GetFeedbackById(int feedbackId)
         {
-            var feedback = await _unitOfWork.GetRepository<Feedback>().GetListAsync(predicate: f => f.FeedbackId == feedbackId);
+            var feedback = await _unitOfWork.GetRepository<Feedback>().SingleOrDefaultAsync(predicate: f => f.FeedbackId == feedbackId);
             return new MilkResult(feedback);
         }
 
@@ -78,6 +78,19 @@ namespace MilkBusiness
             }
 
             return new MilkResult(currentFeedback);
+        }
+
+        public async Task<IMilkResult> DeleteFeedback(int id)
+        {
+            Feedback feedback = await _unitOfWork.GetRepository<Feedback>()
+                .SingleOrDefaultAsync(predicate: f => f.FeedbackId == id);
+            if (feedback == null) return new MilkResult();
+            else
+            {
+                _unitOfWork.GetRepository<Feedback>().DeleteAsync(feedback);
+                await _unitOfWork.CommitAsync();
+            }
+            return new MilkResult(1, "Delete Successfull");
         }
         #endregion
     }

@@ -93,6 +93,7 @@
                 formData.append("VoucherCode", $("#VoucherCode").val());
                 formData.append("TotalPrice", $("#TotalPrice").val());
                 formData.append("Status", $("#Status").val());
+                formData.append("HttpMethod", method);
 
                 $.ajax({
                     type: 'POST',
@@ -132,7 +133,7 @@
                         html += '<td>' + item.totalPrice + '</td>';
                         html += '<td>' + item.status + '</td>';
                         html += '<td class="action-links">';
-                        html += '<a href="#" onclick = "return detail(\'' + item.orderId + '\')" > Detail </a> <a href="#" onclick="return edit(\'' + item.orderId + '\')">Edit</a> <a href="#" onclick = "delele(\'' + item.orderId + '\')" > Delete </a></td > ';
+                        html += '<a href="#" onclick = "return detail(\'' + item.orderId + '\')" > Detail </a></td > ';
                         html += '</tr>';
                     });
                     $('.tblOrdersList').html(html);
@@ -170,7 +171,7 @@
 
             $.ajax({
                 url: '@Url.Action("Detail", "Order")',
-                type: "GET",
+                type: "POST",
                 // contentType: 'application/json;charset=utf-8',
                 // dataType: "json",
                 processData: false,

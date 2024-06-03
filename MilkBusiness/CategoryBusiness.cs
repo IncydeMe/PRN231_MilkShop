@@ -55,7 +55,7 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> GetCategoryById(int categoryId)
         {
-            var category = _unitOfWork.GetRepository<Category>().GetListAsync().Result.Where(x => x.CategoryId == categoryId);
+            var category = await _unitOfWork.GetRepository<Category>().SingleOrDefaultAsync(predicate: x => x.CategoryId == categoryId);
             return new MilkResult(category);
         }
 
