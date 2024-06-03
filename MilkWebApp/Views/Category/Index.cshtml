@@ -87,6 +87,7 @@
                 var formData = new FormData();
                 formData.append("CategoryId", $("#BlogId").val());
                 formData.append("CategoryName", $("#Title").val());
+                formData.append("HttpMethod", method);
 
                 $.ajax({
                     type: 'POST',

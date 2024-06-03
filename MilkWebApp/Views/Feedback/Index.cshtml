@@ -95,6 +95,7 @@
                 formData.append("Content", $("#Content").val());
                 formData.append("CreatedDate", $("#CreatedDate").val());
                 formData.append("Rating", $("#Rating").val());
+                formData.append("HttpMethod", method);
                 
                 $.ajax({
                     type: 'POST',

@@ -21,11 +21,12 @@ namespace MilkBusiness
 
         #region Category
 
-        public async Task<IMilkResult> CreateCategory(CategoryDTO.CreateCategoryDTO createCategory)
+        public async Task<IMilkResult> CreateCategory(CategoryDTO createCategory)
         {
             Category category = new Category
             {
-                CategoryName = createCategory.CategoryName,
+                CategoryId = createCategory.CategoryId,
+                CategoryName = createCategory.CategoryName
             };
 
             await _unitOfWork.GetRepository<Category>().InsertAsync(category);
@@ -58,12 +59,21 @@ namespace MilkBusiness
             return new MilkResult(category);
         }
 
-        //public async Task<IMilkResult> UpdateCategory(int id, Category category)
-        //{
-        //    _unitOfWork.GetRepository<Category>().UpdateAsync(category);
-        //    await _unitOfWork.CommitAsync();
-        //    return new MilkResult(1, "Update category successfully", category);
-        //}
+        public async Task<IMilkResult> UpdateCategory(int id, CategoryDTO category)
+        {
+            Category currentCategory = await _unitOfWork.GetRepository<Category>()
+                .SingleOrDefaultAsync(predicate: c => c.CategoryId == category.CategoryId);
+            if (currentCategory == null) return new MilkResult(-1, "Category cannot be found");
+            else
+            {
+                currentCategory.CategoryName = String.IsNullOrEmpty(category.CategoryName) ? currentCategory.CategoryName : category.CategoryName;
+
+                _unitOfWork.GetRepository<Category>().UpdateAsync(currentCategory);
+                await _unitOfWork.CommitAsync();
+            }
+
+            return new MilkResult(currentCategory);
+        }
 
         public async Task<IMilkResult> DeleteCategory(int id)
         {
