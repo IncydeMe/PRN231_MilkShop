@@ -12,6 +12,18 @@ builder.Services.AddJwtValidation(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddConfigSwagger();
 
+builder.Services.AddCors(o =>
+{
+    o.AddPolicy("AllowAnyOrigin", corsPolicyBuilder =>
+    {
+        corsPolicyBuilder
+            .SetIsOriginAllowed(x => _ = true)
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -20,6 +32,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowAnyOrigin");
 
 app.UseHttpsRedirection();
 
