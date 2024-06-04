@@ -4,6 +4,7 @@ using MilkBusiness;
 using MilkData.DTOs;
 using MilkData.Models;
 using MilkWebAPI.Constants;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MilkWebAPI.Controllers
 {
@@ -18,26 +19,29 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.Category.CategoriesEndPoint)]
+        [SwaggerOperation(Summary = "Get all Categories")]
         public async Task<IActionResult> GetCategoryList()
         {
             var response = await _categoryBusiness.GetCategoryList();
             if (response.Status >= 0)
-                return Ok(response);
+                return Ok(response.Data);
             else
                 return BadRequest(response);
         }
 
         [HttpGet(ApiEndPointConstant.Category.CategoryEndPoint)]
+        [SwaggerOperation(Summary = "Get Category by its id")]
         public async Task<IActionResult> GetCategoryById(int id)
         {
             var response = await _categoryBusiness.GetCategoryById(id);
             if (response.Status >= 0)
-                return Ok(response);
+                return Ok(response.Data);
             else
                 return BadRequest(response);
         }
 
         [HttpPost(ApiEndPointConstant.Category.CategoriesEndPoint)]
+        [SwaggerOperation(Summary = "Create a new Category")]
         public async Task<IActionResult> CreateCategory(CategoryDTO createCategory)
         {
             var response = await _categoryBusiness.CreateCategory(createCategory);
@@ -48,6 +52,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPut(ApiEndPointConstant.Category.CategoryEndPoint)]
+        [SwaggerOperation(Summary = "Update Category Info")]
         public async Task<IActionResult> UpdateCategory(int id, CategoryDTO category)
         {
             var response = await _categoryBusiness.UpdateCategory(id, category);
@@ -58,6 +63,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpDelete(ApiEndPointConstant.Category.CategoryEndPoint)]
+        [SwaggerOperation(Summary = "Delete Category")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             var response = await _categoryBusiness.DeleteCategory(id);

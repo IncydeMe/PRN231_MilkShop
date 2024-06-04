@@ -4,6 +4,7 @@ using MilkBusiness;
 using MilkData.DTOs;
 using MilkData.Models;
 using MilkWebAPI.Constants;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MilkWebAPI.Controllers
 {
@@ -18,6 +19,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.Product.ProductsEndPoint)]
+        [SwaggerOperation(Summary = "Get all products")]
         public async Task<IActionResult> GetProductList()
         {
             var response = await _productBusiness.GetProductList();
@@ -28,6 +30,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.Product.ProductEndPoint)]
+        [SwaggerOperation(Summary = "Get product by its id")]
         public async Task<IActionResult> GetProductById(int id)
         {
             var response = await _productBusiness.GetProductById(id);
@@ -38,6 +41,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPost(ApiEndPointConstant.Product.ProductsEndPoint)]
+        [SwaggerOperation(Summary = "Create a new product")]
         public async Task<IActionResult> CreateProduct(ProductDTO createProduct)
         {
             var response = await _productBusiness.CreateProduct(createProduct);
@@ -48,6 +52,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPut(ApiEndPointConstant.Product.ProductEndPoint)]
+        [SwaggerOperation(Summary = "Update product info")]
         public async Task<IActionResult> UpdateProduct(ProductDTO product)
         {
             var response = await _productBusiness.UpdateProduct(product);
@@ -58,6 +63,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpDelete(ApiEndPointConstant.Product.ProductEndPoint)]
+        [SwaggerOperation(Summary = "Delete a product")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var response = await _productBusiness.DeleteProduct(id);

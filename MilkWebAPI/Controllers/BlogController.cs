@@ -5,6 +5,7 @@ using MilkBusiness;
 using MilkData.DTOs;
 using MilkData.Models;
 using MilkWebAPI.Constants;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MilkWebAPI.Controllers
 {
@@ -19,6 +20,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.Blog.BlogsEndpoint)]
+        [SwaggerOperation(Summary = "Get all Blogs")]
         public async Task<IActionResult> GetAllBlogs()
         {
             var response = await _blogBusiness.GetAllBlog();
@@ -29,6 +31,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.Blog.BlogEndpoint)]
+        [SwaggerOperation(Summary = "Get Blog by its id")]
         public async Task<IActionResult> GetBlogInfo(int id)
         {
             var response = await _blogBusiness.GetBlogInfo(id);
@@ -39,6 +42,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPost(ApiEndPointConstant.Blog.BlogsEndpoint)]
+        [SwaggerOperation(Summary = "Create a new Blog")]
         public async Task<IActionResult> CreateBlog(BlogDTO blog)
         {
             var response = await _blogBusiness.CreateBlog(blog);
@@ -49,6 +53,7 @@ namespace MilkWebAPI.Controllers
 		}
 
         [HttpPut(ApiEndPointConstant.Blog.BlogEndpoint)]
+        [SwaggerOperation(Summary = "Update Blog Info")]
         public async Task<IActionResult> UpdateBlogInfo(int id, BlogDTO blog)
         {
             var response = await _blogBusiness.UpdateBlogInfo(id, blog);
@@ -59,6 +64,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpDelete(ApiEndPointConstant.Blog.BlogEndpoint)]
+        [SwaggerOperation(Summary = "Delete Blog")]
         public async Task<IActionResult> DeleteBlog(int id)
         {
             var response = await _blogBusiness.DeleteBlog(id);

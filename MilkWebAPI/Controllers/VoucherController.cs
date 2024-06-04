@@ -5,6 +5,7 @@ using MilkData;
 using MilkData.DTOs;
 using MilkData.Models;
 using MilkWebAPI.Constants;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MilkWebAPI.Controllers
 {
@@ -18,6 +19,7 @@ namespace MilkWebAPI.Controllers
 		}
 
 		[HttpGet(ApiEndPointConstant.Voucher.VouchersEndpoint)]
+		[SwaggerOperation(Summary = "Get all vouchers")]
 		public async Task<IActionResult> GetVoucherList()
 		{
 			var response = await _voucherBusiness.GetVoucherList();
@@ -28,6 +30,7 @@ namespace MilkWebAPI.Controllers
 		}
 
 		[HttpGet(ApiEndPointConstant.Voucher.VoucherEndpoint)]
+		[SwaggerOperation(Summary = "Get voucher by its id")]
 		public async Task<IActionResult> GetVoucherById(Guid id)
 		{
 			var response = await _voucherBusiness.GetVoucherById(id);
@@ -38,6 +41,7 @@ namespace MilkWebAPI.Controllers
 		}
 
 		[HttpPost(ApiEndPointConstant.Voucher.VouchersEndpoint)]
+		[SwaggerOperation(Summary = "Create a new voucher")]
 		public async Task<IActionResult> CreateVoucher(VoucherDTO voucher)
 		{
 			var response = await _voucherBusiness.CreateVoucher(voucher);
@@ -48,6 +52,7 @@ namespace MilkWebAPI.Controllers
 		}
 
 		[HttpPut(ApiEndPointConstant.Voucher.VoucherEndpoint)]
+		[SwaggerOperation(Summary = "Update a voucher")]
 		public async Task<IActionResult> UpdateVoucher(VoucherDTO voucher)
 		{
 			var response = await _voucherBusiness.UpdateVoucher(voucher);
@@ -58,6 +63,7 @@ namespace MilkWebAPI.Controllers
 		}
 
 		[HttpDelete(ApiEndPointConstant.Voucher.VoucherEndpoint)]
+		[SwaggerOperation(Summary = "Delete a voucher")]
 		public async Task<IActionResult> DeleteVoucher(Guid id)
 		{
 			var response = await _voucherBusiness.DeleteVoucher(id);

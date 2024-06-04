@@ -10,7 +10,7 @@ namespace MilkWebAPI.Extensions
     {
         public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration config)
         {
-            
+
 
             return services;
         }
@@ -40,6 +40,7 @@ namespace MilkWebAPI.Extensions
         {
             services.AddSwaggerGen(options =>
             {
+                
                 options.SwaggerDoc("v1", new OpenApiInfo() { Title = "MilkShop", Version = "v1" });
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
@@ -70,7 +71,9 @@ namespace MilkWebAPI.Extensions
                     Format = "time",
                     Example = OpenApiAnyFactory.CreateFromJson("\"13:45:42.0000000\"")
                 });
+                options.EnableAnnotations();
             });
+
             return services;
         }
     }

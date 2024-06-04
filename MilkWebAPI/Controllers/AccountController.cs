@@ -6,6 +6,7 @@ using MilkData;
 using MilkData.DTOs;
 using MilkData.Models;
 using MilkWebAPI.Constants;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MilkWebAPI.Controllers
 {
@@ -20,6 +21,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.Account.AccountsEndpoint)]
+        [SwaggerOperation(Summary = "Get all Accounts")]
         public async Task<IActionResult> GetAllAccounts()
         {
             var response = await _accountBusiness.GetAllAccount();
@@ -30,6 +32,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.Account.AccountEndpoint)]
+        [SwaggerOperation(Summary = "Get Account by its id")]
         public async Task<IActionResult> GetAccountInfo(int id)
         {
             var response = await _accountBusiness.GetAccountInfo(id);
@@ -40,6 +43,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPost(ApiEndPointConstant.Account.AccountsEndpoint)]
+        [SwaggerOperation(Summary = "Create a new Account")]
         public async Task<IActionResult> CreateAccount(AccountDTO accountDTO)
         {
             var response = await _accountBusiness.CreateAccount(accountDTO);
@@ -50,6 +54,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPut(ApiEndPointConstant.Account.AccountEndpoint)]
+        [SwaggerOperation(Summary = "Update Account Info")] 
         public async Task<IActionResult> UpdateAccountInfo(int id, Account account)
         {
             var response = await _accountBusiness.UpdateAccountInfo(account);
@@ -60,6 +65,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpDelete(ApiEndPointConstant.Account.AccountEndpoint)]
+        [SwaggerOperation(Summary = "Delete Account")]
         public async Task<IActionResult> BanAccount(int id)
         {
             var response = await _accountBusiness.BanAccount(id);

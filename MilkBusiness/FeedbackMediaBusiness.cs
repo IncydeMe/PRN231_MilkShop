@@ -79,12 +79,12 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> DeleteFeedbackMedia(int id)
         {
-            Account currentAcc = await _unitOfWork.GetRepository<Account>()
-               .SingleOrDefaultAsync(predicate: a => a.AccountId == id);
-            if (currentAcc == null) return new MilkResult(-1, "Account cannot be found");
+            FeedbackMedia currentFeMedia = await _unitOfWork.GetRepository<FeedbackMedia>()
+               .SingleOrDefaultAsync(predicate: fm => fm.FeedbackMediaId == id);
+            if (currentFeMedia == null) return new MilkResult(-1, "Feedback cannot be found");
             else
             {
-                _unitOfWork.GetRepository<Account>().DeleteAsync(currentAcc);
+                _unitOfWork.GetRepository<FeedbackMedia>().DeleteAsync(currentFeMedia);
                 await _unitOfWork.CommitAsync();
             }
 
