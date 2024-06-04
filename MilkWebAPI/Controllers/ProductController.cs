@@ -38,7 +38,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPost(ApiEndPointConstant.Product.ProductCreateEndPoint)]
-        public async Task<IActionResult> CreateProduct(ProductDTO.CreateProductDTO createProduct)
+        public async Task<IActionResult> CreateProduct(ProductDTO createProduct)
         {
             var response = await _productBusiness.CreateProduct(createProduct);
             if (response.Status >= 0)

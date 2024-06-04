@@ -21,7 +21,7 @@ namespace MilkBusiness
 
         #region Category
 
-        public async Task<IMilkResult> CreateCategory(CategoryDTO.CreateCategoryDTO createCategory)
+        public async Task<IMilkResult> CreateCategory(CategoryDTO createCategory)
         {
             Category category = new Category
             {

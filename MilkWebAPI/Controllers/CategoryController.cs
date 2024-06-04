@@ -38,7 +38,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPost(ApiEndPointConstant.Category.CategoryCreateEndPoint)]
-        public async Task<IActionResult> CreateCategory(CategoryDTO.CreateCategoryDTO createCategory)
+        public async Task<IActionResult> CreateCategory(CategoryDTO createCategory)
         {
             var response = await _categoryBusiness.CreateCategory(createCategory);
             if (response.Status >= 0)

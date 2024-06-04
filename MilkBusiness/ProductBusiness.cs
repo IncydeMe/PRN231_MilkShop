@@ -21,7 +21,7 @@ namespace MilkBusiness
 
         #region Product
 
-        public async Task<IMilkResult> CreateProduct(ProductDTO.CreateProductDTO createProduct)
+        public async Task<IMilkResult> CreateProduct(ProductDTO createProduct)
         {
             Product product = new Product
             {
