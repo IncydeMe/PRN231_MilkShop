@@ -91,6 +91,7 @@
                 formData.append("MediaUrl", $("#MediaUrl").val());
                 formData.append("MediaType", $("#MediaType").val());
                 formData.append("FeedbackId", $("#FeedbackId").val());
+                formData.append("HttpMethod", method);
 
                 $.ajax({
                     type: 'POST',
@@ -167,7 +168,7 @@
 
             $.ajax({
                 url: '@Url.Action("Detail", "FeedbackMedia")',
-                type: "GET",
+                type: "POST",
                 // contentType: 'application/json;charset=utf-8',
                 // dataType: "json",
                 processData: false,

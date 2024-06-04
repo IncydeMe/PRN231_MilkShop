@@ -87,6 +87,7 @@
                 var formData = new FormData();
                 formData.append("BlogCategoryId", $("#BlogCategoryId").val());
                 formData.append("BlogCategoryName", $("#BlogCategoryName").val());
+                formData.append("HttpMethod", method);
 
                 $.ajax({
                     type: 'POST',
@@ -140,7 +141,7 @@
             method = "POST";
 
             $.ajax({
-                url: '@Url.Action("AddNew", "Blog")',
+                url: '@Url.Action("AddNew", "BlogCategory")',
                 type: "GET",
                 success: function (result) {
                     $("#topUpModalContent").html(result);
@@ -161,7 +162,7 @@
 
             $.ajax({
                 url: '@Url.Action("Detail", "BlogCategory")',
-                type: "GET",
+                type: "POST",
                 // contentType: 'application/json;charset=utf-8',
                 // dataType: "json",
                 processData: false,

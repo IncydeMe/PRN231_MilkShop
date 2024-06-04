@@ -99,6 +99,7 @@
                 formData.append("CategoryId", $("#CategoryId").val());
                 formData.append("ImageUrl", $("#ImageUrl").val());
                 formData.append("TotalRating", $("#TotalRating").val());
+                formData.append("HttpMethod", method);
 
                 $.ajax({
                     type: 'POST',
@@ -179,7 +180,7 @@
 
             $.ajax({
                 url: '@Url.Action("Detail", "Product")',
-                type: "GET",
+                type: "POST",
                 // contentType: 'application/json;charset=utf-8',
                 // dataType: "json",
                 processData: false,

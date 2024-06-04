@@ -95,6 +95,7 @@
                 formData.append("ImageUrl", $("#ImageUrl").val());
                 formData.append("Point", $("#Point").val());
                 formData.append("Quantity", $("#Quantity").val());
+                formData.append("HttpMethod", method);
 
                 $.ajax({
                     type: 'POST',
@@ -173,7 +174,7 @@
 
             $.ajax({
                 url: '@Url.Action("Detail", "Gift")',
-                type: "GET",
+                type: "POST",
                 // contentType: 'application/json;charset=utf-8',
                 // dataType: "json",
                 processData: false,

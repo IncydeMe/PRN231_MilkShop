@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MilkData.DTOs;
 using MilkData.Models;
+using MilkData.Repository.Implements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,57 +12,96 @@ namespace MilkBusiness
 {
     public class ProductBusiness
     {
-        private readonly Net17112314MilkContext _context;
+        private readonly UnitOfWork _unitOfWork;
 
         public ProductBusiness()
         {
-            if (_context == null)
-                _context = new Net17112314MilkContext();
+            _unitOfWork ??= new UnitOfWork();
+        }
+
+        #region Product
+
+        public async Task<IMilkResult> CreateProduct(ProductDTO createProduct)
+        {
+            Product product = new Product
+            {
+                ProductId = createProduct.ProductId,
+                Name = createProduct.Name,
+                Description = createProduct.Description,
+                ImageUrl = createProduct.ImageUrl,
+                Quantity = createProduct.Quantity,
+                Price = createProduct.Price,
+                CategoryId = createProduct.CategoryId,
+                TotalRating = createProduct.TotalRating,
+            };
+
+            await _unitOfWork.GetRepository<Product>().InsertAsync(product);
+
+            MilkResult result = new MilkResult();
+            bool status = await _unitOfWork.CommitAsync() > 0;
+            if (status)
+            {
+                result.Data = GetProductById(product.ProductId);
+                result.Status = 1;
+                result.Message = "Create product successfully";
+            }
+            else
+            {
+                result.Status = -1;
+                result.Message = "Create product failed";
+            }
+            return result;
         }
 
         public async Task<IMilkResult> GetProductList()
         {
-            List<Product> products = await _context.Products.ToListAsync();
-
-            MilkResult result = new MilkResult(1, "Get product list successfully", products);
-            return result;
+            var products = await _unitOfWork.GetRepository<Product>().GetListAsync();
+            return new MilkResult(products);
         }
 
-        public async Task<IMilkResult> GetProductById(int id)
+        public async Task<IMilkResult> GetProductById(int productId)
         {
-            Product product = await _context.Products.FindAsync(id);
-
-            MilkResult result = new MilkResult(1, "Get product successfully", product);
-            return result;
+            var product = await _unitOfWork.GetRepository<Product>().SingleOrDefaultAsync(predicate: p => p.ProductId == productId);
+            return new MilkResult(product);
         }
 
-        public async Task<IMilkResult> CreateProduct(Product product)
+        public async Task<IMilkResult> UpdateProduct(ProductDTO product)
         {
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            Product currentProduct = await _unitOfWork.GetRepository<Product>()
+                            .SingleOrDefaultAsync(predicate: p => p.ProductId == product.ProductId);
+            if (currentProduct == null) return new MilkResult(-1, "Product cannot be found");
+            else
+            {
+                currentProduct.Name = String.IsNullOrEmpty(product.Name) ? currentProduct.Name : product.Name;
+                currentProduct.Price = product.Price;
+                currentProduct.Quantity = product.Quantity;
+                currentProduct.Description = String.IsNullOrEmpty(product.Description) ? currentProduct.Description : product.Description;
+                currentProduct.CategoryId = product.CategoryId;
+                currentProduct.ImageUrl = String.IsNullOrEmpty(product.ImageUrl) ? currentProduct.ImageUrl : product.ImageUrl;
+                currentProduct.TotalRating = product.TotalRating;
 
-            MilkResult result = new MilkResult(1, "Create product successfully", product);
-            return result;
-        }
+                _unitOfWork.GetRepository<Product>().UpdateAsync(currentProduct);
+                await _unitOfWork.CommitAsync();
+            }
 
-        public async Task<IMilkResult> UpdateProduct(Product product)
-        {
-            _context.Products.Update(product);
-            await _context.SaveChangesAsync();
-
-            MilkResult result = new MilkResult(1, "Update product successfully", product);
-            return result;
+            return new MilkResult(currentProduct);
         }
 
         public async Task<IMilkResult> DeleteProduct(int id)
         {
-            Product product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-
-            MilkResult result = new MilkResult(1, "Delete product successfully", product);
-            return result;
+            Product product = await _unitOfWork.GetRepository<Product>().SingleOrDefaultAsync(predicate: c => c.ProductId == id);
+            if (product == null)
+            {
+                return new MilkResult(-1, "Product not found");
+            }
+            else
+            {
+                _unitOfWork.GetRepository<Product>().DeleteAsync(product);
+                await _unitOfWork.CommitAsync();
+                return new MilkResult(1, "Delete product successfully");
+            }
         }
 
     }
+    #endregion
 }

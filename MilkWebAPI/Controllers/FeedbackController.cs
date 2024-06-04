@@ -2,6 +2,7 @@
 using MilkBusiness;
 using MilkData.DTOs;
 using MilkWebAPI.Constants;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MilkWebAPI.Controllers
 {
@@ -16,29 +17,54 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.Feedback.FeedbacksEndPoint)]
+        [SwaggerOperation(Summary = "Get all Feedbacks")]
         public async Task<IActionResult> GetAllFeedbacks()
         {
             var response = await _feedbackBusiness.GetAllFeedback();
             if (response.Status >= 0)
-                return Ok(response);
+                return Ok(response.Data);
             else
                 return BadRequest(response);
         }
 
         [HttpGet(ApiEndPointConstant.Feedback.FeedbackEndPoint)]
+        [SwaggerOperation(Summary = "Get Feedback by its id")]
         public async Task<IActionResult> GetFeedbackById(int id)
         {
             var response = await _feedbackBusiness.GetFeedbackById(id);
+            if (response.Status >= 0)
+                return Ok(response.Data);
+            else
+                return BadRequest(response);
+        }
+
+        [HttpPost(ApiEndPointConstant.Feedback.FeedbacksEndPoint)]
+        [SwaggerOperation(Summary = "Create a new Feedback")]
+        public async Task<IActionResult> CreateFeedback(FeedbackDTO createFeedback)
+        {
+            var response = await _feedbackBusiness.CreateFeedback(createFeedback);
             if (response.Status >= 0)
                 return Ok(response);
             else
                 return BadRequest(response);
         }
 
-        [HttpPost(ApiEndPointConstant.Feedback.FeedbackCreateEndPoint)]
-        public async Task<IActionResult> CreateFeedback(FeedbackDTO createFeedback)
+        [HttpPut(ApiEndPointConstant.Feedback.FeedbackEndPoint)]
+        [SwaggerOperation(Summary = "Update Feedback Info")]
+        public async Task<IActionResult> UpdateFeedback(int id, FeedbackDTO feedback)
         {
-            var response = await _feedbackBusiness.CreateFeedback(createFeedback);
+            var response = await _feedbackBusiness.UpdateFeedBack(feedback);
+            if (response.Status >= 0)
+                return Ok(response);
+            else
+                return BadRequest(response);
+        }
+
+        [HttpDelete(ApiEndPointConstant.Feedback.FeedbackEndPoint)]
+        [SwaggerOperation(Summary = "Delete Feedback")]
+        public async Task<IActionResult> DeleteFeedback(int id)
+        {
+            var response = await _feedbackBusiness.DeleteFeedback(id);
             if (response.Status >= 0)
                 return Ok(response);
             else

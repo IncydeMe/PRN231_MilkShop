@@ -91,6 +91,7 @@
                 formData.append("Value", $("#Value").val());
                 formData.append("StartDate", $("#StartDate").val());
                 formData.append("EndDate", $("#EndDate").val());
+                formData.append("HttpMethod", method);
 
                 $.ajax({
                     type: 'POST',
@@ -167,7 +168,7 @@
 
             $.ajax({
                 url: '@Url.Action("Detail", "Voucher")',
-                type: "GET",
+                type: "POST",
                 // contentType: 'application/json;charset=utf-8',
                 // dataType: "json",
                 processData: false,

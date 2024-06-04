@@ -85,8 +85,9 @@
 
             $("#btSave").click(function () {
                 var formData = new FormData();
-                formData.append("CategoryId", $("#BlogId").val());
-                formData.append("CategoryName", $("#Title").val());
+                formData.append("CategoryId", $("#CategoryId").val());
+                formData.append("CategoryName", $("#CategoryName").val());
+                formData.append("HttpMethod", method);
 
                 $.ajax({
                     type: 'POST',
@@ -161,7 +162,7 @@
 
             $.ajax({
                 url: '@Url.Action("Detail", "Category")',
-                type: "GET",
+                type: "POST",
                 // contentType: 'application/json;charset=utf-8',
                 // dataType: "json",
                 processData: false,

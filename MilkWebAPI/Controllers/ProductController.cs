@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
+using MilkData.DTOs;
 using MilkData.Models;
 using MilkWebAPI.Constants;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MilkWebAPI.Controllers
 {
@@ -17,29 +19,32 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpGet(ApiEndPointConstant.Product.ProductsEndPoint)]
+        [SwaggerOperation(Summary = "Get all products")]
         public async Task<IActionResult> GetProductList()
         {
             var response = await _productBusiness.GetProductList();
             if (response.Status >= 0)
-                return Ok(response);
+                return Ok(response.Data);
             else
                 return BadRequest(response);
         }
 
         [HttpGet(ApiEndPointConstant.Product.ProductEndPoint)]
-        public async Task<IActionResult> GetProductById(int productId)
+        [SwaggerOperation(Summary = "Get product by its id")]
+        public async Task<IActionResult> GetProductById(int id)
         {
-            var response = await _productBusiness.GetProductById(productId);
+            var response = await _productBusiness.GetProductById(id);
             if (response.Status >= 0)
-                return Ok(response);
+                return Ok(response.Data);
             else
                 return BadRequest(response);
         }
 
         [HttpPost(ApiEndPointConstant.Product.ProductsEndPoint)]
-        public async Task<IActionResult> CreateProduct(Product product)
+        [SwaggerOperation(Summary = "Create a new product")]
+        public async Task<IActionResult> CreateProduct(ProductDTO createProduct)
         {
-            var response = await _productBusiness.CreateProduct(product);
+            var response = await _productBusiness.CreateProduct(createProduct);
             if (response.Status >= 0)
                 return Ok(response);
             else
@@ -47,7 +52,8 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPut(ApiEndPointConstant.Product.ProductEndPoint)]
-        public async Task<IActionResult> UpdateProduct(Product product)
+        [SwaggerOperation(Summary = "Update product info")]
+        public async Task<IActionResult> UpdateProduct(ProductDTO product)
         {
             var response = await _productBusiness.UpdateProduct(product);
             if (response.Status >= 0)
@@ -57,6 +63,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpDelete(ApiEndPointConstant.Product.ProductEndPoint)]
+        [SwaggerOperation(Summary = "Delete a product")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var response = await _productBusiness.DeleteProduct(id);
