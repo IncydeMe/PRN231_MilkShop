@@ -41,8 +41,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPut(ApiEndPointConstant.BlogCategory.BlogCategoryEndpoint)]
-        [SwaggerOperation(Summary = "Update Blog Category Info")]
-        public async Task<IActionResult> UpdateBlogInfo(int id, BlogCategoryDTO blogCategory)
+        public async Task<IActionResult> UpdateBlogCategoryInfo(int id, BlogCategoryDTO blogCategory)
         {
             var response = await _blogCategoryBusiness.UpdateBlogCategoryInfo(id, blogCategory);
             if (response.Status >= 0)
@@ -52,8 +51,7 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpDelete(ApiEndPointConstant.BlogCategory.BlogCategoryEndpoint)]
-        [SwaggerOperation(Summary = "Delete Blog")]
-        public async Task<IActionResult> DeleteBlog(int id)
+        public async Task<IActionResult> DeleteBlogCategory(int id)
         {
             var response = await _blogCategoryBusiness.DeleteBlogCategory(id);
             if (response.Status >= 0)
