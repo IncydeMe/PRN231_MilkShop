@@ -54,6 +54,12 @@ namespace MilkBusiness
             return new MilkResult(feedback);
         }
 
+        public async Task<IMilkResult> GetFeedbackOfProduct(int productId)
+        {
+            var feedbacks = await _unitOfWork.GetRepository<Feedback>().GetListAsync(predicate: f => f.ProductId == productId);
+            return new MilkResult(feedbacks);
+        }
+
         public async Task<IMilkResult> GetAllFeedback()
         {
             var feedbackList = await _unitOfWork.GetRepository<Feedback>().GetListAsync();
