@@ -31,7 +31,7 @@ namespace MilkBusiness
                 ImageUrl = createProduct.ImageUrl,
                 Quantity = createProduct.Quantity,
                 Price = createProduct.Price,
-                CategoryId = createProduct.CategoryId,
+                ProductCategoryId = createProduct.CategoryId,
                 TotalRating = createProduct.TotalRating,
             };
 
@@ -76,7 +76,7 @@ namespace MilkBusiness
                 currentProduct.Price = product.Price;
                 currentProduct.Quantity = product.Quantity;
                 currentProduct.Description = String.IsNullOrEmpty(product.Description) ? currentProduct.Description : product.Description;
-                currentProduct.CategoryId = product.CategoryId;
+                currentProduct.ProductCategoryId = product.CategoryId;
                 currentProduct.ImageUrl = String.IsNullOrEmpty(product.ImageUrl) ? currentProduct.ImageUrl : product.ImageUrl;
                 currentProduct.TotalRating = product.TotalRating;
 
