@@ -115,7 +115,7 @@ public partial class Net17112314MilkContext : DbContext
             entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.TotalRating).HasColumnType("decimal(18, 2)");
 
-            entity.HasOne(d => d.Category).WithMany(p => p.Products).HasForeignKey(d => d.CategoryId);
+            entity.HasOne(d => d.Category).WithMany(p => p.Products).HasForeignKey(d => d.ProductCategoryId);
         });
 
         modelBuilder.Entity<Voucher>(entity =>
