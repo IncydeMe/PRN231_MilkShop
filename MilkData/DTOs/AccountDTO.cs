@@ -17,6 +17,6 @@ namespace MilkData.DTOs
         public string Role { get; set; }
         public int Point { get; set; }
         public bool IsActive { get; set; }
-        public string HttpMethod { get; set; }
+        public string? HttpMethod { get; set; }
     }
 }

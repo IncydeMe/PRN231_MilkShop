@@ -19,7 +19,7 @@ namespace MilkData.DTOs
 
         public string Status { get; set; } = null!;
 
-        public string HttpMethod { get; set; }
+        public string? HttpMethod { get; set; }
 
         //public class CreateOrderDTO
         //{

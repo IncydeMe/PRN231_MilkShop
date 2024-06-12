@@ -20,6 +20,6 @@ namespace MilkData.DTOs
 
         public int Rating { get; set; }
 
-        public string HttpMethod { get; set; }
+        public string? HttpMethod { get; set; }
     }
 }

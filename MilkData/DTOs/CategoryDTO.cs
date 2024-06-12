@@ -12,6 +12,6 @@ namespace MilkData.DTOs
 
         public string CategoryName { get; set; } = null!;
 
-        public string HttpMethod { get; set; }
+        public string? HttpMethod { get; set; }
     }
 }
