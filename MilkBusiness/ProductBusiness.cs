@@ -41,7 +41,6 @@ namespace MilkBusiness
             bool status = await _unitOfWork.CommitAsync() > 0;
             if (status)
             {
-                result.Data = GetProductById(product.ProductId);
                 result.Status = 1;
                 result.Message = "Create product successfully";
             }
