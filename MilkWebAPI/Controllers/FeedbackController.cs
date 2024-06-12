@@ -38,6 +38,17 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [HttpGet(ApiEndPointConstant.Feedback.FeedbackOfProductEndPoint)]
+        [SwaggerOperation(Summary = "Get Feedback by productId")]
+        public async Task<IActionResult> GetFeedbackOfProduct(int productId)
+        {
+            var response = await _feedbackBusiness.GetFeedbackOfProduct(productId);
+            if (response.Status >= 0)
+                return Ok(response.Data);
+            else
+                return BadRequest(response);
+        }
+
         [HttpPost(ApiEndPointConstant.Feedback.FeedbacksEndPoint)]
         [SwaggerOperation(Summary = "Create a new Feedback")]
         public async Task<IActionResult> CreateFeedback(FeedbackDTO createFeedback)

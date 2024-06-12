@@ -70,6 +70,7 @@
         {
             public const string FeedbacksEndPoint = ApiEndpoint + "/feedbacks";
             public const string FeedbackEndPoint = FeedbacksEndPoint + "/{id}";
+            public const string FeedbackOfProductEndPoint = FeedbacksEndPoint + "/product/{productId}";
         }
 
         public class FeedbackMedia()
