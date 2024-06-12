@@ -16,6 +16,6 @@ namespace MilkData.DTOs
 
         public DateTime EndDate { get; set; }
 
-        public string HttpMethod { get; set; }
+        public string? HttpMethod { get; set; }
     }
 }

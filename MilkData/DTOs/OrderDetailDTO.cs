@@ -16,6 +16,6 @@ namespace MilkData.DTOs
 
         public int OrderId { get; set; }
 
-        public string HttpMethod { get; set; }
+        public string? HttpMethod { get; set; }
     }
 }
