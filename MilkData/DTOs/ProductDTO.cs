@@ -24,6 +24,6 @@ namespace MilkData.DTOs
 
         public decimal TotalRating { get; set; }
 
-        public string HttpMethod { get; set; }
+        public string? HttpMethod { get; set; }
     }
 }

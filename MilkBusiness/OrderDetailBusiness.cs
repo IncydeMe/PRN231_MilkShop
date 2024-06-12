@@ -46,7 +46,6 @@ namespace MilkBusiness
             bool status = await _unitOfWork.CommitAsync() > 0;
             if (status)
             {
-                result.Data = await GetOrderDetailById(orderDetail.OrderDetailId);
                 result.Status = 1;
                 result.Message = "OrderDetail created successfully";
             } else
