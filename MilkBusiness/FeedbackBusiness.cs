@@ -37,7 +37,6 @@ namespace MilkBusiness
             bool status = await _unitOfWork.CommitAsync() > 0;
             if (status)
             {
-                result.Data = GetFeedbackById(feedback.FeedbackId);
                 result.Status = 1;
                 result.Message = "Create feedback successfully";
             } else
