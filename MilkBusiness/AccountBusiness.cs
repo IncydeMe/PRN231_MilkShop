@@ -45,7 +45,12 @@ namespace MilkBusiness
                 return result;
             }
 
-            result.Data = JwtUtil.GenerateJwtToken(account);
+            result.Data = new LoginDTO()
+            {
+                Id = account.AccountId,
+                Role = account.Role,
+                Token = JwtUtil.GenerateJwtToken(account)
+            };
             result.Status = 1;
             result.Message = "Login successfully";
             return result;
