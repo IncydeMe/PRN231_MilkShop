@@ -45,11 +45,7 @@ namespace MilkBusiness
                 return result;
             }
 
-            result.Data = new LoginDTO()
-            {
-                Role = account.Role,
-                Token = JwtUtil.GenerateJwtToken(account)
-            };
+            result.Data = JwtUtil.GenerateJwtToken(account);
             result.Status = 1;
             result.Message = "Login successfully";
             return result;
@@ -91,11 +87,7 @@ namespace MilkBusiness
             }
             else
             {
-                result.Data = new LoginDTO()
-                {
-                    Role = account.Role,
-                    Token = JwtUtil.GenerateJwtToken(account)
-                };
+                result.Data = JwtUtil.GenerateJwtToken(account);
                 result.Status = 1;
                 result.Message = "Register successfully";
             }
