@@ -32,7 +32,7 @@ namespace MilkBusiness.Utils
             List<Claim> claims = new List<Claim>()
             {
                 new Claim(JwtRegisteredClaimNames.Jti, account.AccountId.ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, account.FullName),
+                new Claim("Email", account.Email),
                 new Claim(ClaimTypes.Role, account.Role)
             };
 
