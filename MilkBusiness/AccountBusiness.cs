@@ -47,7 +47,6 @@ namespace MilkBusiness
 
             result.Data = new LoginDTO()
             {
-                Id = account.AccountId,
                 Role = account.Role,
                 Token = JwtUtil.GenerateJwtToken(account)
             };
@@ -92,7 +91,11 @@ namespace MilkBusiness
             }
             else
             {
-                result.Data = JwtUtil.GenerateJwtToken(newAccount);
+                result.Data = new LoginDTO()
+                {
+                    Role = account.Role,
+                    Token = JwtUtil.GenerateJwtToken(account)
+                };
                 result.Status = 1;
                 result.Message = "Register successfully";
             }
