@@ -87,7 +87,7 @@ namespace MilkBusiness
             }
             else
             {
-                result.Data = JwtUtil.GenerateJwtToken(account);
+                result.Data = JwtUtil.GenerateJwtToken(newAccount);
                 result.Status = 1;
                 result.Message = "Register successfully";
             }
