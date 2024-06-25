@@ -71,13 +71,13 @@ namespace MilkBusiness
                 FullName = email,
                 Password = password,
                 Email = email,
-                Phone = string.Empty,
-                Address = string.Empty,
+                Phone = "",
+                Address = "",
                 Role = "Member",
                 IsActive = true
             };
 
-            await _unitOfWork.GetRepository<Account>().InsertAsync(new Account());
+            await _unitOfWork.GetRepository<Account>().InsertAsync(newAccount);
             bool isSuccessful = await _unitOfWork.CommitAsync() > 0;
 
             if (!isSuccessful)
