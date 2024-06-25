@@ -23,28 +23,22 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> CreateCategory(CategoryDTO createCategory)
         {
-            Category category = new Category
+            Category category = new Category()
             {
-                CategoryId = createCategory.CategoryId,
+                ProductCategoryId = createCategory.ProductCategoryId,
                 CategoryName = createCategory.CategoryName
             };
 
             await _unitOfWork.GetRepository<Category>().InsertAsync(category);
-
-            MilkResult result = new MilkResult();
-            bool status = await _unitOfWork.CommitAsync() > 0;
-            if (status)
+            var res = await _unitOfWork.CommitAsync();
+            if (res > 0)
             {
-                result.Data = GetCategoryById(category.CategoryId);
-                result.Status = 1;
-                result.Message = "Create category successfully";
+                return new MilkResult(1, "Create category successfully", createCategory);
             }
             else
             {
-                result.Status = -1;
-                result.Message = "Create category failed";
+                return new MilkResult();
             }
-            return result;
         }
 
         public async Task<IMilkResult> GetCategoryList()
@@ -55,14 +49,14 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> GetCategoryById(int categoryId)
         {
-            var category = await _unitOfWork.GetRepository<Category>().SingleOrDefaultAsync(predicate: x => x.CategoryId == categoryId);
+            var category = await _unitOfWork.GetRepository<Category>().SingleOrDefaultAsync(predicate: x => x.ProductCategoryId == categoryId);
             return new MilkResult(category);
         }
 
         public async Task<IMilkResult> UpdateCategory(int id, CategoryDTO category)
         {
             Category currentCategory = await _unitOfWork.GetRepository<Category>()
-                .SingleOrDefaultAsync(predicate: c => c.CategoryId == category.CategoryId);
+                .SingleOrDefaultAsync(predicate: c => c.ProductCategoryId == category.ProductCategoryId);
             if (currentCategory == null) return new MilkResult(-1, "Category cannot be found");
             else
             {
@@ -77,7 +71,7 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> DeleteCategory(int id)
         {
-            Category category = await _unitOfWork.GetRepository<Category>().SingleOrDefaultAsync(predicate: c => c.CategoryId == id);
+            Category category = await _unitOfWork.GetRepository<Category>().SingleOrDefaultAsync(predicate: c => c.ProductCategoryId == id);
             if (category == null)
             {
                 return new MilkResult(0, "Category not found");

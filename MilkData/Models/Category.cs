@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MilkData.Models;
 
 public partial class Category
 {
-    public int CategoryId { get; set; }
+    [Key]
+    public int ProductCategoryId { get; set; }
 
     public string CategoryName { get; set; } = null!;
 
