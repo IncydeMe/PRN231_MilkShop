@@ -15,6 +15,7 @@
         public class Account()
         {
             public const string AccountsEndpoint = ApiEndpoint + "/accounts";
+            public const string EmailAccountsEndpoint = AccountsEndpoint + "/{email}";
             public const string AccountEndpoint = AccountsEndpoint + "/{id}";
         }
 

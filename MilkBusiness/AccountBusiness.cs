@@ -110,6 +110,13 @@ namespace MilkBusiness
             return new MilkResult(acc);
         }
 
+        public async Task<IMilkResult> GetAccountInfoByEmail(string email)
+        {
+            var acc = await _unitOfWork.GetRepository<Account>()
+                .SingleOrDefaultAsync(predicate: a => a.Email.Equals(email) && a.IsActive);
+            return new MilkResult(acc);
+        }
+
         public async Task<IMilkResult> CreateAccount(AccountDTO inputedAccount)
         {
             Account account = await _unitOfWork.GetRepository<Account>()
