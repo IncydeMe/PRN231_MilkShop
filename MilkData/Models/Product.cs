@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace MilkData.Models;
 
@@ -22,9 +21,9 @@ public partial class Product
 
     public decimal TotalRating { get; set; }
 
-    public virtual Category Category { get; set; } = null!;
-
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+
+    public virtual Category ProductCategory { get; set; } = null!;
 }
