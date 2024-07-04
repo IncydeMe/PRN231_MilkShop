@@ -51,7 +51,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [HttpGet]
+        [HttpGet(ApiEndPointConstant.Order.OrderConfirmEndpoint)]
         [SwaggerOperation(Summary = "Payment Response")]
         public async Task<IActionResult> PaymentResponse([FromQuery] VNPayResponse response)
         {
