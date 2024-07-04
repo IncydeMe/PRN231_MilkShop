@@ -17,6 +17,13 @@ namespace MilkData.DTOs
         public string Role { get; set; }
         public int Point { get; set; }
         public bool IsActive { get; set; }
-        public string HttpMethod { get; set; }
+        public string? HttpMethod { get; set; }
+    }
+
+    public class LoginDTO
+    {
+        public int Id { get; set; }
+        public string Role { set; get; }
+        public string Token { get; set; }
     }
 }

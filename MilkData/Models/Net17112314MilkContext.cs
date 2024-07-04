@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace MilkData.Models;
 
@@ -39,18 +38,8 @@ public partial class Net17112314MilkContext : DbContext
     public virtual DbSet<Voucher> Vouchers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder.UseSqlServer(GetConnectionString());
-        }
-    }
-
-    private static string GetConnectionString()
-    {
-        IConfiguration config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", true, true).Build();
-        return config.GetConnectionString("DefaultConnection") ?? throw new Exception("Connection String 'DefaultConnection' not found in appsettings.json");
-    }
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=(local);Database=Net1711_231_4_Milk;User Id=sa;Password=12345;MultipleActiveResultSets=true;TrustServerCertificate=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -76,6 +65,8 @@ public partial class Net17112314MilkContext : DbContext
 
         modelBuilder.Entity<Category>(entity =>
         {
+            entity.HasKey(e => e.ProductCategoryId);
+
             entity.Property(e => e.CategoryName).HasMaxLength(50);
         });
 
@@ -111,7 +102,9 @@ public partial class Net17112314MilkContext : DbContext
             entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.TotalRating).HasColumnType("decimal(18, 2)");
 
-            entity.HasOne(d => d.Category).WithMany(p => p.Products).HasForeignKey(d => d.CategoryId);
+            entity.HasOne(d => d.ProductCategory).WithMany(p => p.Products)
+                .HasForeignKey(d => d.ProductCategoryId)
+                .HasConstraintName("FK_Products_Categories_CategoryId");
         });
 
         modelBuilder.Entity<Voucher>(entity =>

@@ -42,6 +42,17 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [HttpGet(ApiEndPointConstant.Account.EmailAccountsEndpoint)]
+        [SwaggerOperation(Summary = "Get Account by its email")]
+        public async Task<IActionResult> GetAccountByEmail(string email)
+        {
+            var response = await _accountBusiness.GetAccountInfoByEmail(email);
+            if (response.Status >= 0)
+                return Ok(response.Data);
+            else
+                return BadRequest(response);
+        }
+
         [HttpPost(ApiEndPointConstant.Account.AccountsEndpoint)]
         [SwaggerOperation(Summary = "Create a new Account")]
         public async Task<IActionResult> CreateAccount(AccountDTO accountDTO)

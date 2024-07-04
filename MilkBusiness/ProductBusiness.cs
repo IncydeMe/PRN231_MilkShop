@@ -23,7 +23,7 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> CreateProduct(ProductDTO createProduct)
         {
-            Product product = new Product
+            Product product = new Product()
             {
                 ProductId = createProduct.ProductId,
                 Name = createProduct.Name,
@@ -31,26 +31,22 @@ namespace MilkBusiness
                 ImageUrl = createProduct.ImageUrl,
                 Quantity = createProduct.Quantity,
                 Price = createProduct.Price,
-                CategoryId = createProduct.CategoryId,
+                ProductCategoryId = createProduct.ProductCategoryId,
                 TotalRating = createProduct.TotalRating,
             };
 
             await _unitOfWork.GetRepository<Product>().InsertAsync(product);
-
-            MilkResult result = new MilkResult();
-            bool status = await _unitOfWork.CommitAsync() > 0;
-            if (status)
+            var res = await _unitOfWork.CommitAsync();
+            if (res > 0)
             {
-                result.Data = GetProductById(product.ProductId);
-                result.Status = 1;
-                result.Message = "Create product successfully";
+                return new MilkResult(1, "Create product successfully", createProduct);
             }
             else
             {
-                result.Status = -1;
-                result.Message = "Create product failed";
+                return new MilkResult();
             }
-            return result;
+
+
         }
 
         public async Task<IMilkResult> GetProductList()
@@ -76,7 +72,7 @@ namespace MilkBusiness
                 currentProduct.Price = product.Price;
                 currentProduct.Quantity = product.Quantity;
                 currentProduct.Description = String.IsNullOrEmpty(product.Description) ? currentProduct.Description : product.Description;
-                currentProduct.CategoryId = product.CategoryId;
+                currentProduct.ProductCategoryId = product.ProductCategoryId;
                 currentProduct.ImageUrl = String.IsNullOrEmpty(product.ImageUrl) ? currentProduct.ImageUrl : product.ImageUrl;
                 currentProduct.TotalRating = product.TotalRating;
 

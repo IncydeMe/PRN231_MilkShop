@@ -147,7 +147,7 @@ namespace MilkWebApp.Controllers
                             }
                             break;
                         case "PUT":
-                            using (var response = await httpClient.PutAsJsonAsync(apiUrl + $"/{category.CategoryId}", category))
+                            using (var response = await httpClient.PutAsJsonAsync(apiUrl + $"/{category.ProductCategoryId}", category))
                             {
                                 if (response.IsSuccessStatusCode)
                                 {

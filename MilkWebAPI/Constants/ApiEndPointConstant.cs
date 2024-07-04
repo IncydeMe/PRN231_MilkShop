@@ -15,6 +15,7 @@
         public class Account()
         {
             public const string AccountsEndpoint = ApiEndpoint + "/accounts";
+            public const string EmailAccountsEndpoint = AccountsEndpoint + "/{email}/info";
             public const string AccountEndpoint = AccountsEndpoint + "/{id}";
         }
 
@@ -58,7 +59,6 @@
         {
             public const string OrdersEndPoint = ApiEndpoint + "/orders";
             public const string OrderEndPoint = OrdersEndPoint + "/{id}";
-            public const string OrderCreateEndPoint = OrdersEndPoint + "/create";
         }
 
         public class OrderDetail()
@@ -71,6 +71,7 @@
         {
             public const string FeedbacksEndPoint = ApiEndpoint + "/feedbacks";
             public const string FeedbackEndPoint = FeedbacksEndPoint + "/{id}";
+            public const string FeedbackOfProductEndPoint = FeedbacksEndPoint + "/product/{productId}";
         }
 
         public class FeedbackMedia()

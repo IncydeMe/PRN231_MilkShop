@@ -37,7 +37,6 @@ namespace MilkBusiness
             bool status = await _unitOfWork.CommitAsync() > 0;
             if (status)
             {
-                result.Data = GetFeedbackById(feedback.FeedbackId);
                 result.Status = 1;
                 result.Message = "Create feedback successfully";
             } else
@@ -52,6 +51,12 @@ namespace MilkBusiness
         {
             var feedback = await _unitOfWork.GetRepository<Feedback>().SingleOrDefaultAsync(predicate: f => f.FeedbackId == feedbackId);
             return new MilkResult(feedback);
+        }
+
+        public async Task<IMilkResult> GetFeedbackOfProduct(int productId)
+        {
+            var feedbacks = await _unitOfWork.GetRepository<Feedback>().GetListAsync(predicate: f => f.ProductId == productId);
+            return new MilkResult(feedbacks);
         }
 
         public async Task<IMilkResult> GetAllFeedback()

@@ -71,13 +71,13 @@ namespace MilkBusiness
                 FullName = email,
                 Password = password,
                 Email = email,
-                Phone = string.Empty,
-                Address = string.Empty,
+                Phone = "",
+                Address = "",
                 Role = "Member",
                 IsActive = true
             };
 
-            await _unitOfWork.GetRepository<Account>().InsertAsync(new Account());
+            await _unitOfWork.GetRepository<Account>().InsertAsync(newAccount);
             bool isSuccessful = await _unitOfWork.CommitAsync() > 0;
 
             if (!isSuccessful)
@@ -107,7 +107,16 @@ namespace MilkBusiness
         {
             var acc = await _unitOfWork.GetRepository<Account>()
                 .SingleOrDefaultAsync(predicate: a => a.AccountId == accountId && a.IsActive);
-            return new MilkResult(acc);
+            if (acc != null) return new MilkResult(acc);
+            return new MilkResult();
+        }
+
+        public async Task<IMilkResult> GetAccountInfoByEmail(string email)
+        {
+            var acc = await _unitOfWork.GetRepository<Account>()
+                .SingleOrDefaultAsync(predicate: a => a.Email.Equals(email) && a.IsActive);
+            if(acc != null) return new MilkResult(acc);
+            return new MilkResult();
         }
 
         public async Task<IMilkResult> CreateAccount(AccountDTO inputedAccount)

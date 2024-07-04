@@ -18,12 +18,12 @@ namespace MilkData.DTOs
 
         public string Description { get; set; } = null!;
 
-        public int CategoryId { get; set; }
+        public int ProductCategoryId { get; set; }
 
         public string ImageUrl { get; set; } = null!;
 
         public decimal TotalRating { get; set; }
 
-        public string HttpMethod { get; set; }
+        public string? HttpMethod { get; set; }
     }
 }
