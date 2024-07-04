@@ -59,6 +59,7 @@
         {
             public const string OrdersEndPoint = ApiEndpoint + "/orders";
             public const string OrderEndPoint = OrdersEndPoint + "/{id}";
+            public const string OrderConfirmEndpoint = OrdersEndPoint + "/success";
         }
 
         public class OrderDetail()
