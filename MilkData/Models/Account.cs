@@ -15,7 +15,7 @@ public partial class Account
 
     public string Phone { get; set; } = null!;
 
-    public string? ImageUrl { get; set; }
+    public string? AvatarUrl { get; set; }
 
     public string Address { get; set; } = null!;
 
