@@ -41,7 +41,7 @@
                     <a href="#" class="text-end link-secondary nunito-regular fs-5" style="text-decoration: none;">Forgot Password?</a>
                 </div>
             </div>
-            <button id="#btnLogin" type="submit" class="w-100 btn btn-hover nunito-bold fs-4" style="background-color: #F9A8D4;">
+            <button id="btnLogin" type="submit" class="w-100 btn btn-hover nunito-bold fs-4" style="background-color: #F9A8D4;">
                 Login
             </button>
         }
@@ -80,17 +80,17 @@
 
 @section scripts {
     <script type="text/javascript">
-        $(document).ready(function () { 
+        $(document).ready(function () {
+            load();
             $("#btnLogin").click(function () {
                 var formLogin = new FormData();
-                formLogin.append("Email", $("#email").val());
-                formLogin.append("Password", $("#password").val());
-
-                console.log("Form login: " + formLogin);
+                formLogin.append("email", $("#email").val());
+                formLogin.append("password", $("#password").val());
 
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("LoginRequest", "Login")",
+                    data: formLogin,
                     success: function (result) {
                         console.log("Successfully logged in");
                     },
