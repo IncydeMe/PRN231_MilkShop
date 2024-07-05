@@ -60,7 +60,7 @@ namespace MilkBusiness
             bool status = await _unitOfWork.CommitAsync() > 0;
             if (status)
             {
-                result.Data = CreatePayment(order);
+                result.Data = await CreatePayment(order);
                 result.Status = 1;
                 result.Message = "Order created successfully";
             } else
