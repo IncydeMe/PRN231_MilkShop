@@ -16,8 +16,4 @@
     <ProjectReference Include="..\MilkBusiness\MilkBusiness.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
