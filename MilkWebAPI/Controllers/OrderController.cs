@@ -2,8 +2,8 @@
 using MilkBusiness;
 using MilkData.DTOs;
 using MilkData.Models;
+using MilkData.VNPay.Response;
 using MilkWebAPI.Constants;
-using Payment.Domain.VNPay.Response;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace MilkWebAPI.Controllers
