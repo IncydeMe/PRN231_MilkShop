@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MilkBusiness.Utils.VNPayUtils;
 using MilkData.DTOs;
 using MilkData.Models;
 using MilkData.Repository.Implements;
-using Payment.Domain.VNPay.Config;
-using Payment.Domain.VNPay.Request;
-using Payment.Domain.VNPay.Response;
-using Payment.Service.Helper;
-using Payment.Service.VNPay;
+using MilkData.VNPay.Config;
+using MilkData.VNPay.Request;
+using MilkData.VNPay.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +20,12 @@ namespace MilkBusiness
     public class OrderBusiness
     {
         private readonly UnitOfWork _unitOfWork;
-        private readonly IVNPayService _vNPayService;
+        private readonly VNPayBusiness _vNPayBusiness;
 
         public OrderBusiness()
         {
             _unitOfWork ??= new UnitOfWork();
-            _vNPayService ??= new VNPayService();
+            _vNPayBusiness ??= new VNPayBusiness();
         }
 
         #region Order
@@ -109,7 +108,7 @@ namespace MilkBusiness
                 vnp_Locale = vnPayConfig.Locale
             };
 
-            var paymentUrl = await _vNPayService.GetPaymentLink(vnPayConfig.PaymentUrl, vnPayConfig.HashSecret, request);
+            var paymentUrl = await _vNPayBusiness.GetPaymentLink(vnPayConfig.PaymentUrl, vnPayConfig.HashSecret, request);
 
             return new PaymentLinkResponse
             {
@@ -147,7 +146,7 @@ namespace MilkBusiness
             paymentResponse.OrderId = int.Parse(response.vnp_TxnRef);
             paymentResponse.Amount = response.vnp_Amount;
 
-            bool isValid = await _vNPayService.IsValidSignature(vnPayConfig.HashSecret, response);
+            bool isValid = await _vNPayBusiness.IsValidSignature(vnPayConfig.HashSecret, response);
             if (isValid)
             {
                 if (await GetOrderObjectById(int.Parse(response.vnp_TxnRef)) != null)
