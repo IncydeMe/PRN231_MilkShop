@@ -9,17 +9,17 @@ public partial class Blog
 
     public int BlogCategoryId { get; set; }
 
+    public Guid AccountId { get; set; }
+
     public string Title { get; set; } = null!;
 
-    public string Content { get; set; } = null!;
+    public string DocUrl { get; set; } = null!;
 
-    public string ImageUrl { get; set; } = null!;
+    public string? ImageUrl { get; set; }
 
-    public string ProductSuggestUrl { get; set; } = null!;
+    public DateTime CreatedAt { get; set; }
 
-    public DateTime CreatedDate { get; set; }
-
-    public int AccountId { get; set; }
+    public DateTime? UpdatedAt { get; set; }
 
     public virtual Account Account { get; set; } = null!;
 

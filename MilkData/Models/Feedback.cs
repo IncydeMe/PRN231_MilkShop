@@ -7,19 +7,25 @@ public partial class Feedback
 {
     public int FeedbackId { get; set; }
 
-    public int AccountId { get; set; }
-
     public int ProductId { get; set; }
 
-    public string Content { get; set; } = null!;
+    public Guid AccountId { get; set; }
 
-    public DateTime CreatedDate { get; set; }
+    public int FeedbackMediaId { get; set; }
 
     public int Rating { get; set; }
 
+    public string Content { get; set; } = null!;
+
+    public bool IsReported { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime? UpdatedAt { get; set; }
+
     public virtual Account Account { get; set; } = null!;
 
-    public virtual ICollection<FeedbackMedia> FeedbackMedia { get; set; } = new List<FeedbackMedia>();
+    public virtual FeedbackMedia FeedbackMedia { get; set; } = null!;
 
     public virtual Product Product { get; set; } = null!;
 }

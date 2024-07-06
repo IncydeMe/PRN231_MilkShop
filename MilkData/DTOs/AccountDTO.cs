@@ -8,22 +8,25 @@ namespace MilkData.DTOs
 {
     public class AccountDTO
     {
-        public int AccountId { get; set; }
-        public string FullName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Phone { get; set; }
-        public string Address { get; set; }
-        public string Role { get; set; }
+        public Guid AccountId { get; set; }
+        public int RoleId { get; set; }
+        public string FullName { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string Password { get; set; } = null!;
+        public DateOnly? DateOfBirth { get; set; }
+        public string Address { get; set; } = null!;
+        public string Phone { get; set; } = null!;
         public int Point { get; set; }
-        public bool IsActive { get; set; }
+        public bool Disable { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public string? HttpMethod { get; set; }
     }
 
     public class LoginDTO
     {
-        public int Id { get; set; }
-        public string Role { set; get; }
-        public string Token { get; set; }
+        public Guid Id { get; set; }
+        public int RoleId { get; set; }
+        public string Token { get; set; } = null!;
     }
 }

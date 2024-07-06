@@ -67,7 +67,12 @@ namespace MilkData.Repository.Intefaces
 
         #endregion
 
+        #region Delete
+
         void DeleteAsync(T entity);
+
         void DeleteRangeAsync(IEnumerable<T> entities);
+
+        #endregion
     }
 }

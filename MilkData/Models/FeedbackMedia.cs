@@ -11,7 +11,5 @@ public partial class FeedbackMedia
 
     public string MediaType { get; set; } = null!;
 
-    public int FeedbackId { get; set; }
-
-    public virtual Feedback Feedback { get; set; } = null!;
+    public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 }

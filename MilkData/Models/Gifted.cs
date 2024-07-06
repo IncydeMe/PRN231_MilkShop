@@ -3,21 +3,13 @@ using System.Collections.Generic;
 
 namespace MilkData.Models;
 
-public partial class Gift
+public partial class Gifted
 {
+    public int GiftedId { get; set; }
+
     public int GiftId { get; set; }
 
     public Guid AccountId { get; set; }
-
-    public string Name { get; set; } = null!;
-
-    public int Quantity { get; set; }
-
-    public string Description { get; set; } = null!;
-
-    public string ImageUrl { get; set; } = null!;
-
-    public int Point { get; set; }
 
     public string Status { get; set; } = null!;
 
@@ -27,5 +19,5 @@ public partial class Gift
 
     public virtual Account Account { get; set; } = null!;
 
-    public virtual ICollection<Gifted> Gifteds { get; set; } = new List<Gifted>();
+    public virtual Gift Gift { get; set; } = null!;
 }

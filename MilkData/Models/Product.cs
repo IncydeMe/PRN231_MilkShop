@@ -7,23 +7,35 @@ public partial class Product
 {
     public int ProductId { get; set; }
 
+    public Guid AccountId { get; set; }
+
+    public int CategoryId { get; set; }
+
+    public int ImageId { get; set; }
+
     public string Name { get; set; } = null!;
 
     public decimal Price { get; set; }
 
-    public int Quantity { get; set; }
+    public int QuantityInStock { get; set; }
 
-    public string Description { get; set; } = null!;
+    public string? Description { get; set; }
 
-    public int ProductCategoryId { get; set; }
+    public string ThumbnailUrl { get; set; } = null!;
 
-    public string ImageUrl { get; set; } = null!;
+    public string Status { get; set; } = null!;
 
-    public decimal TotalRating { get; set; }
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime? UpdatedAt { get; set; }
+
+    public virtual Account Account { get; set; } = null!;
+
+    public virtual Category Category { get; set; } = null!;
 
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
-    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    public virtual ProductImage Image { get; set; } = null!;
 
-    public virtual Category ProductCategory { get; set; } = null!;
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

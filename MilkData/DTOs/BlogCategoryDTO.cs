@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace MilkData.DTOs;
 
-namespace MilkData.DTOs
+public class BlogCategoryDTO
 {
-	public class BlogCategoryDTO
-	{
-		public int BlogCategoryId { get; set; }
+	public int BlogCategoryId { get; set; }
 
-		public string BlogCategoryName { get; set; } = null!;
-		
-		public string? HttpMethod { get; set; }
-	}
+	public string Name { get; set; } = null!;
+	
+	public string? HttpMethod { get; set; }
 }
