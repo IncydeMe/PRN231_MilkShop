@@ -99,14 +99,45 @@ namespace MilkBusiness
         #region Account
         public async Task<IMilkResult> GetAllAccount()
         {
-            var accList = await _unitOfWork.GetRepository<Account>().GetListAsync(predicate: a => !a.Disable);
+            var accList = await _unitOfWork.GetRepository<Account>()
+                .GetListAsync(predicate: a => !a.Disable,
+                              selector: a => new AccountDTO
+                              {
+                                  AccountId = a.AccountId,
+                                  Address = a.Address,
+                                  AvatarUrl = a.AvatarUrl,
+                                  CreatedAt = a.CreatedAt,
+                                  DateOfBirth = a.DateOfBirth,
+                                  Disable = a.Disable,
+                                  Email = a.Email,
+                                  FullName = a.FullName,
+                                  Password = a.Password,
+                                  Phone = a.Phone,
+                                  Point = a.Point,
+                                  Role = a.Role
+                              });
             return new MilkResult(accList);
         }
 
         public async Task<IMilkResult> GetAccountInfo(Guid accountId)
         {
             var acc = await _unitOfWork.GetRepository<Account>()
-                .SingleOrDefaultAsync(predicate: a => a.AccountId.Equals(accountId) && !a.Disable);
+                .SingleOrDefaultAsync(predicate: a => a.AccountId.Equals(accountId) && !a.Disable,
+                                      selector: a => new AccountDTO
+                                      {
+                                          AccountId = a.AccountId,
+                                          Address = a.Address,
+                                          AvatarUrl = a.AvatarUrl,
+                                          CreatedAt = a.CreatedAt,
+                                          DateOfBirth = a.DateOfBirth,
+                                          Disable = a.Disable,
+                                          Email = a.Email,
+                                          FullName = a.FullName,
+                                          Password = a.Password,
+                                          Phone = a.Phone,
+                                          Point = a.Point,
+                                          Role = a.Role
+                                      });
             if (acc != null) return new MilkResult(acc);
             return new MilkResult();
         }
@@ -114,7 +145,22 @@ namespace MilkBusiness
         public async Task<IMilkResult> GetAccountInfoByEmail(string email)
         {
             var acc = await _unitOfWork.GetRepository<Account>()
-                .SingleOrDefaultAsync(predicate: a => a.Email.Equals(email) && !a.Disable);
+                .SingleOrDefaultAsync(predicate: a => a.Email.Equals(email) && !a.Disable,
+                                      selector: a => new AccountDTO
+                                      {
+                                          AccountId = a.AccountId,
+                                          Address = a.Address,
+                                          AvatarUrl = a.AvatarUrl,
+                                          CreatedAt = a.CreatedAt,
+                                          DateOfBirth = a.DateOfBirth,
+                                          Disable = a.Disable,
+                                          Email = a.Email,
+                                          FullName = a.FullName,
+                                          Password = a.Password,
+                                          Phone = a.Phone,
+                                          Point = a.Point,
+                                          Role = a.Role
+                                      });
             if (acc != null) return new MilkResult(acc);
             return new MilkResult();
         }
