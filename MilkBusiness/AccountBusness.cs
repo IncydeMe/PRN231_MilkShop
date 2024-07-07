@@ -211,16 +211,26 @@ namespace MilkBusiness
             return result;
         }
 
-        public async Task<IMilkResult> UpdateAccountInfo(Account accInfo)
+        public async Task<IMilkResult> UpdateAccountInfo(AccountDTO accInfo)
         {
             Account currentAcc = await _unitOfWork.GetRepository<Account>()
                 .SingleOrDefaultAsync(predicate: a => a.AccountId.Equals(accInfo.AccountId));
             if (currentAcc == null) return new MilkResult(-1, "Account cannot be found");
             else
             {
-                //currentAcc
+                currentAcc.FullName = String.IsNullOrEmpty(accInfo.FullName) ? currentAcc.FullName : accInfo.FullName;
+                currentAcc.Role = String.IsNullOrEmpty(accInfo.Role) ? currentAcc.Role : accInfo.Role;
+                currentAcc.Email = String.IsNullOrEmpty(accInfo.Email) ? currentAcc.Email : accInfo.Email;
+                currentAcc.Password = String.IsNullOrEmpty(accInfo.Password) ? currentAcc.Password : accInfo.Password;
+                currentAcc.Address = String.IsNullOrEmpty(accInfo.Address) ? currentAcc.Address : accInfo.Address;
+                currentAcc.Phone = String.IsNullOrEmpty(accInfo.Phone) ? currentAcc.Phone : accInfo.Phone;
+                currentAcc.AvatarUrl = String.IsNullOrEmpty(accInfo.AvatarUrl) ? currentAcc.AvatarUrl : accInfo.AvatarUrl;
+                currentAcc.DateOfBirth = accInfo.DateOfBirth;
+                currentAcc.Point = accInfo.Point;
+                currentAcc.Disable = accInfo.Disable;
+                currentAcc.CreatedAt = accInfo.CreatedAt;
 
-                _unitOfWork.GetRepository<Account>().UpdateAsync(accInfo);
+                _unitOfWork.GetRepository<Account>().UpdateAsync(currentAcc);
                 await _unitOfWork.CommitAsync();
             }
 
@@ -253,7 +263,7 @@ namespace MilkBusiness
                 _unitOfWork.GetRepository<Account>().UpdateAsync(account);
                 await _unitOfWork.CommitAsync();
             }
-            return new MilkResult(account);
+            return new MilkResult("Banned");
         }
         #endregion
     }
