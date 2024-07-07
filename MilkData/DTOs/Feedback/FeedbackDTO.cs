@@ -4,22 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MilkData.DTOs
+namespace MilkData.DTOs.Feedback
 {
     public class FeedbackDTO
     {
         public int FeedbackId { get; set; }
 
-        public int AccountId { get; set; }
-
         public int ProductId { get; set; }
 
-        public string Content { get; set; } = null!;
-
-        public DateTime CreatedDate { get; set; }
+        public Guid AccountId { get; set; }
 
         public int Rating { get; set; }
 
-        public string? HttpMethod { get; set; }
+        public string Content { get; set; }
+
+        public bool IsReported { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
     }
 }

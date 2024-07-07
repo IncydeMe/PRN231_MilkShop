@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MilkBusiness.Utils.VNPayUtils;
-using MilkData.DTOs;
+﻿using MilkBusiness.Utils.VNPayUtils;
+using MilkData.DTOs.Order;
 using MilkData.Models;
 using MilkData.Repository.Implements;
 using MilkData.VNPay.Config;
@@ -9,11 +8,10 @@ using MilkData.VNPay.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Versioning;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using static MilkData.DTOs.PaymentDTO;
+using static MilkData.DTOs.Order.OrderDTO;
+using static MilkData.DTOs.Order.PaymentDTO;
 
 namespace MilkBusiness
 {
@@ -48,8 +46,8 @@ namespace MilkBusiness
             {
                 OrderId = createOrder.OrderId,
                 AccountId = createOrder.AccountId,
-                VoucherCode = createOrder.VoucherCode,
-                TotalPrice = createOrder.TotalPrice,
+                VoucherId = createOrder.VoucherId,
+                OrderPrice = createOrder.OrderPrice,
                 Status = createOrder.Status
             };
             await _unitOfWork.GetRepository<Order>().InsertAsync(order);
@@ -62,7 +60,8 @@ namespace MilkBusiness
                 result.Data = await CreatePayment(order);
                 result.Status = 1;
                 result.Message = "Order created successfully";
-            } else
+            }
+            else
             {
                 result.Status = -1;
                 result.Message = "Order creation failed";
@@ -98,10 +97,10 @@ namespace MilkBusiness
                 vnp_TmnCode = vnPayConfig.TmnCode,
                 vnp_CreateDate = DateTime.Now.ToString("yyyyMMddHHmmss"),
                 vnp_IpAddr = IPAddressHelper.GetLocalIPAddress(),
-                vnp_Amount = Math.Ceiling((decimal)orderInfo.TotalPrice) * 100,
+                vnp_Amount = Math.Ceiling((decimal)orderInfo.OrderPrice) * 100,
                 vnp_CurrCode = vnPayConfig.CurrencyCode,
                 vnp_OrderType = "other",
-                vnp_OrderInfo = $"Ngày: {DateTime.Now.ToString("yyyyMMddHHmmss")}; Tổng giá: {orderInfo.TotalPrice}",
+                vnp_OrderInfo = $"Ngày: {DateTime.Now.ToString("yyyyMMddHHmmss")}; Tổng giá: {orderInfo.OrderPrice}",
                 vnp_ReturnUrl = vnPayConfig.ReturnUrl,
                 vnp_TxnRef = order.OrderId.ToString(),
                 vnp_Command = "pay",

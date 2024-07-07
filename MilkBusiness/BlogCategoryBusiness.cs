@@ -1,4 +1,4 @@
-﻿using MilkData.DTOs;
+﻿using MilkData.DTOs.BlogCategory;
 using MilkData.Models;
 using MilkData.Repository.Implements;
 using System;
@@ -38,7 +38,7 @@ namespace MilkBusiness
             if (currentBlog == null) return new MilkResult(-1, "Blog Category cannot be found");
             else
             {
-                currentBlog.BlogCategoryName = String.IsNullOrEmpty(blogCategoryInfo.BlogCategoryName) ? currentBlog.BlogCategoryName : blogCategoryInfo.BlogCategoryName;
+                currentBlog.Name = String.IsNullOrEmpty(blogCategoryInfo.Name) ? currentBlog.Name : blogCategoryInfo.Name;
 
                 _unitOfWork.GetRepository<BlogCategory>().UpdateAsync(currentBlog);
                 await _unitOfWork.CommitAsync();
@@ -67,7 +67,7 @@ namespace MilkBusiness
             BlogCategory newCategory = new BlogCategory()
             {
                 BlogCategoryId = blogCategory.BlogCategoryId,
-                BlogCategoryName = blogCategory.BlogCategoryName
+                Name = blogCategory.Name
             };
 
             await _unitOfWork.GetRepository<BlogCategory>().InsertAsync(newCategory);

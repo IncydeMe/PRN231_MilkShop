@@ -1,9 +1,7 @@
-﻿using Azure;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
-using MilkData.DTOs;
-using MilkData.Models;
+using MilkData.DTOs.Blog;
 using MilkWebAPI.Constants;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -46,11 +44,11 @@ namespace MilkWebAPI.Controllers
         public async Task<IActionResult> CreateBlog(BlogDTO blog)
         {
             var response = await _blogBusiness.CreateBlog(blog);
-			if (response.Status >= 0)
-				return Ok(response);
-			else
-				return BadRequest(response);
-		}
+            if (response.Status >= 0)
+                return Ok(response);
+            else
+                return BadRequest(response);
+        }
 
         [HttpPut(ApiEndPointConstant.Blog.BlogEndpoint)]
         [SwaggerOperation(Summary = "Update Blog Info")]

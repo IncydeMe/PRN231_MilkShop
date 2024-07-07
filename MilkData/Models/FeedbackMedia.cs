@@ -7,11 +7,11 @@ public partial class FeedbackMedia
 {
     public int FeedbackMediaId { get; set; }
 
-    public string MediaUrl { get; set; } = null!;
-
-    public string MediaType { get; set; } = null!;
-
     public int FeedbackId { get; set; }
 
-    public virtual Feedback Feedback { get; set; } = null!;
+    public string MediaUrl { get; set; }
+
+    public string MediaType { get; set; }
+
+    public virtual Feedback Feedback { get; set; }
 }

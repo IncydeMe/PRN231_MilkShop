@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MilkData.DTOs
+namespace MilkData.DTOs.Order
 {
     public class OrderDetailDTO
     {
@@ -15,7 +15,5 @@ namespace MilkData.DTOs
         public int ProductId { get; set; }
 
         public int OrderId { get; set; }
-
-        public string? HttpMethod { get; set; }
     }
 }
