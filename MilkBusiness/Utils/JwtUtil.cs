@@ -35,7 +35,7 @@ namespace MilkBusiness.Utils
                 new Claim("FullName", account.FullName),
                 new Claim("Email", account.Email),
                 new Claim("Password", account.Password),
-                new Claim("RoleName", account.Role.Name),
+                new Claim("Role", account.Role),
                 new Claim("Address", account.Address),
                 new Claim("Phone", account.Phone),
             };
