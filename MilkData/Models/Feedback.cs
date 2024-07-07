@@ -11,11 +11,9 @@ public partial class Feedback
 
     public Guid AccountId { get; set; }
 
-    public int FeedbackMediaId { get; set; }
-
     public int Rating { get; set; }
 
-    public string Content { get; set; } = null!;
+    public string Content { get; set; }
 
     public bool IsReported { get; set; }
 
@@ -23,9 +21,9 @@ public partial class Feedback
 
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual Account Account { get; set; } = null!;
+    public virtual Account Account { get; set; }
 
-    public virtual FeedbackMedia FeedbackMedia { get; set; } = null!;
+    public virtual ICollection<FeedbackMedia> FeedbackMedia { get; set; } = new List<FeedbackMedia>();
 
-    public virtual Product Product { get; set; } = null!;
+    public virtual Product Product { get; set; }
 }

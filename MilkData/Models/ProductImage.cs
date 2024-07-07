@@ -7,7 +7,11 @@ public partial class ProductImage
 {
     public int ImageId { get; set; }
 
-    public string Url { get; set; } = null!;
+    public int ProductId { get; set; }
 
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+    public string Url { get; set; }
+
+    public bool IsThumbnail { get; set; }
+
+    public virtual Product Product { get; set; }
 }

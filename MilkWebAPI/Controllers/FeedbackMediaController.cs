@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
-using MilkData.DTOs;
+using MilkData.DTOs.FeedbackMedia;
 using MilkWebAPI.Constants;
 using Swashbuckle.AspNetCore.Annotations;
 

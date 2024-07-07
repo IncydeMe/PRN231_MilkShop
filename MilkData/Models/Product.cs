@@ -11,31 +11,29 @@ public partial class Product
 
     public int CategoryId { get; set; }
 
-    public int ImageId { get; set; }
-
-    public string Name { get; set; } = null!;
+    public string Name { get; set; }
 
     public decimal Price { get; set; }
 
     public int QuantityInStock { get; set; }
 
-    public string? Description { get; set; }
+    public string Description { get; set; }
 
-    public string ThumbnailUrl { get; set; } = null!;
-
-    public string Status { get; set; } = null!;
+    public string Status { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual Account Account { get; set; } = null!;
+    public int TotalRating { get; set; }
 
-    public virtual Category Category { get; set; } = null!;
+    public virtual Account Account { get; set; }
+
+    public virtual Category Category { get; set; }
 
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
-    public virtual ProductImage Image { get; set; } = null!;
-
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+
+    public virtual ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
 }

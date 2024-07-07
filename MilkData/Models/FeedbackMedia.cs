@@ -7,9 +7,11 @@ public partial class FeedbackMedia
 {
     public int FeedbackMediaId { get; set; }
 
-    public string MediaUrl { get; set; } = null!;
+    public int FeedbackId { get; set; }
 
-    public string MediaType { get; set; } = null!;
+    public string MediaUrl { get; set; }
 
-    public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
+    public string MediaType { get; set; }
+
+    public virtual Feedback Feedback { get; set; }
 }

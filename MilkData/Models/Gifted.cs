@@ -11,13 +11,11 @@ public partial class Gifted
 
     public Guid AccountId { get; set; }
 
-    public string Status { get; set; } = null!;
+    public string Status { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public virtual Account Account { get; set; }
 
-    public virtual Account Account { get; set; } = null!;
-
-    public virtual Gift Gift { get; set; } = null!;
+    public virtual Gift Gift { get; set; }
 }

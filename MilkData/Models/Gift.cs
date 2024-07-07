@@ -9,23 +9,23 @@ public partial class Gift
 
     public Guid AccountId { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string Name { get; set; }
 
     public int Quantity { get; set; }
 
-    public string Description { get; set; } = null!;
+    public string Description { get; set; }
 
-    public string ImageUrl { get; set; } = null!;
+    public string ImageUrl { get; set; }
 
     public int Point { get; set; }
 
-    public string Status { get; set; } = null!;
+    public string Status { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual Account Account { get; set; } = null!;
+    public virtual Account Account { get; set; }
 
     public virtual ICollection<Gifted> Gifteds { get; set; } = new List<Gifted>();
 }

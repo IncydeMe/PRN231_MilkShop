@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MilkData.Models;
 
-public partial class Category
+public partial class ProductCategory
 {
     public int CategoryId { get; set; }
 
