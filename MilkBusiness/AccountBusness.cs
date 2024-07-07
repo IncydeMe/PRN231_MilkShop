@@ -34,7 +34,7 @@ namespace MilkBusiness
                 return result;
             }
 
-            if (!account.Disable)
+            if (account.Disable)
             {
                 result.Status = -1;
                 result.Message = "Your account is currently inactive (banned)";
