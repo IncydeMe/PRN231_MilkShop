@@ -22,8 +22,18 @@ namespace MilkBusiness
         public async Task<IMilkResult> GetAllBlog()
         {
             var blogList = await _unitOfWork.GetRepository<Blog>().GetListAsync(
-                include: x => x.Include(b => b.BlogCategory)
-                );
+                include: x => x.Include(b => b.BlogCategory),
+                selector: x => new GetBlogDTO
+                {
+                    BlogId = x.BlogId,
+                    BlogCategoryName = x.BlogCategory.Name,
+                    AccountId = x.AccountId,
+                    CreatedAt = x.CreatedAt,
+                    DocUrl = x.DocUrl,
+                    ImageUrl = x.ImageUrl,
+                    Title = x.Title,
+                    UpdatedAt = x.UpdatedAt 
+                });
             return new MilkResult(blogList);
         }
 
@@ -31,7 +41,18 @@ namespace MilkBusiness
         {
             var blog = await _unitOfWork.GetRepository<Blog>()
                 .SingleOrDefaultAsync(predicate: b => b.BlogId == blogId,
-                                      include: x => x.Include(b => b.BlogCategory));
+                                      include: x => x.Include(b => b.BlogCategory),
+                                      selector: x => new GetBlogDTO
+                                      {
+                                          BlogId = x.BlogId,
+                                          BlogCategoryName = x.BlogCategory.Name,
+                                          AccountId = x.AccountId,
+                                          CreatedAt = x.CreatedAt,
+                                          DocUrl = x.DocUrl,
+                                          ImageUrl = x.ImageUrl,
+                                          Title = x.Title,
+                                          UpdatedAt = x.UpdatedAt
+                                      });
             return new MilkResult(blog);
         }
 
