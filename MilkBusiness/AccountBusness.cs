@@ -34,7 +34,7 @@ namespace MilkBusiness
                 return result;
             }
 
-            if (!account.Disable)
+            if (account.Disable)
             {
                 result.Status = -1;
                 result.Message = "Your account is currently inactive (banned)";
@@ -99,14 +99,45 @@ namespace MilkBusiness
         #region Account
         public async Task<IMilkResult> GetAllAccount()
         {
-            var accList = await _unitOfWork.GetRepository<Account>().GetListAsync(predicate: a => !a.Disable);
+            var accList = await _unitOfWork.GetRepository<Account>()
+                .GetListAsync(predicate: a => !a.Disable,
+                              selector: a => new AccountDTO
+                              {
+                                  AccountId = a.AccountId,
+                                  Address = a.Address,
+                                  AvatarUrl = a.AvatarUrl,
+                                  CreatedAt = a.CreatedAt,
+                                  DateOfBirth = a.DateOfBirth,
+                                  Disable = a.Disable,
+                                  Email = a.Email,
+                                  FullName = a.FullName,
+                                  Password = a.Password,
+                                  Phone = a.Phone,
+                                  Point = a.Point,
+                                  Role = a.Role
+                              });
             return new MilkResult(accList);
         }
 
         public async Task<IMilkResult> GetAccountInfo(Guid accountId)
         {
             var acc = await _unitOfWork.GetRepository<Account>()
-                .SingleOrDefaultAsync(predicate: a => a.AccountId.Equals(accountId) && !a.Disable);
+                .SingleOrDefaultAsync(predicate: a => a.AccountId.Equals(accountId) && !a.Disable,
+                                      selector: a => new AccountDTO
+                                      {
+                                          AccountId = a.AccountId,
+                                          Address = a.Address,
+                                          AvatarUrl = a.AvatarUrl,
+                                          CreatedAt = a.CreatedAt,
+                                          DateOfBirth = a.DateOfBirth,
+                                          Disable = a.Disable,
+                                          Email = a.Email,
+                                          FullName = a.FullName,
+                                          Password = a.Password,
+                                          Phone = a.Phone,
+                                          Point = a.Point,
+                                          Role = a.Role
+                                      });
             if (acc != null) return new MilkResult(acc);
             return new MilkResult();
         }
@@ -114,7 +145,22 @@ namespace MilkBusiness
         public async Task<IMilkResult> GetAccountInfoByEmail(string email)
         {
             var acc = await _unitOfWork.GetRepository<Account>()
-                .SingleOrDefaultAsync(predicate: a => a.Email.Equals(email) && !a.Disable);
+                .SingleOrDefaultAsync(predicate: a => a.Email.Equals(email) && !a.Disable,
+                                      selector: a => new AccountDTO
+                                      {
+                                          AccountId = a.AccountId,
+                                          Address = a.Address,
+                                          AvatarUrl = a.AvatarUrl,
+                                          CreatedAt = a.CreatedAt,
+                                          DateOfBirth = a.DateOfBirth,
+                                          Disable = a.Disable,
+                                          Email = a.Email,
+                                          FullName = a.FullName,
+                                          Password = a.Password,
+                                          Phone = a.Phone,
+                                          Point = a.Point,
+                                          Role = a.Role
+                                      });
             if (acc != null) return new MilkResult(acc);
             return new MilkResult();
         }
@@ -165,16 +211,26 @@ namespace MilkBusiness
             return result;
         }
 
-        public async Task<IMilkResult> UpdateAccountInfo(Account accInfo)
+        public async Task<IMilkResult> UpdateAccountInfo(AccountDTO accInfo)
         {
             Account currentAcc = await _unitOfWork.GetRepository<Account>()
                 .SingleOrDefaultAsync(predicate: a => a.AccountId.Equals(accInfo.AccountId));
             if (currentAcc == null) return new MilkResult(-1, "Account cannot be found");
             else
             {
-                //currentAcc
+                currentAcc.FullName = String.IsNullOrEmpty(accInfo.FullName) ? currentAcc.FullName : accInfo.FullName;
+                currentAcc.Role = String.IsNullOrEmpty(accInfo.Role) ? currentAcc.Role : accInfo.Role;
+                currentAcc.Email = String.IsNullOrEmpty(accInfo.Email) ? currentAcc.Email : accInfo.Email;
+                currentAcc.Password = String.IsNullOrEmpty(accInfo.Password) ? currentAcc.Password : accInfo.Password;
+                currentAcc.Address = String.IsNullOrEmpty(accInfo.Address) ? currentAcc.Address : accInfo.Address;
+                currentAcc.Phone = String.IsNullOrEmpty(accInfo.Phone) ? currentAcc.Phone : accInfo.Phone;
+                currentAcc.AvatarUrl = String.IsNullOrEmpty(accInfo.AvatarUrl) ? currentAcc.AvatarUrl : accInfo.AvatarUrl;
+                currentAcc.DateOfBirth = accInfo.DateOfBirth;
+                currentAcc.Point = accInfo.Point;
+                currentAcc.Disable = accInfo.Disable;
+                currentAcc.CreatedAt = accInfo.CreatedAt;
 
-                _unitOfWork.GetRepository<Account>().UpdateAsync(accInfo);
+                _unitOfWork.GetRepository<Account>().UpdateAsync(currentAcc);
                 await _unitOfWork.CommitAsync();
             }
 
@@ -207,7 +263,7 @@ namespace MilkBusiness
                 _unitOfWork.GetRepository<Account>().UpdateAsync(account);
                 await _unitOfWork.CommitAsync();
             }
-            return new MilkResult(account);
+            return new MilkResult("Banned");
         }
         #endregion
     }
