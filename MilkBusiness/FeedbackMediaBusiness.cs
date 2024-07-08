@@ -1,4 +1,4 @@
-﻿using MilkData.DTOs;
+﻿using MilkData.DTOs.FeedbackMedia;
 using MilkData.Models;
 using MilkData.Repository.Implements;
 using System;

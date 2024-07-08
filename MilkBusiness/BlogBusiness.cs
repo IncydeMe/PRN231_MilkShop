@@ -1,10 +1,10 @@
-﻿using MilkData.DTOs;
+﻿using Microsoft.EntityFrameworkCore;
+using MilkData.DTOs.Blog;
 using MilkData.Models;
 using MilkData.Repository.Implements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,48 +21,72 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> GetAllBlog()
         {
-            var blogList = await _unitOfWork.GetRepository<Blog>().GetListAsync();
+            var blogList = await _unitOfWork.GetRepository<Blog>().GetListAsync(
+                include: x => x.Include(b => b.BlogCategory),
+                selector: x => new GetBlogDTO
+                {
+                    BlogId = x.BlogId,
+                    BlogCategoryName = x.BlogCategory.Name,
+                    AccountId = x.AccountId,
+                    CreatedAt = x.CreatedAt,
+                    DocUrl = x.DocUrl,
+                    ImageUrl = x.ImageUrl,
+                    Title = x.Title,
+                    UpdatedAt = x.UpdatedAt 
+                });
             return new MilkResult(blogList);
         }
 
         public async Task<IMilkResult> GetBlogInfo(int blogId)
         {
             var blog = await _unitOfWork.GetRepository<Blog>()
-                .SingleOrDefaultAsync(predicate: b => b.BlogId == blogId);
+                .SingleOrDefaultAsync(predicate: b => b.BlogId == blogId,
+                                      include: x => x.Include(b => b.BlogCategory),
+                                      selector: x => new GetBlogDTO
+                                      {
+                                          BlogId = x.BlogId,
+                                          BlogCategoryName = x.BlogCategory.Name,
+                                          AccountId = x.AccountId,
+                                          CreatedAt = x.CreatedAt,
+                                          DocUrl = x.DocUrl,
+                                          ImageUrl = x.ImageUrl,
+                                          Title = x.Title,
+                                          UpdatedAt = x.UpdatedAt
+                                      });
             return new MilkResult(blog);
         }
 
         public async Task<IMilkResult> CreateBlog(BlogDTO blog)
         {
-			MilkResult result = new MilkResult();
+            MilkResult result = new MilkResult();
 
-			Blog createdBlog = new Blog()
+            Blog createdBlog = new Blog()
             {
                 BlogId = blog.BlogId,
                 BlogCategoryId = blog.BlogCategoryId,
                 Title = blog.Title,
-                Content = blog.Content,
+                DocUrl = blog.DocUrl,
                 ImageUrl = blog.ImageUrl,
-                ProductSuggestUrl = blog.ProductSuggestUrl,
-                CreatedDate = blog.CreatedDate,
+                CreatedAt = blog.CreatedAt,
+                UpdatedAt = blog.UpdatedAt,
                 AccountId = blog.AccountId
-			};
+            };
 
-			await _unitOfWork.GetRepository<Blog>().InsertAsync(createdBlog);
-			bool isSuccessful = await _unitOfWork.CommitAsync() > 0;
+            await _unitOfWork.GetRepository<Blog>().InsertAsync(createdBlog);
+            bool isSuccessful = await _unitOfWork.CommitAsync() > 0;
 
-			if (!isSuccessful)
-			{
-				result.Status = -1;
-				result.Message = "Create unsuccessfully";
-			}
-			else
-			{
-				result = new MilkResult(1, "Create Susscessfull");
-			}
+            if (!isSuccessful)
+            {
+                result.Status = -1;
+                result.Message = "Create unsuccessfully";
+            }
+            else
+            {
+                result = new MilkResult(1, "Create Susscessfull");
+            }
 
-			return result;
-		}
+            return result;
+        }
 
         public async Task<IMilkResult> UpdateBlogInfo(int id, BlogDTO blogInfo)
         {
@@ -73,10 +97,10 @@ namespace MilkBusiness
             {
                 currentBlog.BlogCategoryId = blogInfo.BlogCategoryId;
                 currentBlog.Title = String.IsNullOrEmpty(blogInfo.Title) ? currentBlog.Title : blogInfo.Title;
-                currentBlog.Content = String.IsNullOrEmpty(blogInfo.Content) ? currentBlog.Content : blogInfo.Content;
+                currentBlog.DocUrl = String.IsNullOrEmpty(blogInfo.DocUrl) ? currentBlog.DocUrl : blogInfo.DocUrl;
                 currentBlog.ImageUrl = String.IsNullOrEmpty(blogInfo.ImageUrl) ? currentBlog.ImageUrl : blogInfo.ImageUrl;
-                currentBlog.ProductSuggestUrl = String.IsNullOrEmpty(blogInfo.ProductSuggestUrl) ? currentBlog.ProductSuggestUrl : blogInfo.ProductSuggestUrl;
-                currentBlog.CreatedDate = blogInfo.CreatedDate;
+                currentBlog.CreatedAt = blogInfo.CreatedAt;
+                currentBlog.UpdatedAt = blogInfo.UpdatedAt;
                 currentBlog.AccountId = blogInfo.AccountId;
 
                 _unitOfWork.GetRepository<Blog>().UpdateAsync(currentBlog);
@@ -89,7 +113,7 @@ namespace MilkBusiness
         public async Task<IMilkResult> DeleteBlog(int blogId)
         {
             Blog blog = await _unitOfWork.GetRepository<Blog>()
-                .SingleOrDefaultAsync(predicate: b=> b.BlogId == blogId);
+                .SingleOrDefaultAsync(predicate: b => b.BlogId == blogId);
             if (blog == null) return new MilkResult();
             else
             {

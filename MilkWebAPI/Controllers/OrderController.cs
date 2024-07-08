@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
 using MilkData.DTOs;
+using MilkData.DTOs.Order;
 using MilkData.Models;
+using MilkData.VNPay.Response;
 using MilkWebAPI.Constants;
-using Payment.Domain.VNPay.Response;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace MilkWebAPI.Controllers
@@ -60,7 +61,7 @@ namespace MilkWebAPI.Controllers
                 var result = await _orderBusiness.CheckPaymentResponse(response);
                 PaymentDTO.PaymentReturnResponse paymentResponse = (PaymentDTO.PaymentReturnResponse)result.Data;
                 var order = await _orderBusiness.GetOrderById(paymentResponse.OrderId);
-                int accountId = ((Order)order.Data).AccountId;
+                Guid accountId = ((Order)order.Data).AccountId;
 
                 if (paymentResponse.PaymentStatus.Equals("Success"))
                 {

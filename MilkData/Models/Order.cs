@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace MilkData.Models;
 
@@ -8,16 +7,17 @@ public partial class Order
 {
     public int OrderId { get; set; }
 
-    public int AccountId { get; set; }
+    public int VoucherId { get; set; }
 
-    public Guid VoucherCode { get; set; }
+    public Guid AccountId { get; set; }
 
-    public float TotalPrice { get; set; }
+    public string Status { get; set; }
 
-    public string Status { get; set; } = null!;
+    public decimal? OrderPrice { get; set; }
 
-    [JsonIgnore]
-    public virtual Account Account { get; set; } = null!;
+    public virtual Account Account { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+
+    public virtual Voucher Voucher { get; set; }
 }

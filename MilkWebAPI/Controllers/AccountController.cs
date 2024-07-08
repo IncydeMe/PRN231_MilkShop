@@ -1,9 +1,7 @@
-﻿using Azure;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
-using MilkData;
-using MilkData.DTOs;
+using MilkData.DTOs.Account;
 using MilkData.Models;
 using MilkWebAPI.Constants;
 using Swashbuckle.AspNetCore.Annotations;
@@ -33,7 +31,7 @@ namespace MilkWebAPI.Controllers
 
         [HttpGet(ApiEndPointConstant.Account.AccountEndpoint)]
         [SwaggerOperation(Summary = "Get Account by its id")]
-        public async Task<IActionResult> GetAccountInfo(int id)
+        public async Task<IActionResult> GetAccountInfo(Guid id)
         {
             var response = await _accountBusiness.GetAccountInfo(id);
             if (response.Status >= 0)
@@ -65,8 +63,8 @@ namespace MilkWebAPI.Controllers
         }
 
         [HttpPut(ApiEndPointConstant.Account.AccountEndpoint)]
-        [SwaggerOperation(Summary = "Update Account Info")] 
-        public async Task<IActionResult> UpdateAccountInfo(int id, Account account)
+        [SwaggerOperation(Summary = "Update Account Info")]
+        public async Task<IActionResult> UpdateAccountInfo(int id, AccountDTO account)
         {
             var response = await _accountBusiness.UpdateAccountInfo(account);
             if (response.Status >= 0)
@@ -77,7 +75,7 @@ namespace MilkWebAPI.Controllers
 
         [HttpDelete(ApiEndPointConstant.Account.AccountEndpoint)]
         [SwaggerOperation(Summary = "Delete Account")]
-        public async Task<IActionResult> BanAccount(int id)
+        public async Task<IActionResult> BanAccount(Guid id)
         {
             var response = await _accountBusiness.BanAccount(id);
             if (response.Status >= 0)

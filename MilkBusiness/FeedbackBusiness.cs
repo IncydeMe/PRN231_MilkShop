@@ -1,4 +1,5 @@
-﻿using MilkData.DTOs;
+﻿using Microsoft.EntityFrameworkCore;
+using MilkData.DTOs.Feedback;
 using MilkData.Models;
 using MilkData.Repository.Implements;
 using System;
@@ -26,12 +27,14 @@ namespace MilkBusiness
                 AccountId = createFeedbackDTO.AccountId,
                 ProductId = createFeedbackDTO.ProductId,
                 Content = createFeedbackDTO.Content,
-                CreatedDate = DateTime.Now,
+                IsReported = createFeedbackDTO.IsReported,
+                CreatedAt = createFeedbackDTO.CreatedAt,
+                UpdatedAt = createFeedbackDTO.UpdatedAt,
                 Rating = createFeedbackDTO.Rating
             };
 
             await _unitOfWork.GetRepository<Feedback>().InsertAsync(feedback);
-            
+
 
             MilkResult result = new MilkResult();
             bool status = await _unitOfWork.CommitAsync() > 0;
@@ -39,7 +42,8 @@ namespace MilkBusiness
             {
                 result.Status = 1;
                 result.Message = "Create feedback successfully";
-            } else
+            }
+            else
             {
                 result.Status = -1;
                 result.Message = "Create feedback failed";
@@ -49,19 +53,23 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> GetFeedbackById(int feedbackId)
         {
-            var feedback = await _unitOfWork.GetRepository<Feedback>().SingleOrDefaultAsync(predicate: f => f.FeedbackId == feedbackId);
+            var feedback = await _unitOfWork.GetRepository<Feedback>()
+                .SingleOrDefaultAsync(predicate: f => f.FeedbackId == feedbackId,
+                                      include: x => x.Include(f => f.FeedbackMedia));
             return new MilkResult(feedback);
         }
 
         public async Task<IMilkResult> GetFeedbackOfProduct(int productId)
         {
-            var feedbacks = await _unitOfWork.GetRepository<Feedback>().GetListAsync(predicate: f => f.ProductId == productId);
+            var feedbacks = await _unitOfWork.GetRepository<Feedback>()
+                .GetListAsync(predicate: f => f.ProductId == productId,
+                              include: x => x.Include(f => f.FeedbackMedia));
             return new MilkResult(feedbacks);
         }
 
         public async Task<IMilkResult> GetAllFeedback()
         {
-            var feedbackList = await _unitOfWork.GetRepository<Feedback>().GetListAsync();
+            var feedbackList = await _unitOfWork.GetRepository<Feedback>().GetListAsync(include: x => x.Include(f => f.FeedbackMedia));
             return new MilkResult(feedbackList);
         }
 
@@ -75,7 +83,9 @@ namespace MilkBusiness
                 currentFeedback.AccountId = feedback.AccountId;
                 currentFeedback.ProductId = feedback.ProductId;
                 currentFeedback.Content = String.IsNullOrEmpty(feedback.Content) ? currentFeedback.Content : feedback.Content;
-                currentFeedback.CreatedDate = feedback.CreatedDate; 
+                currentFeedback.IsReported = feedback.IsReported;
+                currentFeedback.CreatedAt = feedback.CreatedAt; 
+                currentFeedback.UpdatedAt = feedback.UpdatedAt;
                 currentFeedback.Rating = feedback.Rating;
 
                 _unitOfWork.GetRepository<Feedback>().UpdateAsync(currentFeedback);
