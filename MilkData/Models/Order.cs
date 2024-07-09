@@ -7,7 +7,7 @@ public partial class Order
 {
     public int OrderId { get; set; }
 
-    public int VoucherId { get; set; }
+    public int? VoucherId { get; set; }
 
     public Guid AccountId { get; set; }
 
