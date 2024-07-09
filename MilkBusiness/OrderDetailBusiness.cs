@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MilkData.DTOs.Order.OrderDetailDTO;
 
 namespace MilkBusiness
 {
@@ -21,26 +22,37 @@ namespace MilkBusiness
         #region OrderDetail
         public async Task<IMilkResult> GetAllOrderDetail()
         {
-            var orderDetailList = await _unitOfWork.GetRepository<OrderDetail>().GetListAsync();
+            var orderDetailList = await _unitOfWork.GetRepository<OrderDetail>().GetListAsync(
+                selector: x => new
+                {
+                    x.OrderDetailId,
+                    x.Quantity,
+                    x.ProductId,
+                    x.OrderId
+                });
             return new MilkResult(orderDetailList);
         }
 
         public async Task<IMilkResult> GetOrderDetailById(int orderDetailId)
         {
-            var orderDetail = await _unitOfWork.GetRepository<OrderDetail>().SingleOrDefaultAsync(predicate: o => o.OrderDetailId == orderDetailId);
+            var orderDetail = await _unitOfWork.GetRepository<OrderDetail>().SingleOrDefaultAsync(
+                predicate: o => o.OrderDetailId == orderDetailId);
             return new MilkResult(orderDetail);
         }
 
-        public async Task<IMilkResult> CreateOrderDetail(OrderDetailDTO createOrderDetail)
+        public async Task<IMilkResult> CreateOrderDetail(OrderDetailsInput createOrderDetail)
         {
-            OrderDetail orderDetail = new OrderDetail
+            foreach (var orderDetails in createOrderDetail.OrderDetails)
             {
-                OrderDetailId = createOrderDetail.OrderDetailId,
-                OrderId = createOrderDetail.OrderId,
-                ProductId = createOrderDetail.ProductId,
-                Quantity = createOrderDetail.Quantity,
-            };
-            await _unitOfWork.GetRepository<OrderDetail>().InsertAsync(orderDetail);
+                OrderDetail newOrderDetail = new OrderDetail
+                {
+                    OrderDetailId = _unitOfWork.GetRepository<OrderDetail>().GetListAsync().Result.Max(o => o.OrderDetailId) + 1,
+                    OrderId = createOrderDetail.OrderId,
+                    ProductId = orderDetails.ProductId,
+                    Quantity = orderDetails.Quantity,
+                };
+                await _unitOfWork.GetRepository<OrderDetail>().InsertAsync(newOrderDetail);
+            }
 
             MilkResult result = new MilkResult();
 

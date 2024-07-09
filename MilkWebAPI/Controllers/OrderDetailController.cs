@@ -4,6 +4,7 @@ using MilkData.DTOs;
 using MilkData.DTOs.Order;
 using MilkWebAPI.Constants;
 using Swashbuckle.AspNetCore.Annotations;
+using static MilkData.DTOs.Order.OrderDetailDTO;
 
 namespace MilkWebAPI.Controllers
 {
@@ -41,9 +42,9 @@ namespace MilkWebAPI.Controllers
 
         [HttpPost(ApiEndPointConstant.OrderDetail.OrderDetailsEndPoint)]
         [SwaggerOperation(Summary = "Create a new Order Detail")]
-        public async Task<IActionResult> CreateOrderDetail(OrderDetailDTO createOrderDetail)
+        public async Task<IActionResult> CreateOrderDetail(OrderDetailsInput input)
         {
-            var response = await _orderDetailBusiness.CreateOrderDetail(createOrderDetail);
+            var response = await _orderDetailBusiness.CreateOrderDetail(input);
             if (response.Status >= 0)
                 return Ok(response);
             else
