@@ -59,7 +59,7 @@
         {
             public const string OrdersEndPoint = ApiEndpoint + "/orders";
             public const string OrderEndPoint = OrdersEndPoint + "/{id}";
-            public const string OrderConfirmEndpoint = OrdersEndPoint + "/success";
+            //public const string OrderConfirmEndpoint = OrdersEndPoint + "/success";
         }
 
         public class OrderDetail()
@@ -79,6 +79,12 @@
         {
             public const string FeedbackMediaEndPoint = ApiEndpoint + "/feedback-media";
             public const string FeedbacMediumkEndPoint = FeedbackMediaEndPoint + "/{id}";
+        }
+
+        public class Payment()
+        {
+            public const string PaymentEndPoint = ApiEndpoint + "/payment";
+            public const string PaymentReturnEndPoint = PaymentEndPoint + "/response";
         }
     }
 }
