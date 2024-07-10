@@ -35,6 +35,7 @@
         {
 			public const string VouchersEndpoint = ApiEndpoint + "/vouchers";
 			public const string VoucherEndpoint = VouchersEndpoint + "/{id}";
+            public const string VoucherEndpointByType = VouchersEndpoint + "/type/{type}";
 		}
 
         public class Gift()
