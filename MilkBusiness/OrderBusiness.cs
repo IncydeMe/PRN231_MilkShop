@@ -1,4 +1,5 @@
-﻿using MilkBusiness.Utils.VNPayUtils;
+﻿using Microsoft.EntityFrameworkCore;
+using MilkBusiness.Utils.VNPayUtils;
 using MilkData.DTOs.Order;
 using MilkData.Models;
 using MilkData.Repository.Implements;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MilkData.DTOs.Order.OrderDetailDTO;
 using static MilkData.DTOs.Order.OrderDTO;
 using static MilkData.DTOs.Order.PaymentDTO;
 
@@ -30,25 +32,60 @@ namespace MilkBusiness
 
         public async Task<IMilkResult> GetAllOrders()
         {
-            var ordersList = await _unitOfWork.GetRepository<Order>().GetListAsync();
+            var ordersList = await _unitOfWork.GetRepository<Order>().GetListAsync(
+                selector: o => new
+                {
+                    o.OrderId,
+                    o.AccountId,
+                    o.VoucherId,
+                    o.OrderPrice,
+                    o.Status
+                });
             return new MilkResult(ordersList);
         }
 
         public async Task<IMilkResult> GetOrderById(int id)
         {
-            var order = await _unitOfWork.GetRepository<Order>().SingleOrDefaultAsync(predicate: o => o.OrderId == id);
+            var order = await _unitOfWork.GetRepository<Order>().SingleOrDefaultAsync(
+                predicate: o => o.OrderId == id,
+                include: x => x.Include(o => o.OrderDetails),
+                selector: y => new GetSingleOrder
+                {
+                    OrderId = y.OrderId,
+                    AccountId = y.AccountId,
+                    VoucherId = y.VoucherId,
+                    OrderPrice = y.OrderPrice,
+                    Status = y.Status,
+                    OrderDetails = y.OrderDetails.Select(od => new GetOrderDetail
+                    {
+                        OrderDetailId = od.OrderDetailId,
+                        ProductId = od.ProductId,
+                        Quantity = od.Quantity,
+                        OrderId = od.OrderId
+                    }).ToList()
+                });
+
+            if (order == null)
+            {
+                return new MilkResult
+                {
+                    Status = -1,
+                    Message = "Order not found"
+                };
+            }
+
             return new MilkResult(order);
         }
 
-        public async Task<IMilkResult> CreateOrder(OrderDTO createOrder)
+        public async Task<IMilkResult> CreateOrder(CreateOrder createOrder)
         {
             Order order = new Order
             {
-                OrderId = createOrder.OrderId,
+                OrderId = _unitOfWork.GetRepository<Order>().GetListAsync().Result.Max(o => o.OrderId) + 1,
                 AccountId = createOrder.AccountId,
                 VoucherId = createOrder.VoucherId,
                 OrderPrice = createOrder.OrderPrice,
-                Status = createOrder.Status
+                Status = "Waiting for payment"
             };
             await _unitOfWork.GetRepository<Order>().InsertAsync(order);
 
@@ -116,26 +153,26 @@ namespace MilkBusiness
             };
         }
 
-        private async Task<PaymentOrderInfoResponse> TakeOrderInfo(int orderId)
-        {
-            decimal totalPrice = 0;
-            var orderDetails = await _unitOfWork.GetRepository<OrderDetail>().GetListAsync(predicate: od => od.OrderId == orderId);
+        //private async Task<PaymentOrderInfoResponse> TakeOrderInfo(int orderId)
+        //{
+        //    decimal totalPrice = 0;
+        //    var orderDetails = await _unitOfWork.GetRepository<OrderDetail>().GetListAsync(predicate: od => od.OrderId == orderId);
 
-            if (orderDetails.Count > 0)
-            {
-                foreach (var orderDetail in orderDetails)
-                {
-                    var product = await _unitOfWork.GetRepository<Product>().SingleOrDefaultAsync(predicate: p => p.ProductId == orderDetail.ProductId);
-                    totalPrice += product.Price * orderDetail.Quantity;
-                }
-            }
+        //    if (orderDetails.Count > 0)
+        //    {
+        //        foreach (var orderDetail in orderDetails)
+        //        {
+        //            var product = await _unitOfWork.GetRepository<Product>().SingleOrDefaultAsync(predicate: p => p.ProductId == orderDetail.ProductId);
+        //            totalPrice += product.Price * orderDetail.Quantity;
+        //        }
+        //    }
 
-            return new PaymentOrderInfoResponse
-            {
-                ItemAmount = orderDetails.Count,
-                TotalPrice = totalPrice
-            };
-        }
+        //    return new PaymentOrderInfoResponse
+        //    {
+        //        ItemAmount = orderDetails.Count,
+        //        TotalPrice = totalPrice
+        //    };
+        //}
 
         public async Task<IMilkResult> CheckPaymentResponse(VNPayResponse response)
         {
