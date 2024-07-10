@@ -71,6 +71,11 @@ namespace MilkBusiness
                 return new MilkResult(-2, "Price cannot be negative");
             }
 
+            if (product.QuantityInStock < 0)
+            {
+                return new MilkResult(-3, "Quantity cannot be negative");
+            }
+
             Product newProduct = new Product()
             {
                 ProductId = product.ProductId,
