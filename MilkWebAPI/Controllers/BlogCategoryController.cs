@@ -40,7 +40,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "staff")]
         [HttpPut(ApiEndPointConstant.BlogCategory.BlogCategoryEndpoint)]
         public async Task<IActionResult> UpdateBlogCategoryInfo(int id, BlogCategoryDTO blogCategory)
         {
@@ -51,7 +51,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "staff")]
         [HttpDelete(ApiEndPointConstant.BlogCategory.BlogCategoryEndpoint)]
         public async Task<IActionResult> DeleteBlogCategory(int id)
         {
@@ -62,7 +62,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "staff")]
         [HttpPost(ApiEndPointConstant.BlogCategory.BlogCategoriesEndpoint)]
         [SwaggerOperation(Summary = "Create a new Blog Category")]
         public async Task<IActionResult> CreateBlogCategory(BlogCategoryDTO blogCategory)

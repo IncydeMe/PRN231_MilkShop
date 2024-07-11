@@ -40,7 +40,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "staff")]
         [HttpPost(ApiEndPointConstant.Blog.BlogsEndpoint)]
         [SwaggerOperation(Summary = "Create a new Blog")]
         public async Task<IActionResult> CreateBlog(BlogDTO blog)
@@ -52,7 +52,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "staff")]
         [HttpPut(ApiEndPointConstant.Blog.BlogEndpoint)]
         [SwaggerOperation(Summary = "Update Blog Info")]
         public async Task<IActionResult> UpdateBlogInfo(int id, BlogDTO blog)
@@ -64,7 +64,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "staff")]
         [HttpDelete(ApiEndPointConstant.Blog.BlogEndpoint)]
         [SwaggerOperation(Summary = "Delete Blog")]
         public async Task<IActionResult> DeleteBlog(int id)

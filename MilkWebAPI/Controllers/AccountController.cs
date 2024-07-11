@@ -13,13 +13,15 @@ namespace MilkWebAPI.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountBusiness _accountBusiness;
+        private readonly OrderBusiness _orderBusiness;
 
         public AccountController()
         {
             _accountBusiness = new AccountBusiness();
+            _orderBusiness = new OrderBusiness();
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         [HttpGet(ApiEndPointConstant.Account.AccountsEndpoint)]
         [SwaggerOperation(Summary = "Get all Accounts")]
         public async Task<IActionResult> GetAllAccounts()
@@ -43,7 +45,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         [HttpGet(ApiEndPointConstant.Account.EmailAccountsEndpoint)]
         [SwaggerOperation(Summary = "Get Account by its email")]
         public async Task<IActionResult> GetAccountByEmail(string email)
@@ -55,7 +57,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         [HttpPost(ApiEndPointConstant.Account.AccountsEndpoint)]
         [SwaggerOperation(Summary = "Create a new Account")]
         public async Task<IActionResult> CreateAccount(AccountDTO accountDTO)
@@ -79,7 +81,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         [HttpDelete(ApiEndPointConstant.Account.AccountEndpoint)]
         [SwaggerOperation(Summary = "Delete Account")]
         public async Task<IActionResult> BanAccount(Guid id)
@@ -87,6 +89,18 @@ namespace MilkWebAPI.Controllers
             var response = await _accountBusiness.BanAccount(id);
             if (response.Status >= 0)
                 return Ok(response);
+            else
+                return BadRequest(response);
+        }
+
+        [Authorize]
+        [HttpGet(ApiEndPointConstant.Account.OrderHistoryEndpoint)]
+        [SwaggerOperation(Summary = "Get Order History")]
+        public async Task<IActionResult> GetOrderHistory(int id)
+        {
+            var response = await _orderBusiness.GetOrdersByAccount(id);
+            if (response.Status >= 0)
+                return Ok(response.Data);
             else
                 return BadRequest(response);
         }
