@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
 using MilkData.DTOs.Account;
@@ -18,6 +19,7 @@ namespace MilkWebAPI.Controllers
             _accountBusiness = new AccountBusiness();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet(ApiEndPointConstant.Account.AccountsEndpoint)]
         [SwaggerOperation(Summary = "Get all Accounts")]
         public async Task<IActionResult> GetAllAccounts()
@@ -29,6 +31,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response.Message);
         }
 
+        [Authorize]
         [HttpGet(ApiEndPointConstant.Account.AccountEndpoint)]
         [SwaggerOperation(Summary = "Get Account by its id")]
         public async Task<IActionResult> GetAccountInfo(Guid id)
@@ -40,6 +43,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet(ApiEndPointConstant.Account.EmailAccountsEndpoint)]
         [SwaggerOperation(Summary = "Get Account by its email")]
         public async Task<IActionResult> GetAccountByEmail(string email)
@@ -51,6 +55,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost(ApiEndPointConstant.Account.AccountsEndpoint)]
         [SwaggerOperation(Summary = "Create a new Account")]
         public async Task<IActionResult> CreateAccount(AccountDTO accountDTO)
@@ -62,6 +67,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [Authorize]
         [HttpPut(ApiEndPointConstant.Account.AccountEndpoint)]
         [SwaggerOperation(Summary = "Update Account Info")]
         public async Task<IActionResult> UpdateAccountInfo(int id, AccountDTO account)
@@ -73,6 +79,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete(ApiEndPointConstant.Account.AccountEndpoint)]
         [SwaggerOperation(Summary = "Delete Account")]
         public async Task<IActionResult> BanAccount(Guid id)
