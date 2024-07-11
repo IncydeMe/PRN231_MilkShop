@@ -38,7 +38,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "staff")]
         [HttpPut(ApiEndPointConstant.Category.CategoryEndPoint)]
         [SwaggerOperation(Summary = "Update Category")]
         public async Task<IActionResult> UpdateCategoryInfo(int id, CategoryDTO category)
@@ -50,7 +50,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "staff")]
         [HttpDelete(ApiEndPointConstant.Category.CategoryEndPoint)]
         [SwaggerOperation(Summary = "Delete Category")]
         public async Task<IActionResult> DeleteCategory(int id)
@@ -62,7 +62,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "staff")]
         [HttpPost(ApiEndPointConstant.Category.CategoriesEndPoint)]
         [SwaggerOperation(Summary = "Create a new Category")]
         public async Task<IActionResult> CreateCategory(CategoryDTO category)

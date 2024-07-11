@@ -17,6 +17,7 @@
             public const string AccountsEndpoint = ApiEndpoint + "/accounts";
             public const string EmailAccountsEndpoint = AccountsEndpoint + "/{email}/info";
             public const string AccountEndpoint = AccountsEndpoint + "/{id}";
+            public const string OrderHistoryEndpoint = AccountEndpoint + "/order-history";
         }
 
         public class Blog()

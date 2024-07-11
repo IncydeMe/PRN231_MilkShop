@@ -18,7 +18,7 @@ namespace MilkWebAPI.Controllers
             _feedbackBusiness = new FeedbackBusiness();
         }
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "staff")]
         [HttpGet(ApiEndPointConstant.Feedback.FeedbacksEndPoint)]
         [SwaggerOperation(Summary = "Get all Feedbacks")]
         public async Task<IActionResult> GetAllFeedbacks()
@@ -30,7 +30,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "staff")]
         [HttpGet(ApiEndPointConstant.Feedback.FeedbackEndPoint)]
         [SwaggerOperation(Summary = "Get Feedback by its id")]
         public async Task<IActionResult> GetFeedbackById(int id)

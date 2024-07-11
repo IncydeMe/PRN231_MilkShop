@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
 using MilkData.DTOs.Voucher;
 using MilkWebAPI.Constants;
@@ -6,6 +7,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace MilkWebAPI.Controllers
 {
+    [ApiController]
     public class VoucherController : ControllerBase
     {
         private readonly VoucherBusiness _voucherBusiness;
@@ -13,6 +15,8 @@ namespace MilkWebAPI.Controllers
         {
             _voucherBusiness = new VoucherBusiness();
         }
+
+        [Authorize(Roles = "staff, member")]
         [HttpGet(ApiEndPointConstant.Voucher.VouchersEndpoint)]
         [SwaggerOperation(Summary = "Get all Vouchers")]
         public async Task<IActionResult> GetAllVouchers()
@@ -24,6 +28,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [Authorize(Roles = "staff, member")]
         [HttpGet(ApiEndPointConstant.Voucher.VoucherEndpoint)]
         [SwaggerOperation(Summary = "Get Voucher by its id")]
         public async Task<IActionResult> GetVoucherInfo(int id)
@@ -35,6 +40,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [Authorize(Roles = "staff, member")]
         [HttpGet(ApiEndPointConstant.Voucher.VoucherEndpointByType)]
         [SwaggerOperation(Summary = "Get Voucher by its type")]
         public async Task<IActionResult> GetVoucherByType(string type)
@@ -46,6 +52,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [Authorize(Roles = "staff")]
         [HttpPost(ApiEndPointConstant.Voucher.VouchersEndpoint)]
         [SwaggerOperation(Summary = "Create a new Voucher")]
         public async Task<IActionResult> CreateVoucher(VoucherDTO voucher)
@@ -57,6 +64,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [Authorize(Roles = "staff")]
         [HttpPut(ApiEndPointConstant.Voucher.VoucherEndpoint)]
         [SwaggerOperation(Summary = "Update Voucher Info")]
         public async Task<IActionResult> UpdateVoucherInfo(int id, VoucherDTO voucher)
@@ -68,6 +76,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [Authorize(Roles = "staff")]
         [HttpDelete(ApiEndPointConstant.Voucher.VoucherEndpoint)]
         [SwaggerOperation(Summary = "Delete Voucher")]
         public async Task<IActionResult> DeleteVoucher(int id)
