@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
 using MilkData.DTOs.Gift;
 using MilkWebAPI.Constants;
@@ -14,6 +15,7 @@ namespace MilkWebAPI.Controllers
             _giftBusiness = new GiftBusiness();
         }
 
+        [Authorize]
         [HttpGet(ApiEndPointConstant.Gift.GiftsEndpoint)]
         [SwaggerOperation(Summary = "Get all Gifts")]
         public async Task<IActionResult> GetAllGifts()
@@ -25,6 +27,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [Authorize]
         [HttpGet(ApiEndPointConstant.Gift.GiftEndpoint)]
         [SwaggerOperation(Summary = "Get Gift by its id")]
         public async Task<IActionResult> GetGiftInfo(int id)
@@ -36,6 +39,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [Authorize(Roles = "staff")]
         [HttpPost(ApiEndPointConstant.Gift.GiftsEndpoint)]
         [SwaggerOperation(Summary = "Create a new Gift")]
         public async Task<IActionResult> CreateGift(GiftDTO gift)
@@ -47,6 +51,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [Authorize(Roles = "staff")]
         [HttpPut(ApiEndPointConstant.Gift.GiftEndpoint)]
         [SwaggerOperation(Summary = "Update Gift Info")]
         public async Task<IActionResult> UpdateGiftInfo(int id, GiftDTO gift)
@@ -58,6 +63,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [Authorize(Roles = "staff")]
         [HttpDelete(ApiEndPointConstant.Gift.GiftEndpoint)]
         [SwaggerOperation(Summary = "Delete Gift")]
         public async Task<IActionResult> DeleteGift(int id)

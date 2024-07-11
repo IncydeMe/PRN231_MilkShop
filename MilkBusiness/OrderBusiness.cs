@@ -77,6 +77,40 @@ namespace MilkBusiness
             return new MilkResult(order);
         }
 
+        public async Task<IMilkResult> GetOrdersByAccount(Guid id)
+        {
+
+           var ordersList = await _unitOfWork.GetRepository<Order>().GetListAsync(
+                predicate: o => o.AccountId == id,
+                include: x => x.Include(o => o.OrderDetails),
+                selector: y => new GetSingleOrder
+                {
+                    OrderId = y.OrderId,
+                    AccountId = y.AccountId,
+                    VoucherId = y.VoucherId,
+                    OrderPrice = y.OrderPrice,
+                    Status = y.Status,
+                    OrderDetails = y.OrderDetails.Select(od => new GetOrderDetail
+                    {
+                        OrderDetailId = od.OrderDetailId,
+                        ProductId = od.ProductId,
+                        Quantity = od.Quantity,
+                        OrderId = od.OrderId
+                    }).ToList()
+                });
+
+            if (ordersList == null)
+            {
+                return new MilkResult
+                {
+                    Status = -1,
+                    Message = "Order not found"
+                };
+            }
+
+            return new MilkResult(ordersList);
+        }
+
         public async Task<IMilkResult> CreateOrder(CreateOrder createOrder)
         {
             Order order = new Order
