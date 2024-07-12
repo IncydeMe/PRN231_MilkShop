@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
 using MilkData.DTOs;
 using MilkData.DTOs.Order;
@@ -19,6 +20,7 @@ namespace MilkWebAPI.Controllers
             _orderBusiness = new OrderBusiness();
         }
 
+        [Authorize(Roles = "staff")]
         [HttpGet(ApiEndPointConstant.Order.OrdersEndPoint)]
         [SwaggerOperation(Summary = "Get all Orders")]
         public async Task<IActionResult> GetAllOrders()
@@ -30,6 +32,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [Authorize]
         [HttpGet(ApiEndPointConstant.Order.OrderEndPoint)]
         [SwaggerOperation(Summary = "Get Order by its id")]
         public async Task<IActionResult> GetOrderById(int id)
@@ -41,6 +44,7 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
+        [Authorize]
         [HttpPost(ApiEndPointConstant.Order.OrdersEndPoint)]
         [SwaggerOperation(Summary = "Create a new Order")]
         public async Task<IActionResult> CreateOrder(OrderDTO.CreateOrder createOrder)
