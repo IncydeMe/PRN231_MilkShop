@@ -57,6 +57,13 @@
             public const string ProductEndPoint = ProductsEndPoint + "/{id}";
         }
 
+        public class ProductImage()
+        {
+            public const string ProductImagesEndPoint = ApiEndpoint + "/product-images";
+            public const string ProductImageEndPoint = ProductImagesEndPoint + "/{id}";
+            public const string ProductImageByProductEndPoint = ProductImagesEndPoint + "/product/{productId}";
+        }
+
         public class Order()
         {
             public const string OrdersEndPoint = ApiEndpoint + "/orders";

@@ -93,16 +93,16 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize]
-        [HttpGet(ApiEndPointConstant.Account.OrderHistoryEndpoint)]
-        [SwaggerOperation(Summary = "Get Order History")]
-        public async Task<IActionResult> GetOrderHistory(int id)
-        {
-            var response = await _orderBusiness.GetOrdersByAccount(id);
-            if (response.Status >= 0)
-                return Ok(response.Data);
-            else
-                return BadRequest(response);
-        }
+        //[Authorize]
+        //[HttpGet(ApiEndPointConstant.Account.OrderHistoryEndpoint)]
+        //[SwaggerOperation(Summary = "Get Order History")]
+        //public async Task<IActionResult> GetOrderHistory(int id)
+        //{
+        //    var response = await _orderBusiness.GetOrdersByAccount(id);
+        //    if (response.Status >= 0)
+        //        return Ok(response.Data);
+        //    else
+        //        return BadRequest(response);
+        //}
     }
 }
