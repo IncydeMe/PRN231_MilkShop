@@ -17,6 +17,7 @@
             public const string AccountsEndpoint = ApiEndpoint + "/accounts";
             public const string EmailAccountsEndpoint = AccountsEndpoint + "/{email}/info";
             public const string AccountEndpoint = AccountsEndpoint + "/{id}";
+            public const string OrderHistoryEndpoint = AccountEndpoint + "/order-history";
         }
 
         public class Blog()
@@ -35,6 +36,7 @@
         {
 			public const string VouchersEndpoint = ApiEndpoint + "/vouchers";
 			public const string VoucherEndpoint = VouchersEndpoint + "/{id}";
+            public const string VoucherEndpointByType = VouchersEndpoint + "/type/{type}";
 		}
 
         public class Gift()
@@ -53,6 +55,13 @@
         {
             public const string ProductsEndPoint = ApiEndpoint + "/products";
             public const string ProductEndPoint = ProductsEndPoint + "/{id}";
+        }
+
+        public class ProductImage()
+        {
+            public const string ProductImagesEndPoint = ApiEndpoint + "/product-images";
+            public const string ProductImageEndPoint = ProductImagesEndPoint + "/{id}";
+            public const string ProductImageByProductEndPoint = ProductImagesEndPoint + "/product/{productId}";
         }
 
         public class Order()
