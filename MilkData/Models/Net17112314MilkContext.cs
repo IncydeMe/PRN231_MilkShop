@@ -178,13 +178,12 @@ public partial class Net17112314MilkContext : DbContext
 
             entity.HasOne(d => d.Account).WithMany(p => p.Feedbacks)
                 .HasForeignKey(d => d.AccountId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Feedbacks_Accounts");
 
             entity.HasOne(d => d.Product).WithMany(p => p.Feedbacks)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Feedbacks_Products");
+                .HasConstraintName("FK_Feedbacks_Products").OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<FeedbackMedia>(entity =>
@@ -349,12 +348,12 @@ public partial class Net17112314MilkContext : DbContext
 
             entity.HasOne(d => d.Account).WithMany(p => p.Products)
                 .HasForeignKey(d => d.AccountId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Products_Accounts");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Products_Categories");
         });
 
