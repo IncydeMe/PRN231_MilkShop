@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace MilkData.DTOs.Gifted;
 
-namespace MilkData.Models;
-
-public partial class Gifted
-{
+public class GiftedDTO {
     public int GiftedId { get; set; }
 
     public int GiftId { get; set; }
@@ -14,8 +10,4 @@ public partial class Gifted
     public string Status { get; set; } = string.Empty;
 
     public DateTime CreatedAt { get; set; }
-
-    public virtual Account Account { get; set; }
-
-    public virtual Gift Gift { get; set; }
 }

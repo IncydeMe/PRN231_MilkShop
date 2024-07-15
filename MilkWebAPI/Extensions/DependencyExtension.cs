@@ -40,7 +40,7 @@ namespace MilkWebAPI.Extensions
         {
             services.AddSwaggerGen(options =>
             {
-                
+
                 options.SwaggerDoc("v1", new OpenApiInfo() { Title = "MilkShop", Version = "v1" });
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
@@ -52,19 +52,19 @@ namespace MilkWebAPI.Extensions
                     Scheme = "Bearer"
                 });
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
                 {
-                    new OpenApiSecurityScheme
                     {
-                        Reference = new OpenApiReference
+                        new OpenApiSecurityScheme
                         {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                    new string[] { }
-                }
-            });
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
                 options.MapType<TimeOnly>(() => new OpenApiSchema
                 {
                     Type = "string",
@@ -72,6 +72,7 @@ namespace MilkWebAPI.Extensions
                     Example = OpenApiAnyFactory.CreateFromJson("\"13:45:42.0000000\"")
                 });
                 options.EnableAnnotations();
+                options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
 
             return services;

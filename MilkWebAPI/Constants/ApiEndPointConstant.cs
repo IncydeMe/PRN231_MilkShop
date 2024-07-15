@@ -9,7 +9,7 @@
         public class Authentication()
         {
             public const string LoginEndpoint = ApiEndpoint + "/login";
-            public const string RegisterEndpoint = ApiEndpoint + "/register";
+            //public const string RegisterEndpoint = ApiEndpoint + "/register";
         }
 
         public class Account()
@@ -44,6 +44,12 @@
 			public const string GiftsEndpoint = ApiEndpoint + "/gifts";
 			public const string GiftEndpoint = GiftsEndpoint + "/{id}";
 		}
+
+        public class Gifted()
+        {
+            public const string GiftedsEndpoint = ApiEndpoint + "/gifted";
+            public const string GiftedEndpoint = GiftedsEndpoint + "/{id}";
+        }
 
         public class Category()   
         {
