@@ -74,16 +74,4 @@ public class GiftedController : Controller
         else
             return BadRequest(response);
     }
-
-    [Authorize(Roles = "staff")]
-    [HttpDelete(ApiEndPointConstant.Gifted.GiftedsEndpoint)]
-    [SwaggerOperation(Summary = "Delete Gifted")]
-    public async Task<IActionResult> DeleteGifted(int id)
-    {
-        var response = await giftedBusiness.DeleteGifted(id);
-        if (response.Status >= 0)
-            return Ok(response);
-        else
-            return BadRequest(response);
-    }
 }
