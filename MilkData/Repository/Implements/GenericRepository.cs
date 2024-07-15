@@ -26,7 +26,7 @@ namespace MilkData.Repository.Implements
             _dbContext?.Dispose();
         }
 
-        #region Gett Async
+        #region Get Async
 
         public virtual async Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
         {
@@ -128,6 +128,10 @@ namespace MilkData.Repository.Implements
         {
             _dbSet.UpdateRange(entities);
         }
+
+        #endregion
+
+        #region Delete
 
         public void DeleteAsync(T entity)
         {

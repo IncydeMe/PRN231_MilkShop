@@ -45,6 +45,12 @@
 			public const string GiftEndpoint = GiftsEndpoint + "/{id}";
 		}
 
+        public class Gifted()
+        {
+            public const string GiftedsEndpoint = ApiEndpoint + "/gifted";
+            public const string GiftedEndpoint = GiftedsEndpoint + "/{id}";
+        }
+
         public class Category()   
         {
             public const string CategoriesEndPoint = ApiEndpoint + "/categories";

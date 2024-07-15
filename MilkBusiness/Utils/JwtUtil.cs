@@ -32,8 +32,12 @@ namespace MilkBusiness.Utils
             List<Claim> claims = new List<Claim>()
             {
                 new Claim(JwtRegisteredClaimNames.Jti, account.AccountId.ToString()),
+                new Claim("FullName", account.FullName),
                 new Claim("Email", account.Email),
-                new Claim(ClaimTypes.Role, account.Role)
+                new Claim("Password", account.Password),
+                new Claim(ClaimTypes.Role, account.Role),
+                new Claim("Address", account.Address),
+                new Claim("Phone", account.Phone),
             };
 
             //Add expiredTime of token

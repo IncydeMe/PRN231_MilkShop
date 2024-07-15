@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace MilkData.Models;
 
@@ -42,8 +43,16 @@ public partial class Net17112314MilkContext : DbContext
     public virtual DbSet<Voucher> Vouchers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=12345;database=NET1711_231_4_Milk;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer(GetConnectionString());
+
+    private static string GetConnectionString()
+    {
+        IConfiguration config = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .Build();
+        return config.GetConnectionString("DefaultConnection") ?? throw new Exception("'DefaultConnection' doesn't exists in 'appsettings.json'");
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -169,13 +178,12 @@ public partial class Net17112314MilkContext : DbContext
 
             entity.HasOne(d => d.Account).WithMany(p => p.Feedbacks)
                 .HasForeignKey(d => d.AccountId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Feedbacks_Accounts");
 
             entity.HasOne(d => d.Product).WithMany(p => p.Feedbacks)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Feedbacks_Products");
+                .HasConstraintName("FK_Feedbacks_Products").OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<FeedbackMedia>(entity =>
@@ -340,12 +348,12 @@ public partial class Net17112314MilkContext : DbContext
 
             entity.HasOne(d => d.Account).WithMany(p => p.Products)
                 .HasForeignKey(d => d.AccountId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Products_Accounts");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Products_Categories");
         });
 
