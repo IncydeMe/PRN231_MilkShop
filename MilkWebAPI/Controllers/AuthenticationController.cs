@@ -26,14 +26,14 @@ public class AuthenticationController : ControllerBase
             return BadRequest(response);
     }
 
-    //[HttpPost(ApiEndPointConstant.Authentication.RegisterEndpoint)]
-    //[SwaggerOperation(Summary = "Register")]
-    //public async Task<IActionResult> Register(string email, string password)
-    //{
-    //    var response = await _accountBusiness.Register(email, password);
-    //    if (response.Status >= 0)
-    //        return Ok(response);
-    //    else
-    //        return BadRequest(response);
-    //}
+    [HttpPost(ApiEndPointConstant.Authentication.RegisterEndpoint)]
+    [SwaggerOperation(Summary = "Register")]
+    public async Task<IActionResult> Register(string email, string password)
+    {
+        var response = await _accountBusiness.Register(email, password);
+        if (response.Status >= 0)
+            return Ok(response);
+        else
+            return BadRequest(response);
+    }
 }

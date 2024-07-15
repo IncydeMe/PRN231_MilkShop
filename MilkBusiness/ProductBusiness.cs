@@ -151,7 +151,8 @@ namespace MilkBusiness
             if (product == null) return new MilkResult();
             else
             {
-                _unitOfWork.GetRepository<Product>().DeleteAsync(product);
+                product.Status = "Deleted";
+                _unitOfWork.GetRepository<Product>().UpdateAsync(product);
                 await _unitOfWork.CommitAsync();
             }
             return new MilkResult(1, "Delete successfully");

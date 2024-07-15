@@ -9,7 +9,7 @@
         public class Authentication()
         {
             public const string LoginEndpoint = ApiEndpoint + "/login";
-            //public const string RegisterEndpoint = ApiEndpoint + "/register";
+            public const string RegisterEndpoint = ApiEndpoint + "/register";
         }
 
         public class Account()
