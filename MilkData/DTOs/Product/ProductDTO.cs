@@ -8,26 +8,24 @@ namespace MilkData.DTOs.Product
 {
     public class ProductDTO
     {
-        public int ProductId { get; set; }
-
-        public Guid AccountId { get; set; }
-
         public int CategoryId { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         public decimal Price { get; set; }
 
-        public int QuantityInStock { get; set; }
+        public int Quantity { get; set; }
 
-        public string Description { get; set; }
+        public string Description { get; set; } = null!;
 
-        public string Status { get; set; }
+        public string ImageUrl { get; set; } = null!;
 
-        public DateTime CreatedAt { get; set; }
+        public decimal TotalRating { get; set; }
 
-        public DateTime? UpdatedAt { get; set; }
+        public string Status { get; set; } = null!;
 
-        public int TotalRating { get; set; }
+        public DateTime CreateDate { get; set; }
+
+        public DateTime UpdateDate { get; set; }
     }
 }

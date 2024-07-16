@@ -20,12 +20,10 @@ namespace MilkBusiness
     public class OrderBusiness
     {
         private readonly UnitOfWork _unitOfWork;
-        private readonly VNPayBusiness _vNPayBusiness;
 
         public OrderBusiness()
         {
             _unitOfWork ??= new UnitOfWork();
-            _vNPayBusiness ??= new VNPayBusiness();
         }
 
         #region Order
@@ -33,13 +31,19 @@ namespace MilkBusiness
         public async Task<IMilkResult> GetAllOrders()
         {
             var ordersList = await _unitOfWork.GetRepository<Order>().GetListAsync(
-                selector: o => new
+                selector: o => new GetOrder()
                 {
-                    o.OrderId,
-                    o.AccountId,
-                    o.VoucherId,
-                    o.OrderPrice,
-                    o.Status
+                    OrderId = o.OrderId,
+                    UpdateDate = o.UpdateDate,
+                    CreateDate = o.CreateDate,
+                    Status = o.Status,
+                    AccountId = o.AccountId,
+                    Currency = o.Currency,
+                    Description = o.Description,
+                    Note = o.Note,
+                    PaymentType = o.PaymentType,
+                    TotalPrice = o.TotalPrice,
+                    VoucherCode = o.VoucherCode
                 });
             return new MilkResult(ordersList);
         }
@@ -48,21 +52,19 @@ namespace MilkBusiness
         {
             var order = await _unitOfWork.GetRepository<Order>().SingleOrDefaultAsync(
                 predicate: o => o.OrderId == id,
-                include: x => x.Include(o => o.OrderDetails),
-                selector: y => new GetSingleOrder
+                selector: o => new GetOrder()
                 {
-                    OrderId = y.OrderId,
-                    AccountId = y.AccountId,
-                    VoucherId = y.VoucherId,
-                    OrderPrice = y.OrderPrice,
-                    Status = y.Status,
-                    OrderDetails = y.OrderDetails.Select(od => new GetOrderDetail
-                    {
-                        OrderDetailId = od.OrderDetailId,
-                        ProductId = od.ProductId,
-                        Quantity = od.Quantity,
-                        OrderId = od.OrderId
-                    }).ToList()
+                    OrderId = o.OrderId,
+                    UpdateDate = o.UpdateDate,
+                    CreateDate = o.CreateDate,
+                    Status = o.Status,
+                    AccountId = o.AccountId,
+                    Currency = o.Currency,
+                    Description = o.Description,
+                    Note = o.Note,
+                    PaymentType = o.PaymentType,
+                    TotalPrice = o.TotalPrice,
+                    VoucherCode = o.VoucherCode
                 });
 
             if (order == null)
@@ -77,27 +79,25 @@ namespace MilkBusiness
             return new MilkResult(order);
         }
 
-        public async Task<IMilkResult> GetOrdersByAccount(Guid id)
+        public async Task<IMilkResult> GetOrdersByAccount(int id)
         {
 
-           var ordersList = await _unitOfWork.GetRepository<Order>().GetListAsync(
-                predicate: o => o.AccountId == id,
-                include: x => x.Include(o => o.OrderDetails),
-                selector: y => new GetSingleOrder
-                {
-                    OrderId = y.OrderId,
-                    AccountId = y.AccountId,
-                    VoucherId = y.VoucherId,
-                    OrderPrice = y.OrderPrice,
-                    Status = y.Status,
-                    OrderDetails = y.OrderDetails.Select(od => new GetOrderDetail
-                    {
-                        OrderDetailId = od.OrderDetailId,
-                        ProductId = od.ProductId,
-                        Quantity = od.Quantity,
-                        OrderId = od.OrderId
-                    }).ToList()
-                });
+            var ordersList = await _unitOfWork.GetRepository<Order>().GetListAsync(
+                 predicate: o => o.AccountId == id,
+                 selector: o => new GetOrder()
+                 {
+                     OrderId = o.OrderId,
+                     UpdateDate = o.UpdateDate,
+                     CreateDate = o.CreateDate,
+                     Status = o.Status,
+                     AccountId = o.AccountId,
+                     Currency = o.Currency,
+                     Description = o.Description,
+                     Note = o.Note,
+                     PaymentType = o.PaymentType,
+                     TotalPrice = o.TotalPrice,
+                     VoucherCode = o.VoucherCode
+                 });
 
             if (ordersList == null)
             {
@@ -115,11 +115,16 @@ namespace MilkBusiness
         {
             Order order = new Order
             {
-                OrderId = _unitOfWork.GetRepository<Order>().GetListAsync().Result.Max(o => o.OrderId) + 1,
+                UpdateDate = DateTime.Now,
+                CreateDate = DateTime.Now,
+                Status = createOrder.Status,
                 AccountId = createOrder.AccountId,
-                VoucherId = createOrder.VoucherId,
-                OrderPrice = createOrder.OrderPrice,
-                Status = "Waiting for payment"
+                Currency = createOrder.Currency,
+                Description = createOrder.Description,
+                Note = createOrder.Note,
+                PaymentType = createOrder.PaymentType,
+                TotalPrice = createOrder.TotalPrice,
+                VoucherCode = createOrder.VoucherCode
             };
             await _unitOfWork.GetRepository<Order>().InsertAsync(order);
 
@@ -128,7 +133,7 @@ namespace MilkBusiness
             bool status = await _unitOfWork.CommitAsync() > 0;
             if (status)
             {
-                result.Data = await CreatePayment(order);
+                result.Data = order;
                 result.Status = 1;
                 result.Message = "Order created successfully";
             }
@@ -145,153 +150,192 @@ namespace MilkBusiness
             var order = await _unitOfWork.GetRepository<Order>().SingleOrDefaultAsync(predicate: o => o.OrderId == orderId);
             order.Status = status;
             _unitOfWork.GetRepository<Order>().UpdateAsync(order);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task<IMilkResult> UpdateOrder(int id, UpdateOrder updatedOrder)
+        {
+            Order currentOrder = await _unitOfWork.GetRepository<Order>()
+                .SingleOrDefaultAsync(predicate: o => o.OrderId == id);
+            if (currentOrder == null) return new MilkResult(-1, "Blog cannot be found");
+            else
+            {
+                currentOrder.AccountId = updatedOrder.AccountId;
+                currentOrder.Description = String.IsNullOrEmpty(updatedOrder.Description) ? currentOrder.Description : updatedOrder.Description;
+                currentOrder.VoucherCode = updatedOrder.VoucherCode;
+                currentOrder.TotalPrice = updatedOrder.TotalPrice;
+                currentOrder.Currency = String.IsNullOrEmpty(updatedOrder.Currency) ? currentOrder.Currency : updatedOrder.Currency;
+                currentOrder.Status = String.IsNullOrEmpty(updatedOrder.Status) ? currentOrder.Status : updatedOrder.Status;
+                currentOrder.PaymentType = String.IsNullOrEmpty(updatedOrder.PaymentType) ? currentOrder.PaymentType : updatedOrder.PaymentType;
+                currentOrder.CreateDate = updatedOrder.CreateDate;
+                currentOrder.UpdateDate = updatedOrder.UpdateDate;
+                currentOrder.Note = String.IsNullOrEmpty(updatedOrder.Note) ? currentOrder.Note : updatedOrder.Note;
+
+                _unitOfWork.GetRepository<Order>().UpdateAsync(currentOrder);
+                await _unitOfWork.CommitAsync();
+            }
+
+            return new MilkResult(updatedOrder);
+        }
+
+        public async Task<IMilkResult> DeleteOrder(int id)
+        {
+            Order order = await _unitOfWork.GetRepository<Order>()
+                .SingleOrDefaultAsync(predicate: o => o.OrderId == id);
+            if (order == null) return new MilkResult();
+            else
+            {
+                _unitOfWork.GetRepository<Order>().DeleteAsync(order);
+                await _unitOfWork.CommitAsync();
+            }
+            return new MilkResult(1, "Delete Successfull");
         }
 
         #endregion
 
         #region Payment
 
-        public async Task<Order> GetOrderObjectById(int id)
-        {
-            return await _unitOfWork.GetRepository<Order>().SingleOrDefaultAsync(predicate: o => o.OrderId == id);
-        }
-
-        private async Task<PaymentDTO.PaymentLinkResponse> CreatePayment(Order order)
-        {
-            VNPayConfig vnPayConfig = VNPayHelper.GetConfigData();
-
-            var orderInfo = await GetOrderObjectById(order.OrderId);
-
-            VNPayRequest request = new VNPayRequest()
-            {
-                vnp_Version = vnPayConfig.Version,
-                vnp_TmnCode = vnPayConfig.TmnCode,
-                vnp_CreateDate = DateTime.Now.ToString("yyyyMMddHHmmss"),
-                vnp_IpAddr = IPAddressHelper.GetLocalIPAddress(),
-                vnp_Amount = Math.Ceiling((decimal)orderInfo.OrderPrice) * 100,
-                vnp_CurrCode = vnPayConfig.CurrencyCode,
-                vnp_OrderType = "other",
-                vnp_OrderInfo = $"Ngày: {DateTime.Now.ToString("yyyyMMddHHmmss")}; Tổng giá: {orderInfo.OrderPrice}",
-                vnp_ReturnUrl = vnPayConfig.ReturnUrl,
-                vnp_TxnRef = order.OrderId.ToString(),
-                vnp_Command = "pay",
-                vnp_Locale = vnPayConfig.Locale
-            };
-
-            var paymentUrl = await _vNPayBusiness.GetPaymentLink(vnPayConfig.PaymentUrl, vnPayConfig.HashSecret, request);
-
-            return new PaymentLinkResponse
-            {
-                OrderId = order.OrderId,
-                PaymentUrl = paymentUrl,
-            };
-        }
-
-        //private async Task<PaymentOrderInfoResponse> TakeOrderInfo(int orderId)
+        //public async Task<Order> GetOrderObjectById(int id)
         //{
-        //    decimal totalPrice = 0;
-        //    var orderDetails = await _unitOfWork.GetRepository<OrderDetail>().GetListAsync(predicate: od => od.OrderId == orderId);
+        //    return await _unitOfWork.GetRepository<Order>().SingleOrDefaultAsync(predicate: o => o.OrderId == id);
+        //}
 
-        //    if (orderDetails.Count > 0)
-        //    {
-        //        foreach (var orderDetail in orderDetails)
-        //        {
-        //            var product = await _unitOfWork.GetRepository<Product>().SingleOrDefaultAsync(predicate: p => p.ProductId == orderDetail.ProductId);
-        //            totalPrice += product.Price * orderDetail.Quantity;
-        //        }
-        //    }
+        //private async Task<PaymentDTO.PaymentLinkResponse> CreatePayment(Order order)
+        //{
+        //    VNPayConfig vnPayConfig = VNPayHelper.GetConfigData();
 
-        //    return new PaymentOrderInfoResponse
+        //    var orderInfo = await GetOrderObjectById(order.OrderId);
+
+        //    VNPayRequest request = new VNPayRequest()
         //    {
-        //        ItemAmount = orderDetails.Count,
-        //        TotalPrice = totalPrice
+        //        vnp_Version = vnPayConfig.Version,
+        //        vnp_TmnCode = vnPayConfig.TmnCode,
+        //        vnp_CreateDate = DateTime.Now.ToString("yyyyMMddHHmmss"),
+        //        vnp_IpAddr = IPAddressHelper.GetLocalIPAddress(),
+        //        vnp_Amount = Math.Ceiling((decimal)orderInfo.OrderPrice) * 100,
+        //        vnp_CurrCode = vnPayConfig.CurrencyCode,
+        //        vnp_OrderType = "other",
+        //        vnp_OrderInfo = $"Ngày: {DateTime.Now.ToString("yyyyMMddHHmmss")}; Tổng giá: {orderInfo.OrderPrice}",
+        //        vnp_ReturnUrl = vnPayConfig.ReturnUrl,
+        //        vnp_TxnRef = order.OrderId.ToString(),
+        //        vnp_Command = "pay",
+        //        vnp_Locale = vnPayConfig.Locale
+        //    };
+
+        //    var paymentUrl = await _vNPayBusiness.GetPaymentLink(vnPayConfig.PaymentUrl, vnPayConfig.HashSecret, request);
+
+        //    return new PaymentLinkResponse
+        //    {
+        //        OrderId = order.OrderId,
+        //        PaymentUrl = paymentUrl,
         //    };
         //}
 
-        public async Task<IMilkResult> CheckPaymentResponse(VNPayResponse response)
-        {
-            VNPayConfig vnPayConfig = VNPayHelper.GetConfigData();
-            PaymentReturnResponse paymentResponse = new PaymentReturnResponse();
+        ////private async Task<PaymentOrderInfoResponse> TakeOrderInfo(int orderId)
+        ////{
+        ////    decimal totalPrice = 0;
+        ////    var orderDetails = await _unitOfWork.GetRepository<OrderDetail>().GetListAsync(predicate: od => od.OrderId == orderId);
 
-            paymentResponse.OrderId = int.Parse(response.vnp_TxnRef);
-            paymentResponse.Amount = response.vnp_Amount;
+        ////    if (orderDetails.Count > 0)
+        ////    {
+        ////        foreach (var orderDetail in orderDetails)
+        ////        {
+        ////            var product = await _unitOfWork.GetRepository<Product>().SingleOrDefaultAsync(predicate: p => p.ProductId == orderDetail.ProductId);
+        ////            totalPrice += product.Price * orderDetail.Quantity;
+        ////        }
+        ////    }
 
-            bool isValid = await _vNPayBusiness.IsValidSignature(vnPayConfig.HashSecret, response);
-            if (isValid)
-            {
-                if (await GetOrderObjectById(int.Parse(response.vnp_TxnRef)) != null)
-                {
-                    if (response.vnp_ResponseCode == "00")
-                    {
-                        paymentResponse.PaymentStatus = "Success";
-                    }
-                    else
-                    {
-                        paymentResponse.PaymentStatus = "Unsuccess";
-                    }
+        ////    return new PaymentOrderInfoResponse
+        ////    {
+        ////        ItemAmount = orderDetails.Count,
+        ////        TotalPrice = totalPrice
+        ////    };
+        ////}
 
-                    switch (response.vnp_ResponseCode)
-                    {
-                        case "00":
-                            paymentResponse.PaymentMessage = "Successful transaction.";
-                            break;
-                        case "07":
-                            paymentResponse.PaymentMessage = "Successful balance deduction. Suspicious transaction (Related to scam, abnormal transaction).";
-                            break;
-                        case "09":
-                            paymentResponse.PaymentMessage = "Card/Banking account is not registered banking services.";
-                            break;
-                        case "10":
-                            paymentResponse.PaymentMessage = "Incorrect Card/Banking Account infomation validation more than 3 times.";
-                            break;
-                        case "11":
-                            paymentResponse.PaymentMessage = "Transaction duration expired. Please redo making transaction.";
-                            break;
-                        case "12":
-                            paymentResponse.PaymentMessage = "Card/Banking Account is currently unavailable (Locked).";
-                            break;
-                        case "13":
-                            paymentResponse.PaymentMessage = "Wrong OTP Code inputed.";
-                            break;
-                        case "24":
-                            paymentResponse.PaymentMessage = "Transaction Canceled.";
-                            break;
-                        case "51":
-                            paymentResponse.PaymentMessage = "Banking Account's balance is not enough for this transaction.";
-                            break;
-                        case "65":
-                            paymentResponse.PaymentMessage = "Bankiing Account exceeds the transaction limitation per day.";
-                            break;
-                        case "75":
-                            paymentResponse.PaymentMessage = "Bank in maintanance.";
-                            break;
-                        case "79":
-                            paymentResponse.PaymentMessage = "Incorrect transaction's password inputed more than specified number of times.";
-                            break;
-                        case "99":
-                            paymentResponse.PaymentMessage = "Other Transaction Error.";
-                            break;
-                    }
-                }
-                else
-                {
-                    paymentResponse.PaymentStatus = "Unsuccess";
-                    paymentResponse.PaymentMessage = "Can't find order in DB.";
-                }
+        //public async Task<IMilkResult> CheckPaymentResponse(VNPayResponse response)
+        //{
+        //    VNPayConfig vnPayConfig = VNPayHelper.GetConfigData();
+        //    PaymentReturnResponse paymentResponse = new PaymentReturnResponse();
 
-            }
-            else
-            {
-                paymentResponse.PaymentStatus = "Unsuccess";
-                paymentResponse.PaymentMessage = "Invalid signature in response.";
-            }
+        //    paymentResponse.OrderId = int.Parse(response.vnp_TxnRef);
+        //    paymentResponse.Amount = response.vnp_Amount;
 
-            return new MilkResult
-            {
-                Status = 1,
-                Data = paymentResponse
-            };
-        }
+        //    bool isValid = await _vNPayBusiness.IsValidSignature(vnPayConfig.HashSecret, response);
+        //    if (isValid)
+        //    {
+        //        if (await GetOrderObjectById(int.Parse(response.vnp_TxnRef)) != null)
+        //        {
+        //            if (response.vnp_ResponseCode == "00")
+        //            {
+        //                paymentResponse.PaymentStatus = "Success";
+        //            }
+        //            else
+        //            {
+        //                paymentResponse.PaymentStatus = "Unsuccess";
+        //            }
+
+        //            switch (response.vnp_ResponseCode)
+        //            {
+        //                case "00":
+        //                    paymentResponse.PaymentMessage = "Successful transaction.";
+        //                    break;
+        //                case "07":
+        //                    paymentResponse.PaymentMessage = "Successful balance deduction. Suspicious transaction (Related to scam, abnormal transaction).";
+        //                    break;
+        //                case "09":
+        //                    paymentResponse.PaymentMessage = "Card/Banking account is not registered banking services.";
+        //                    break;
+        //                case "10":
+        //                    paymentResponse.PaymentMessage = "Incorrect Card/Banking Account infomation validation more than 3 times.";
+        //                    break;
+        //                case "11":
+        //                    paymentResponse.PaymentMessage = "Transaction duration expired. Please redo making transaction.";
+        //                    break;
+        //                case "12":
+        //                    paymentResponse.PaymentMessage = "Card/Banking Account is currently unavailable (Locked).";
+        //                    break;
+        //                case "13":
+        //                    paymentResponse.PaymentMessage = "Wrong OTP Code inputed.";
+        //                    break;
+        //                case "24":
+        //                    paymentResponse.PaymentMessage = "Transaction Canceled.";
+        //                    break;
+        //                case "51":
+        //                    paymentResponse.PaymentMessage = "Banking Account's balance is not enough for this transaction.";
+        //                    break;
+        //                case "65":
+        //                    paymentResponse.PaymentMessage = "Bankiing Account exceeds the transaction limitation per day.";
+        //                    break;
+        //                case "75":
+        //                    paymentResponse.PaymentMessage = "Bank in maintanance.";
+        //                    break;
+        //                case "79":
+        //                    paymentResponse.PaymentMessage = "Incorrect transaction's password inputed more than specified number of times.";
+        //                    break;
+        //                case "99":
+        //                    paymentResponse.PaymentMessage = "Other Transaction Error.";
+        //                    break;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            paymentResponse.PaymentStatus = "Unsuccess";
+        //            paymentResponse.PaymentMessage = "Can't find order in DB.";
+        //        }
+
+        //    }
+        //    else
+        //    {
+        //        paymentResponse.PaymentStatus = "Unsuccess";
+        //        paymentResponse.PaymentMessage = "Invalid signature in response.";
+        //    }
+
+        //    return new MilkResult
+        //    {
+        //        Status = 1,
+        //        Data = paymentResponse
+        //    };
+        //}
 
         #endregion
     }

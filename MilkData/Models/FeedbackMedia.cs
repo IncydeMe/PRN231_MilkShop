@@ -9,9 +9,13 @@ public partial class FeedbackMedia
 
     public int FeedbackId { get; set; }
 
-    public string MediaUrl { get; set; }
+    public string MediaUrl { get; set; } = null!;
 
-    public string MediaType { get; set; }
+    public string MediaType { get; set; } = null!;
 
-    public virtual Feedback Feedback { get; set; }
+    public DateTime CreateDate { get; set; }
+
+    public DateTime UpdateDate { get; set; }
+
+    public virtual Feedback Feedback { get; set; } = null!;
 }

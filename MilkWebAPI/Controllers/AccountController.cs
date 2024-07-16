@@ -21,7 +21,6 @@ namespace MilkWebAPI.Controllers
             _orderBusiness = new OrderBusiness();
         }
 
-        [Authorize(Roles = "admin")]
         [HttpGet(ApiEndPointConstant.Account.AccountsEndpoint)]
         [SwaggerOperation(Summary = "Get all Accounts")]
         public async Task<IActionResult> GetAllAccounts()
@@ -33,10 +32,9 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response.Message);
         }
 
-        [Authorize]
         [HttpGet(ApiEndPointConstant.Account.AccountEndpoint)]
         [SwaggerOperation(Summary = "Get Account by its id")]
-        public async Task<IActionResult> GetAccountInfo(Guid id)
+        public async Task<IActionResult> GetAccountInfo(int id)
         {
             var response = await _accountBusiness.GetAccountInfo(id);
             if (response.Status >= 0)
@@ -45,7 +43,6 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpGet(ApiEndPointConstant.Account.EmailAccountsEndpoint)]
         [SwaggerOperation(Summary = "Get Account by its email")]
         public async Task<IActionResult> GetAccountByEmail(string email)
@@ -57,7 +54,6 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpPost(ApiEndPointConstant.Account.AccountsEndpoint)]
         [SwaggerOperation(Summary = "Create a new Account")]
         public async Task<IActionResult> CreateAccount(AccountDTO accountDTO)
@@ -69,40 +65,26 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize]
         [HttpPut(ApiEndPointConstant.Account.AccountEndpoint)]
         [SwaggerOperation(Summary = "Update Account Info")]
         public async Task<IActionResult> UpdateAccountInfo(int id, AccountDTO account)
         {
-            var response = await _accountBusiness.UpdateAccountInfo(account);
+            var response = await _accountBusiness.UpdateAccountInfo(id, account);
             if (response.Status >= 0)
                 return Ok(response);
             else
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpDelete(ApiEndPointConstant.Account.AccountEndpoint)]
         [SwaggerOperation(Summary = "Delete Account")]
-        public async Task<IActionResult> BanAccount(Guid id)
+        public async Task<IActionResult> BanAccount(int id)
         {
-            var response = await _accountBusiness.BanAccount(id);
+            var response = await _accountBusiness.DeleteAccount(id);
             if (response.Status >= 0)
                 return Ok(response);
             else
                 return BadRequest(response);
         }
-
-        //[Authorize]
-        //[HttpGet(ApiEndPointConstant.Account.OrderHistoryEndpoint)]
-        //[SwaggerOperation(Summary = "Get Order History")]
-        //public async Task<IActionResult> GetOrderHistory(int id)
-        //{
-        //    var response = await _orderBusiness.GetOrdersByAccount(id);
-        //    if (response.Status >= 0)
-        //        return Ok(response.Data);
-        //    else
-        //        return BadRequest(response);
-        //}
     }
 }

@@ -18,56 +18,55 @@ namespace MilkBusiness
         }
         public async Task<IMilkResult> GetAllVoucher()
         {
-            var voucherList = await _unitOfWork.GetRepository<Voucher>().GetListAsync(
-                                              selector: x => new VoucherDTO
-                                              {
-                                   VoucherId = x.VoucherId,
-                                   Value = x.Value,
-                                   Type = x.Type,
-                                   Description = x.Description,
-                                   StartDate = x.StartDate,
-                                   EndDate = x.EndDate,
-                                   Status = x.Status,
-                               });
+            var voucherList = await _unitOfWork.GetRepository<Voucher>()
+                .GetListAsync(selector: x => new GetVoucherDTO
+                {
+                    VoucherId = x.VoucherId,
+                    Value = x.Value,
+                    Type = x.Type,
+                    Description = x.Description,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate,
+                    Status = x.Status,
+                });
             return new MilkResult(voucherList);
         }
 
         // Get voucher by voucher id
-        public async Task<IMilkResult> GetVoucherInfo(int voucherId)
+        public async Task<IMilkResult> GetVoucherInfo(Guid voucherId)
         {
             var voucher = await _unitOfWork.GetRepository<Voucher>()
                 .SingleOrDefaultAsync(predicate: p => p.VoucherId == voucherId,
-                                                                                   selector: x => new VoucherDTO
-                                                                                   {
-                                                         VoucherId = x.VoucherId,
-                                                         Value = x.Value,
-                                                         Type = x.Type,
-                                                         Description = x.Description,
-                                                         StartDate = x.StartDate,
-                                                         EndDate = x.EndDate,
-                                                         Status = x.Status,
-                                                     });
+                                    selector: x => new GetVoucherDTO
+                                    {
+                                        VoucherId = x.VoucherId,
+                                        Value = x.Value,
+                                        Type = x.Type,
+                                        Description = x.Description,
+                                        StartDate = x.StartDate,
+                                        EndDate = x.EndDate,
+                                        Status = x.Status,
+                                    });
             return new MilkResult(voucher);
         }
 
         // Get voucher by type
         public async Task<IMilkResult> GetVoucherByType(string type)
         {
-            var voucherList = await _unitOfWork.GetRepository<Voucher>().GetListAsync(
-                                                             predicate: p => p.Type == type,
-                                                             selector: x => new VoucherDTO
-                                                                                                          {
-                                   VoucherId = x.VoucherId,
-                                   Value = x.Value,
-                                   Type = x.Type,
-                                   Description = x.Description,
-                                   StartDate = x.StartDate,
-                                   EndDate = x.EndDate,
-                                   Status = x.Status,
-                               });
+            var voucherList = await _unitOfWork.GetRepository<Voucher>()
+                .GetListAsync(predicate: p => p.Type == type,
+                            selector: x => new GetVoucherDTO
+                            {
+                                VoucherId = x.VoucherId,
+                                Value = x.Value,
+                                Type = x.Type,
+                                Description = x.Description,
+                                StartDate = x.StartDate,
+                                EndDate = x.EndDate,
+                                Status = x.Status,
+                            });
             return new MilkResult(voucherList);
         }
-
 
         // Create new voucher
         public async Task<IMilkResult> CreateVoucher(VoucherDTO voucher)
@@ -75,7 +74,6 @@ namespace MilkBusiness
             MilkResult result = new MilkResult();
             Voucher newVoucher = new Voucher
             {
-                VoucherId = voucher.VoucherId,
                 Value = voucher.Value,
                 Type = voucher.Type,
                 Description = SetVoucherDescription(voucher.Type, voucher.Value),
@@ -100,27 +98,12 @@ namespace MilkBusiness
             return result;
         }
 
-        private string SetVoucherDescription(string type, decimal value)
-        {
-            switch (type.ToLower())
-            {
-                case "discount":
-                    return $"Giảm giá {(value)}% cho toàn bộ đơn hàng";
-                case "freeship":
-                    return $"Giảm giá {(value)}% phí vận chuyển cho đơn hàng";
-                case "value":
-                    return $"Giảm giá {(value)} VND cho toàn bộ đơn hàng";
-                default:
-                    return "Loại voucher không hợp lệ";
-            }
-        }
-
-        public async Task<IMilkResult> UpdateVoucherInfo(int voucherId, VoucherDTO voucher)
+        public async Task<IMilkResult> UpdateVoucherInfo(Guid voucherId, VoucherDTO voucher)
         {
             MilkResult result = new MilkResult();
 
             // Validate voucher id
-            if (voucherId <= 0)
+            if (voucherId == null)
             {
                 return new MilkResult(-6, "Invalid voucher ID. ID must be a positive integer.");
             }
@@ -156,10 +139,10 @@ namespace MilkBusiness
             return result;
         }
 
-        public async Task<IMilkResult> DeleteVoucher(int voucherId)
+        public async Task<IMilkResult> DeleteVoucher(Guid voucherId)
         {
-             Voucher voucher = await _unitOfWork.GetRepository<Voucher>()
-                               .SingleOrDefaultAsync(predicate: p => p.VoucherId == voucherId);
+            Voucher voucher = await _unitOfWork.GetRepository<Voucher>()
+                              .SingleOrDefaultAsync(predicate: p => p.VoucherId == voucherId);
             if (voucher == null) return new MilkResult();
             else
             {
@@ -170,5 +153,21 @@ namespace MilkBusiness
             return new MilkResult();
         }
 
+        #region Utils Function
+        private string SetVoucherDescription(string type, decimal value)
+        {
+            switch (type.ToLower())
+            {
+                case "discount":
+                    return $"Giảm giá {(value)}% cho toàn bộ đơn hàng";
+                case "freeship":
+                    return $"Giảm giá {(value)}% phí vận chuyển cho đơn hàng";
+                case "value":
+                    return $"Giảm giá {(value)} VND cho toàn bộ đơn hàng";
+                default:
+                    return "Loại voucher không hợp lệ";
+            }
+        }
+        #endregion
     }
 }

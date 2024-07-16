@@ -3,6 +3,7 @@ using MilkData.DTOs;
 using MilkData.DTOs.Account;
 using MilkData.Models;
 using MilkWebApp.Models;
+using MilkWebApp.Models.Account;
 using Newtonsoft.Json;
 using System.Net.Http;
 
@@ -128,7 +129,7 @@ namespace MilkWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<MilkResult> Save(AccountDTO account)
+        public async Task<MilkResult> Save(AccountModel account)
         {
             try
             {

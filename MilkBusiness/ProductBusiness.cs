@@ -20,22 +20,21 @@ namespace MilkBusiness
         }
         public async Task<IMilkResult> GetAllProduct()
         {
-            var productList = await _unitOfWork.GetRepository<Product>().GetListAsync(
-                               include: x => x.Include(p => p.Category),
-                                              selector: x => new GetProductDTO
-                                              {
-                                                  ProductId = x.ProductId,
-                                                  AccountId = x.AccountId,
-                                                  CategoryName = x.Category.Name,
-                                                  Name = x.Name,
-                                                  Price = x.Price,
-                                                  QuantityInStock = x.QuantityInStock,
-                                                  Description = x.Description,
-                                                  Status = x.Status,
-                                                  CreatedAt = x.CreatedAt,
-                                                  UpdatedAt = x.UpdatedAt,
-                                                  TotalRating = x.TotalRating
-                                              });
+            var productList = await _unitOfWork.GetRepository<Product>()
+                .GetListAsync(selector: x => new GetProductDTO
+                {
+                    ProductId = x.ProductId,
+                    Name = x.Name,
+                    Price = x.Price,
+                    Description = x.Description,
+                    Status = x.Status,
+                    TotalRating = x.TotalRating,
+                    CategoryId = x.CategoryId,
+                    Quantity = x.Quantity,
+                    CreateDate = x.CreateDate,
+                    ImageUrl = x.ImageUrl,
+                    UpdateDate = x.UpdateDate
+                });
             return new MilkResult(productList);
         }
 
@@ -43,21 +42,20 @@ namespace MilkBusiness
         {
             var product = await _unitOfWork.GetRepository<Product>()
                 .SingleOrDefaultAsync(predicate: p => p.ProductId == productId,
-                                                     include: x => x.Include(p => p.Category),
-                                                                                          selector: x => new GetProductDTO
-                                                                                          {
-                                                                                              ProductId = x.ProductId,
-                                                                                              AccountId = x.AccountId,
-                                                                                              CategoryName = x.Category.Name,
-                                                                                              Name = x.Name,
-                                                                                              Price = x.Price,
-                                                                                              QuantityInStock = x.QuantityInStock,
-                                                                                              Description = x.Description,
-                                                                                              Status = x.Status,
-                                                                                              CreatedAt = x.CreatedAt,
-                                                                                              UpdatedAt = x.UpdatedAt,
-                                                                                              TotalRating = x.TotalRating
-                                                                                          });
+                                    selector: x => new GetProductDTO
+                                    {
+                                        ProductId = x.ProductId,
+                                        Name = x.Name,
+                                        Price = x.Price,
+                                        Description = x.Description,
+                                        Status = x.Status,
+                                        TotalRating = x.TotalRating,
+                                        CategoryId = x.CategoryId,
+                                        Quantity = x.Quantity,
+                                        CreateDate = x.CreateDate,
+                                        ImageUrl = x.ImageUrl,
+                                        UpdateDate = x.UpdateDate
+                                    });
             return new MilkResult(product);
         }
 
@@ -71,24 +69,23 @@ namespace MilkBusiness
                 return new MilkResult(-2, "Price cannot be negative");
             }
 
-            if (product.QuantityInStock < 0)
+            if (product.Quantity < 0)
             {
                 return new MilkResult(-3, "Quantity cannot be negative");
             }
 
             Product newProduct = new Product()
             {
-                ProductId = product.ProductId,
-                AccountId = product.AccountId,
                 CategoryId = product.CategoryId,
                 Name = product.Name,
                 Price = product.Price,
-                QuantityInStock = product.QuantityInStock,
                 Description = product.Description,
-                Status = product.QuantityInStock > 0 ? "InStock" : "OutOfStock", // Assuming valid string values
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
-                TotalRating = 0
+                Status = product.Quantity > 0 ? "InStock" : "OutOfStock", // Assuming valid string values
+                TotalRating = 0,
+                CreateDate = DateTime.Now,
+                UpdateDate= DateTime.Now,
+                ImageUrl = product.ImageUrl,
+                Quantity = product.Quantity,
             };
 
             await _unitOfWork.GetRepository<Product>().InsertAsync(newProduct);
@@ -106,7 +103,6 @@ namespace MilkBusiness
 
             return result;
         }
-
 
         public async Task<IMilkResult> UpdateProductInfo(int id, ProductDTO productInfo)
         {
@@ -130,12 +126,15 @@ namespace MilkBusiness
                 currentProduct.Price = productInfo.Price;
 
                 // Update quantity and status (handle out-of-stock)
-                currentProduct.QuantityInStock = productInfo.QuantityInStock;
-                currentProduct.Status = productInfo.QuantityInStock > 0 ? "InStock" : "OutOfStock"; 
+                currentProduct.Quantity = productInfo.Quantity;
+                currentProduct.Status = productInfo.Quantity > 0 ? "InStock" : "OutOfStock";
 
                 currentProduct.Description = String.IsNullOrEmpty(productInfo.Description) ? currentProduct.Description : productInfo.Description;
-                currentProduct.UpdatedAt = DateTime.Now;
-                currentProduct.AccountId = productInfo.AccountId;
+                currentProduct.UpdateDate = DateTime.Now;
+
+                currentProduct.Description = String.IsNullOrEmpty(productInfo?.Description) ? currentProduct.Description : productInfo.Description;
+                currentProduct.ImageUrl = String.IsNullOrEmpty(productInfo?.ImageUrl) ? currentProduct.ImageUrl : productInfo.ImageUrl;
+
 
                 _unitOfWork.GetRepository<Product>().UpdateAsync(currentProduct);
                 await _unitOfWork.CommitAsync();

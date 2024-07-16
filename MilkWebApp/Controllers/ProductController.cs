@@ -125,48 +125,48 @@ namespace MilkWebApp.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<MilkResult> Save(ProductDTO product)
-        {
-            try
-            {
-                MilkResult result = new MilkResult();
-                using (var httpClient = new HttpClient())
-                {
-                    //Set condition
-                    switch (product.HttpMethod)
-                    {
-                        case "POST":
-                            using (var response = await httpClient.PostAsJsonAsync(apiUrl, product))
-                            {
-                                if (response.IsSuccessStatusCode)
-                                {
-                                    var content = await response.Content.ReadAsStringAsync();
-                                    result = JsonConvert.DeserializeObject<MilkResult>(content);
-                                }
-                            }
-                            break;
-                        case "PUT":
-                            using (var response = await httpClient.PutAsJsonAsync(apiUrl + $"/{product.ProductId}", product))
-                            {
-                                if (response.IsSuccessStatusCode)
-                                {
-                                    var content = await response.Content.ReadAsStringAsync();
-                                    result = JsonConvert.DeserializeObject<MilkResult>(content);
-                                }
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                }
+        //[HttpPost]
+        //public async Task<MilkResult> Save(ProductDTO product)
+        //{
+        //    try
+        //    {
+        //        MilkResult result = new MilkResult();
+        //        using (var httpClient = new HttpClient())
+        //        {
+        //            //Set condition
+        //            switch (product.HttpMethod)
+        //            {
+        //                case "POST":
+        //                    using (var response = await httpClient.PostAsJsonAsync(apiUrl, product))
+        //                    {
+        //                        if (response.IsSuccessStatusCode)
+        //                        {
+        //                            var content = await response.Content.ReadAsStringAsync();
+        //                            result = JsonConvert.DeserializeObject<MilkResult>(content);
+        //                        }
+        //                    }
+        //                    break;
+        //                case "PUT":
+        //                    using (var response = await httpClient.PutAsJsonAsync(apiUrl + $"/{product.ProductId}", product))
+        //                    {
+        //                        if (response.IsSuccessStatusCode)
+        //                        {
+        //                            var content = await response.Content.ReadAsStringAsync();
+        //                            result = JsonConvert.DeserializeObject<MilkResult>(content);
+        //                        }
+        //                    }
+        //                    break;
+        //                default:
+        //                    break;
+        //            }
+        //        }
 
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+        //        return result;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
     }
 }

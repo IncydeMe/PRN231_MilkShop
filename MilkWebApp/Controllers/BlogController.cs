@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MilkData.DTOs;
+using MilkData.DTOs.Blog;
 using MilkData.Models;
 using MilkWebApp.Models;
+using MilkWebApp.Models.Blog;
 using Newtonsoft.Json;
 
 namespace MilkWebApp.Controllers
@@ -126,7 +128,7 @@ namespace MilkWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<MilkResult> Save(BlogDTO blog)
+        public async Task<MilkResult> Save(BlogModel blog)
         {
             try
             {

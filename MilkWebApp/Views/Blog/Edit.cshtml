@@ -7,37 +7,40 @@
 
 <div class="form-group row">
     <div class="col-md-6">
-        <label for="1">BlogId</label>
-        @Html.HiddenFor(model => Model.BlogId)
+        @Html.HiddenFor(model => model.BlogId)
     </div>
 </div>
 <div class="form-group row">
     <div class="col-md-6">
+        <label for="1">AccountId:</label>
+        @Html.EditorFor(model => model.AccountId, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+    <div class="col-md-6">
         <label for="1">Title:</label>
-        @Html.EditorFor(model => Model.Title, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
     </div>
     <div class="col-md-6">
         <label for="1">Content:</label>
-        @Html.EditorFor(model => Model.Content, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.EditorFor(model => model.BlogContent, new { htmlAttributes = new { @class = "form-control" } })
     </div>
     <div class="col-md-6">
         <label for="1">ImageUrl:</label>
-        @Html.EditorFor(model => Model.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
     </div>
     <div class="col-md-6">
         <label for="1">ProductSuggestUrl:</label>
-        @Html.EditorFor(model => Model.ProductSuggestUrl, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.EditorFor(model => model.ProductSuggestUrl, new { htmlAttributes = new { @class = "form-control" } })
     </div>
     <div class="col-md-6">
-        <label for="1">CreatedDate:</label>
-        @Html.EditorFor(model => Model.CreatedDate, new { htmlAttributes = new { @class = "form-control" } })
+        <label for="1">CategoryName:</label>
+        @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
     </div>
     <div class="col-md-6">
-        <label for="1">AccountId:</label>
-        @Html.EditorFor(model => Model.AccountId, new { htmlAttributes = new { @class = "form-control" } })
+        <label for="1">Reference:</label>
+        @Html.EditorFor(model => model.Reference, new { htmlAttributes = new { @class = "form-control" } })
     </div>
     <div class="col-md-6">
-        <label for="1">BlogCategoryId:</label>
-        @Html.EditorFor(model => Model.BlogCategoryId, new { htmlAttributes = new { @class = "form-control" } })
+        <label for="1">Priority:</label>
+        @Html.EditorFor(model => model.Priority, new { htmlAttributes = new { @class = "form-control" } })
     </div>
 </div>

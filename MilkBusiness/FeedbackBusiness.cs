@@ -18,18 +18,20 @@ namespace MilkBusiness
         {
             _unitOfWork ??= new UnitOfWork();
         }
+
         #region Feedback
         public async Task<IMilkResult> CreateFeedback(FeedbackDTO createFeedbackDTO)
         {
             Feedback feedback = new Feedback
             {
-                FeedbackId = createFeedbackDTO.FeedbackId,
                 AccountId = createFeedbackDTO.AccountId,
                 ProductId = createFeedbackDTO.ProductId,
-                Content = createFeedbackDTO.Content,
-                IsReported = createFeedbackDTO.IsReported,
-                CreatedAt = createFeedbackDTO.CreatedAt,
-                UpdatedAt = createFeedbackDTO.UpdatedAt,
+                CreatedDate = createFeedbackDTO.CreatedDate,    
+                UpdateDate = createFeedbackDTO.UpdateDate,
+                Description = createFeedbackDTO.Description,
+                FeedbackContent = createFeedbackDTO.FeedbackContent,
+                Status = createFeedbackDTO.Status,
+                Type = createFeedbackDTO.Type,
                 Rating = createFeedbackDTO.Rating
             };
 
@@ -55,7 +57,19 @@ namespace MilkBusiness
         {
             var feedback = await _unitOfWork.GetRepository<Feedback>()
                 .SingleOrDefaultAsync(predicate: f => f.FeedbackId == feedbackId,
-                                      include: x => x.Include(f => f.FeedbackMedia));
+                                      selector: f => new GetFeedbackDTO
+                                      {
+                                          FeedbackId = f.FeedbackId,
+                                          Status = f.Status,
+                                          Description = f.Description,
+                                          AccountId = f.AccountId,
+                                          CreatedDate = f.CreatedDate,
+                                          FeedbackContent = f.FeedbackContent,
+                                          ProductId = f.ProductId,
+                                          Rating = f.Rating,
+                                          Type = f.Type,
+                                          UpdateDate = f.UpdateDate,
+                                      });
             return new MilkResult(feedback);
         }
 
@@ -63,29 +77,56 @@ namespace MilkBusiness
         {
             var feedbacks = await _unitOfWork.GetRepository<Feedback>()
                 .GetListAsync(predicate: f => f.ProductId == productId,
-                              include: x => x.Include(f => f.FeedbackMedia));
+                              selector: f => new GetFeedbackDTO
+                              {
+                                  FeedbackId = f.FeedbackId,
+                                  Status = f.Status,
+                                  Description = f.Description,
+                                  AccountId = f.AccountId,
+                                  CreatedDate = f.CreatedDate,
+                                  FeedbackContent = f.FeedbackContent,
+                                  ProductId = f.ProductId,
+                                  Rating = f.Rating,
+                                  Type = f.Type,
+                                  UpdateDate = f.UpdateDate,
+                              });
             return new MilkResult(feedbacks);
         }
 
         public async Task<IMilkResult> GetAllFeedback()
         {
-            var feedbackList = await _unitOfWork.GetRepository<Feedback>().GetListAsync(include: x => x.Include(f => f.FeedbackMedia));
+            var feedbackList = await _unitOfWork.GetRepository<Feedback>()
+                .GetListAsync(selector: f => new GetFeedbackDTO
+                {
+                    FeedbackId = f.FeedbackId,
+                    Status = f.Status,
+                    Description = f.Description,
+                    AccountId = f.AccountId,
+                    CreatedDate = f.CreatedDate,
+                    FeedbackContent = f.FeedbackContent,
+                    ProductId = f.ProductId,
+                    Rating = f.Rating,
+                    Type = f.Type,
+                    UpdateDate = f.UpdateDate,
+                });
             return new MilkResult(feedbackList);
         }
 
-        public async Task<IMilkResult> UpdateFeedBack(FeedbackDTO feedback)
+        public async Task<IMilkResult> UpdateFeedBack(int id, FeedbackDTO feedback)
         {
             Feedback currentFeedback = await _unitOfWork.GetRepository<Feedback>()
-                .SingleOrDefaultAsync(predicate: f => f.FeedbackId == feedback.FeedbackId);
+                .SingleOrDefaultAsync(predicate: f => f.FeedbackId == id);
             if (currentFeedback == null) return new MilkResult(-1, "Feedback cannot be found");
             else
             {
                 currentFeedback.AccountId = feedback.AccountId;
                 currentFeedback.ProductId = feedback.ProductId;
-                currentFeedback.Content = String.IsNullOrEmpty(feedback.Content) ? currentFeedback.Content : feedback.Content;
-                currentFeedback.IsReported = feedback.IsReported;
-                currentFeedback.CreatedAt = feedback.CreatedAt; 
-                currentFeedback.UpdatedAt = feedback.UpdatedAt;
+                currentFeedback.FeedbackContent = String.IsNullOrEmpty(feedback.FeedbackContent) ? currentFeedback.FeedbackContent : feedback.FeedbackContent;
+                currentFeedback.Description = String.IsNullOrEmpty(feedback.Description) ? currentFeedback.Description : feedback.Description;
+                currentFeedback.Status = String.IsNullOrEmpty(feedback.Status) ? currentFeedback.Status : feedback.Status;
+                currentFeedback.Type = String.IsNullOrEmpty(feedback.Type) ? currentFeedback.Type : feedback.Type;
+                currentFeedback.CreatedDate = feedback.CreatedDate;
+                currentFeedback.UpdateDate = feedback.UpdateDate;
                 currentFeedback.Rating = feedback.Rating;
 
                 _unitOfWork.GetRepository<Feedback>().UpdateAsync(currentFeedback);

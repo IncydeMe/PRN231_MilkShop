@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MilkData.DTOs.Blog
+﻿namespace MilkWebApp.Models.Blog
 {
-    public class GetBlogDTO
+    public class BlogModel
     {
-        public int BlogId { get; set; }
+        public int BlogId { get; set; } 
 
         public int AccountId { get; set; }
 
@@ -20,14 +14,12 @@ namespace MilkData.DTOs.Blog
 
         public string ProductSuggestUrl { get; set; } = null!;
 
-        public DateTime CreatedDate { get; set; }
-
-        public DateTime UpdateDate { get; set; }
-
         public string CategoryName { get; set; } = null!;
 
         public string Reference { get; set; } = null!;
 
         public int Priority { get; set; }
+
+        public string HttpMethod { get; set; }
     }
 }

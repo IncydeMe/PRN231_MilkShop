@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using MilkBusiness;
 using MilkData.DTOs;
+using MilkData.DTOs.Blog;
 using MilkData.DTOs.Order;
 using MilkData.Models;
 using MilkData.VNPay.Response;
 using MilkWebAPI.Constants;
 using Swashbuckle.AspNetCore.Annotations;
+using static MilkData.DTOs.Order.OrderDTO;
 
 namespace MilkWebAPI.Controllers
 {
@@ -20,7 +22,6 @@ namespace MilkWebAPI.Controllers
             _orderBusiness = new OrderBusiness();
         }
 
-        [Authorize(Roles = "staff")]
         [HttpGet(ApiEndPointConstant.Order.OrdersEndPoint)]
         [SwaggerOperation(Summary = "Get all Orders")]
         public async Task<IActionResult> GetAllOrders()
@@ -32,7 +33,6 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize]
         [HttpGet(ApiEndPointConstant.Order.OrderEndPoint)]
         [SwaggerOperation(Summary = "Get Order by its id")]
         public async Task<IActionResult> GetOrderById(int id)
@@ -44,7 +44,6 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize]
         [HttpPost(ApiEndPointConstant.Order.OrdersEndPoint)]
         [SwaggerOperation(Summary = "Create a new Order")]
         public async Task<IActionResult> CreateOrder(OrderDTO.CreateOrder createOrder)
@@ -56,43 +55,26 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        //[HttpGet(ApiEndPointConstant.Order.OrderConfirmEndpoint)]
-        //[SwaggerOperation(Summary = "Payment Response")]
-        //public async Task<IActionResult> PaymentResponse([FromQuery] VNPayResponse response)
-        //{
-        //    try
-        //    {
-        //        var result = await _orderBusiness.CheckPaymentResponse(response);
-        //        PaymentDTO.PaymentReturnResponse paymentResponse = (PaymentDTO.PaymentReturnResponse)result.Data;
-        //        var order = await _orderBusiness.GetOrderById(paymentResponse.OrderId);
-        //        Guid accountId = ((Order)order.Data).AccountId;
+        [HttpPut(ApiEndPointConstant.Order.OrderEndPoint)]
+        [SwaggerOperation(Summary = "Update Order Info")]
+        public async Task<IActionResult> UpdateOrderInfo(int id, UpdateOrder order)
+        {
+            var response = await _orderBusiness.UpdateOrder(id, order);
+            if (response.Status >= 0)
+                return Ok(response);
+            else
+                return BadRequest(response);
+        }
 
-        //        if (paymentResponse.PaymentStatus.Equals("Success"))
-        //        {
-        //            await _orderBusiness.ChangeOrderStatus(paymentResponse.OrderId, "Delivering");
-        //        } else
-        //        {
-        //            await _orderBusiness.ChangeOrderStatus(paymentResponse.OrderId, "Failed");
-        //        }
-
-        //        PaymentDTO.PaymentReturnResponse paymentReturnResponse = new PaymentDTO.PaymentReturnResponse
-        //        {
-        //            OrderId = paymentResponse.OrderId,
-        //            PaymentStatus = paymentResponse.PaymentStatus,
-        //            PaymentMessage = paymentResponse.PaymentMessage,
-        //            Amount = paymentResponse.Amount
-        //        };
-        //        //redirect or ok?
-        //        return Ok(paymentReturnResponse);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        if (ex.GetType() == typeof(BadHttpRequestException))
-        //        {
-        //            return BadRequest(ex.Message);
-        //        }
-        //        return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-        //    }
-        //}
+        [HttpDelete(ApiEndPointConstant.Order.OrderEndPoint)]
+        [SwaggerOperation(Summary = "Delete Order")]
+        public async Task<IActionResult> DeleteOrder(int id)
+        {
+            var response = await _orderBusiness.DeleteOrder(id);
+            if (response.Status >= 0)
+                return Ok(response);
+            else
+                return BadRequest(response);
+        }
     }
 }

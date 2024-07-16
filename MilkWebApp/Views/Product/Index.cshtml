@@ -45,13 +45,17 @@
 <table>
     <thead>
         <tr>
+            <th>ProductId</th>
+            <th>CategoryId</th>
             <th>Name</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Description</th>
-            <th>CategoryId</th>
             <th>ImageUrl</th>
             <th>TotalRating</th>
+            <th>Status</th>
+            <th>CreateDate</th>
+            <th>UpdateDate</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -92,13 +96,16 @@
             $("#btSave").click(function () {
                 var formData = new FormData();
                 formData.append("ProductId", $("#ProductId").val());
+                formData.append("CategoryId", $("#CategoryId").val());
                 formData.append("Name", $("#Name").val());
                 formData.append("Price", $("#Price").val());
                 formData.append("Quantity", $("#Quantity").val());
                 formData.append("Description", $("#Description").val());
-                formData.append("CategoryId", $("#CategoryId").val());
                 formData.append("ImageUrl", $("#ImageUrl").val());
                 formData.append("TotalRating", $("#TotalRating").val());
+                formData.append("Status", $("#Status").val());
+                formData.append("CreateDate", $("#CreateDate").val());
+                formData.append("UpdateDate", $("#UpdateDate").val());
                 formData.append("HttpMethod", method);
 
                 $.ajax({
@@ -134,13 +141,17 @@
                     var html = "";
                     $.each(result, function (key, item) {
                         html += '<tr>';
+                        html += '<td>' + item.productId + '</td>';
+                        html += '<td>' + item.categoryId + '</td>';
                         html += '<td>' + item.name + '</td>';
                         html += '<td>' + item.price + '</td>';
                         html += '<td>' + item.quantity + '</td>';
                         html += '<td>' + item.description + '</td>';
-                        html += '<td>' + item.categoryId + '</td>';
                         html += '<td>' + item.imageUrl + '</td>';
                         html += '<td>' + item.totalRating + '</td>';
+                        html += '<td>' + item.status + '</td>';
+                        html += '<td>' + item.createDate + '</td>';
+                        html += '<td>' + item.updateDate + '</td>';
                         html += '<td class="action-links">';
                         html += '<a href="#" onclick = "return detail(\'' + item.productId + '\')" > Detail </a> <a href="#" onclick="return edit(\'' + item.productId + '\')">Edit</a> <a href="#" onclick = "delele(\'' + item.productId + '\')" > Delete </a></td > ';
                         html += '</tr>';

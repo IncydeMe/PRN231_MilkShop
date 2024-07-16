@@ -45,13 +45,17 @@
 <table>
     <thead>
         <tr>
+            <th>BlogId</th>
+            <th>AccountId</th>
             <th>Title</th>
-            <th>Content</th>
-            <th>Image</th>
-            <th>Product</th>
-            <th>CreateDate</th>
-            <th>Account</th>
-            <th>Category</th>
+            <th>BlogContent</th>
+            <th>ImageUrl</th>
+            <th>ProductSuggestUrl</th>
+            <th>CreatedDate</th>
+            <th>UpdateDate</th>
+            <th>CategoryName</th>
+            <th>Reference</th>
+            <th>Priority</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -74,7 +78,7 @@
                 </div>
                 <div class="modal-footer">
                     <button id="btSave" type="button" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="btClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             }
         </div>
@@ -92,13 +96,16 @@
             $("#btSave").click(function () {
                 var formData = new FormData();
                 formData.append("BlogId", $("#BlogId").val());
+                formData.append("AccountId", $("#AccountId").val());
                 formData.append("Title", $("#Title").val());
-                formData.append("Content", $("#Content").val());
+                formData.append("BlogContent", $("#BlogContent").val());
                 formData.append("ImageUrl", $("#ImageUrl").val());
                 formData.append("ProductSuggestUrl", $("#ProductSuggestUrl").val());
                 formData.append("CreatedDate", $("#CreatedDate").val());
-                formData.append("AccountId", $("#AccountId").val());
-                formData.append("BlogCategoryId", $("#BlogCategoryId").val());
+                formData.append("UpdateDate", $("#UpdateDate").val());
+                formData.append("CategoryName", $("#CategoryName").val());
+                formData.append("Reference", $("#Reference").val());
+                formData.append("Priority", $("#Priority").val());
                 formData.append("HttpMethod", method);
 
                 $.ajax({
@@ -134,13 +141,17 @@
                     var html = "";
                     $.each(result, function (key, item) {
                         html += '<tr>';
+                        html += '<td>' + item.blogId + '</td>';
+                        html += '<td>' + item.accountId + '</td>';
                         html += '<td>' + item.title + '</td>';
-                        html += '<td>' + item.content + '</td>';
+                        html += '<td>' + item.blogContent + '</td>';
                         html += '<td>' + item.imageUrl + '</td>';
                         html += '<td>' + item.productSuggestUrl + '</td>';
                         html += '<td>' + item.createdDate + '</td>';
-                        html += '<td>' + item.accountId + '</td>';
-                        html += '<td>' + item.blogCategoryId + '</td>';
+                        html += '<td>' + item.updateDate + '</td>';
+                        html += '<td>' + item.categoryName + '</td>';
+                        html += '<td>' + item.reference + '</td>';
+                        html += '<td>' + item.priority + '</td>';
                         html += '<td class="action-links">';
                         html += '<a href="#" onclick = "return detail(\'' + item.blogId + '\')" > Detail </a> <a href="#" onclick="return edit(\'' + item.blogId + '\')">Edit</a> <a href="#" onclick = "delele(\'' + item.blogId + '\')" > Delete </a></td > ';
                         html += '</tr>';
@@ -158,6 +169,8 @@
             $("#topUpModalLabel").html("Add New");
             method = "POST";
 
+            $("#btSave").show();
+
             $.ajax({
                 url: '@Url.Action("AddNew", "Blog")',
                 type: "GET",
@@ -174,9 +187,11 @@
         function detail(id) {
             $("#topUpModalContent").html("");
             $("#topUpModalLabel").html("Detail");
-
+            $("#btClose").hide();
             var formData = new FormData();
             formData.append("id", id);
+
+            $("#btSave").hide();
 
             $.ajax({
                 url: '@Url.Action("Detail", "Blog")',
@@ -201,6 +216,8 @@
             $("#topUpModalContent").html("");
             $("#topUpModalLabel").html("Update");
             method = "PUT";
+
+            $("#btSave").show();
 
             var formData = new FormData();
             formData.append("id", id);
