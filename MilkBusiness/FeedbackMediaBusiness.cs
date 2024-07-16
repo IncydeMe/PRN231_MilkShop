@@ -20,14 +20,32 @@ public class FeedbackMediaBusiness
 
     public async Task<IMilkResult> GetAllFeMedia()
     {
-        var feMediaList = await _unitOfWork.GetRepository<FeedbackMedia>().GetListAsync();
+        var feMediaList = await _unitOfWork.GetRepository<FeedbackMedia>()
+            .GetListAsync(selector: fm => new GetFeedbackMediaDTO
+            {
+                FeedbackId = fm.FeedbackId,
+                UpdateDate = fm.UpdateDate,
+                CreateDate = fm.CreateDate,
+                FeedbackMediaId = fm.FeedbackId,
+                MediaType = fm.MediaType,
+                MediaUrl = fm.MediaUrl
+            });
         return new MilkResult(feMediaList);
     }
 
     public async Task<IMilkResult> GetFeMedaiInfo(int feMediaId)
     {
         var feMedia = await _unitOfWork.GetRepository<FeedbackMedia>()
-            .SingleOrDefaultAsync(predicate: fm => fm.FeedbackMediaId == feMediaId);
+            .SingleOrDefaultAsync(predicate: fm => fm.FeedbackMediaId == feMediaId,
+                                  selector: fm => new GetFeedbackMediaDTO
+                                  {
+                                      FeedbackId = fm.FeedbackId,
+                                      UpdateDate = fm.UpdateDate,
+                                      CreateDate = fm.CreateDate,
+                                      FeedbackMediaId = fm.FeedbackId,
+                                      MediaType = fm.MediaType,
+                                      MediaUrl = fm.MediaUrl
+                                  });
         return new MilkResult(feMedia);
     }
 
@@ -37,7 +55,6 @@ public class FeedbackMediaBusiness
 
         FeedbackMedia feedbackMedia = new FeedbackMedia()
         {
-            FeedbackMediaId = feMedia.FeedbackMediaId,
             MediaType = feMedia.MediaType,
             FeedbackId = feMedia.FeedbackId,
             MediaUrl = feMedia.MediaUrl,
@@ -61,10 +78,10 @@ public class FeedbackMediaBusiness
         return result;
     }
 
-    public async Task<IMilkResult> UpdateFeMediaInfo(FeedbackMediaDTO feedbackMedia)
+    public async Task<IMilkResult> UpdateFeMediaInfo(int id, FeedbackMediaDTO feedbackMedia)
     {
         FeedbackMedia currentFeMedia = await _unitOfWork.GetRepository<FeedbackMedia>()
-            .SingleOrDefaultAsync(predicate: fm => fm.FeedbackMediaId == feedbackMedia.FeedbackMediaId);
+            .SingleOrDefaultAsync(predicate: fm => fm.FeedbackMediaId == id);
         if (currentFeMedia == null) return new MilkResult(-1, "Feedback media cannot be found");
         else
         {

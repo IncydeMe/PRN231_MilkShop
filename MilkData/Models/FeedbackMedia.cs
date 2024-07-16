@@ -13,9 +13,9 @@ public partial class FeedbackMedia
 
     public string MediaType { get; set; } = null!;
 
-    public DateTime? CreateDate { get; set; }
+    public DateTime CreateDate { get; set; }
 
-    public DateTime? UpdateDate { get; set; }
+    public DateTime UpdateDate { get; set; }
 
     public virtual Feedback Feedback { get; set; } = null!;
 }

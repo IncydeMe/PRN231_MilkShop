@@ -69,7 +69,7 @@ namespace MilkWebAPI.Controllers
         [SwaggerOperation(Summary = "Update Account Info")]
         public async Task<IActionResult> UpdateAccountInfo(int id, AccountDTO account)
         {
-            var response = await _accountBusiness.UpdateAccountInfo(account);
+            var response = await _accountBusiness.UpdateAccountInfo(id, account);
             if (response.Status >= 0)
                 return Ok(response);
             else

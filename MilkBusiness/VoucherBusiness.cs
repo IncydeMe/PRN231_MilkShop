@@ -19,7 +19,7 @@ namespace MilkBusiness
         public async Task<IMilkResult> GetAllVoucher()
         {
             var voucherList = await _unitOfWork.GetRepository<Voucher>()
-                .GetListAsync(selector: x => new VoucherDTO
+                .GetListAsync(selector: x => new GetVoucherDTO
                 {
                     VoucherId = x.VoucherId,
                     Value = x.Value,
@@ -37,7 +37,7 @@ namespace MilkBusiness
         {
             var voucher = await _unitOfWork.GetRepository<Voucher>()
                 .SingleOrDefaultAsync(predicate: p => p.VoucherId == voucherId,
-                                    selector: x => new VoucherDTO
+                                    selector: x => new GetVoucherDTO
                                     {
                                         VoucherId = x.VoucherId,
                                         Value = x.Value,
@@ -55,7 +55,7 @@ namespace MilkBusiness
         {
             var voucherList = await _unitOfWork.GetRepository<Voucher>()
                 .GetListAsync(predicate: p => p.Type == type,
-                            selector: x => new VoucherDTO
+                            selector: x => new GetVoucherDTO
                             {
                                 VoucherId = x.VoucherId,
                                 Value = x.Value,
@@ -74,7 +74,6 @@ namespace MilkBusiness
             MilkResult result = new MilkResult();
             Voucher newVoucher = new Voucher
             {
-                VoucherId = voucher.VoucherId,
                 Value = voucher.Value,
                 Type = voucher.Type,
                 Description = SetVoucherDescription(voucher.Type, voucher.Value),

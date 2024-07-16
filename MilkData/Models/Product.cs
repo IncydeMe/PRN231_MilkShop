@@ -21,11 +21,11 @@ public partial class Product
 
     public decimal TotalRating { get; set; }
 
-    public string? Status { get; set; }
+    public string Status { get; set; } = null!;
 
-    public DateTime? CreateDate { get; set; }
+    public DateTime CreateDate { get; set; }
 
-    public DateTime? UpdateDate { get; set; }
+    public DateTime UpdateDate { get; set; }
 
     public virtual Category Category { get; set; } = null!;
 

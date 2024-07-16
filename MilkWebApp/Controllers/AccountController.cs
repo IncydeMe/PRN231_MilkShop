@@ -128,7 +128,7 @@ namespace MilkWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<MilkResult> Save(AccountDTO account)
+        public async Task<MilkResult> Save(GetAccountDTO account)
         {
             try
             {

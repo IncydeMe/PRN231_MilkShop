@@ -76,7 +76,6 @@ namespace MilkBusiness
 
             Product newProduct = new Product()
             {
-                ProductId = product.ProductId,
                 CategoryId = product.CategoryId,
                 Name = product.Name,
                 Price = product.Price,

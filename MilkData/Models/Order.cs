@@ -15,15 +15,15 @@ public partial class Order
 
     public float TotalPrice { get; set; }
 
-    public string? Currency { get; set; }
+    public string Currency { get; set; } = null!;
 
     public string Status { get; set; } = null!;
 
-    public string? PaymentType { get; set; }
+    public string PaymentType { get; set; } = null!;
 
-    public DateTime? CreateDate { get; set; }
+    public DateTime CreateDate { get; set; }
 
-    public DateTime? UpdateDate { get; set; }
+    public DateTime UpdateDate { get; set; }
 
     public string? Note { get; set; }
 

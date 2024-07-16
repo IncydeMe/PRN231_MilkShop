@@ -24,7 +24,6 @@ namespace MilkBusiness
         {
             Feedback feedback = new Feedback
             {
-                FeedbackId = createFeedbackDTO.FeedbackId,
                 AccountId = createFeedbackDTO.AccountId,
                 ProductId = createFeedbackDTO.ProductId,
                 CreatedDate = createFeedbackDTO.CreatedDate,    
@@ -57,27 +56,66 @@ namespace MilkBusiness
         public async Task<IMilkResult> GetFeedbackById(int feedbackId)
         {
             var feedback = await _unitOfWork.GetRepository<Feedback>()
-                .SingleOrDefaultAsync(predicate: f => f.FeedbackId == feedbackId);
+                .SingleOrDefaultAsync(predicate: f => f.FeedbackId == feedbackId,
+                                      selector: f => new GetFeedbackDTO
+                                      {
+                                          FeedbackId = f.FeedbackId,
+                                          Status = f.Status,
+                                          Description = f.Description,
+                                          AccountId = f.AccountId,
+                                          CreatedDate = f.CreatedDate,
+                                          FeedbackContent = f.FeedbackContent,
+                                          ProductId = f.ProductId,
+                                          Rating = f.Rating,
+                                          Type = f.Type,
+                                          UpdateDate = f.UpdateDate,
+                                      });
             return new MilkResult(feedback);
         }
 
         public async Task<IMilkResult> GetFeedbackOfProduct(int productId)
         {
             var feedbacks = await _unitOfWork.GetRepository<Feedback>()
-                .GetListAsync(predicate: f => f.ProductId == productId);
+                .GetListAsync(predicate: f => f.ProductId == productId,
+                              selector: f => new GetFeedbackDTO
+                              {
+                                  FeedbackId = f.FeedbackId,
+                                  Status = f.Status,
+                                  Description = f.Description,
+                                  AccountId = f.AccountId,
+                                  CreatedDate = f.CreatedDate,
+                                  FeedbackContent = f.FeedbackContent,
+                                  ProductId = f.ProductId,
+                                  Rating = f.Rating,
+                                  Type = f.Type,
+                                  UpdateDate = f.UpdateDate,
+                              });
             return new MilkResult(feedbacks);
         }
 
         public async Task<IMilkResult> GetAllFeedback()
         {
-            var feedbackList = await _unitOfWork.GetRepository<Feedback>().GetListAsync();
+            var feedbackList = await _unitOfWork.GetRepository<Feedback>()
+                .GetListAsync(selector: f => new GetFeedbackDTO
+                {
+                    FeedbackId = f.FeedbackId,
+                    Status = f.Status,
+                    Description = f.Description,
+                    AccountId = f.AccountId,
+                    CreatedDate = f.CreatedDate,
+                    FeedbackContent = f.FeedbackContent,
+                    ProductId = f.ProductId,
+                    Rating = f.Rating,
+                    Type = f.Type,
+                    UpdateDate = f.UpdateDate,
+                });
             return new MilkResult(feedbackList);
         }
 
-        public async Task<IMilkResult> UpdateFeedBack(FeedbackDTO feedback)
+        public async Task<IMilkResult> UpdateFeedBack(int id, FeedbackDTO feedback)
         {
             Feedback currentFeedback = await _unitOfWork.GetRepository<Feedback>()
-                .SingleOrDefaultAsync(predicate: f => f.FeedbackId == feedback.FeedbackId);
+                .SingleOrDefaultAsync(predicate: f => f.FeedbackId == id);
             if (currentFeedback == null) return new MilkResult(-1, "Feedback cannot be found");
             else
             {

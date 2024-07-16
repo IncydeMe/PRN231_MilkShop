@@ -100,7 +100,7 @@ namespace MilkBusiness
         {
             var accList = await _unitOfWork.GetRepository<Account>()
                 .GetListAsync(predicate: a => (bool)a.IsActive,
-                              selector: a => new AccountDTO
+                              selector: a => new GetAccountDTO
                               {
                                   AccountId = a.AccountId,
                                   Address = a.Address,
@@ -121,7 +121,7 @@ namespace MilkBusiness
         {
             var acc = await _unitOfWork.GetRepository<Account>()
                 .SingleOrDefaultAsync(predicate: a => a.AccountId == accountId && (bool)a.IsActive,
-                                      selector: a => new AccountDTO
+                                      selector: a => new GetAccountDTO
                                       {
                                           AccountId = a.AccountId,
                                           Address = a.Address,
@@ -143,7 +143,7 @@ namespace MilkBusiness
         {
             var acc = await _unitOfWork.GetRepository<Account>()
                 .SingleOrDefaultAsync(predicate: a => a.Email.Equals(email) && (bool)a.IsActive,
-                                      selector: a => new AccountDTO
+                                      selector: a => new GetAccountDTO
                                       {
                                           AccountId = a.AccountId,
                                           Address = a.Address,
@@ -177,7 +177,6 @@ namespace MilkBusiness
 
             Account newAccount = new Account
             {
-                AccountId = inputedAccount.AccountId,
                 FullName = inputedAccount.FullName,
                 Password = inputedAccount.Password,
                 Email = inputedAccount.Email,
@@ -206,10 +205,10 @@ namespace MilkBusiness
             return result;
         }
 
-        public async Task<IMilkResult> UpdateAccountInfo(AccountDTO accInfo)
+        public async Task<IMilkResult> UpdateAccountInfo(int id, AccountDTO accInfo)
         {
             Account currentAcc = await _unitOfWork.GetRepository<Account>()
-                .SingleOrDefaultAsync(predicate: a => a.AccountId.Equals(accInfo.AccountId));
+                .SingleOrDefaultAsync(predicate: a => a.AccountId == id);
             if (currentAcc == null) return new MilkResult(-1, "Account cannot be found");
             else
             {
@@ -222,7 +221,7 @@ namespace MilkBusiness
                 currentAcc.AvatarUrl = String.IsNullOrEmpty(accInfo.AvatarUrl) ? currentAcc.AvatarUrl : accInfo.AvatarUrl;
                 currentAcc.UserName = String.IsNullOrEmpty(accInfo.UserName) ? currentAcc.UserName : accInfo.UserName;
                 currentAcc.Point = accInfo.Point;
-                currentAcc.IsActive = accInfo.IsActive == null ? currentAcc.IsActive : accInfo.IsActive;
+                currentAcc.IsActive = accInfo.IsActive;
 
                 _unitOfWork.GetRepository<Account>().UpdateAsync(currentAcc);
                 await _unitOfWork.CommitAsync();

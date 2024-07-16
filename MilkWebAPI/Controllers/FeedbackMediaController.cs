@@ -54,7 +54,7 @@ namespace MilkWebAPI.Controllers
         [SwaggerOperation(Summary = "Update Feedback Media Info")]
         public async Task<IActionResult> UpdateFeedbackMedia(int id, FeedbackMediaDTO feedbackMedia)
         {
-            var response = await _feedbackMediaBusiness.UpdateFeMediaInfo(feedbackMedia);
+            var response = await _feedbackMediaBusiness.UpdateFeMediaInfo(id, feedbackMedia);
             if (response.Status >= 0)
                 return Ok(response);
             else

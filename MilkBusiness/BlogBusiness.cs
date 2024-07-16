@@ -66,7 +66,6 @@ namespace MilkBusiness
 
             Blog createdBlog = new Blog()
             {
-                BlogId = blog.BlogId,
                 AccountId = blog.AccountId,
                 BlogContent = blog.BlogContent,
                 CategoryName = blog.CategoryName,

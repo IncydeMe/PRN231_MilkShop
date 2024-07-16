@@ -28,6 +28,15 @@ namespace MilkData.DTOs.Order
             public int ProductId { get; set; }
         }
 
+        public class UpdateOrderDetail
+        {
+            public int OrderId { get; set; }
+
+            public int Quantity { get; set; }
+
+            public int ProductId { get; set; }
+        }
+
         public class OrderDetailsInput
         {
             public int OrderId { get; set; }

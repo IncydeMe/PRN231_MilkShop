@@ -13,17 +13,17 @@ public partial class Feedback
 
     public string? Description { get; set; }
 
-    public string? FeedbackContent { get; set; }
+    public string FeedbackContent { get; set; } = null!;
 
     public DateTime CreatedDate { get; set; }
 
     public DateTime UpdateDate { get; set; }
 
-    public int? Rating { get; set; }
+    public int Rating { get; set; }
 
-    public string? Status { get; set; }
+    public string Status { get; set; } = null!;
 
-    public string? Type { get; set; }
+    public string Type { get; set; } = null!;
 
     public virtual Account Account { get; set; } = null!;
 

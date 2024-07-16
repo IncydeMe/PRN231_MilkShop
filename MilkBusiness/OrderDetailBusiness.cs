@@ -1,4 +1,5 @@
 ﻿using MilkData.DTOs;
+using MilkData.DTOs.Blog;
 using MilkData.DTOs.Order;
 using MilkData.Models;
 using MilkData.Repository.Implements;
@@ -36,7 +37,14 @@ namespace MilkBusiness
         public async Task<IMilkResult> GetOrderDetailById(int orderDetailId)
         {
             var orderDetail = await _unitOfWork.GetRepository<OrderDetail>().SingleOrDefaultAsync(
-                predicate: o => o.OrderDetailId == orderDetailId);
+                predicate: o => o.OrderDetailId == orderDetailId,
+                selector: x => new GetOrderDetail()
+                {
+                    OrderDetailId = x.OrderDetailId,
+                    OrderId = x.OrderId,
+                    ProductId = x.ProductId,
+                    Quantity = x.Quantity
+                });
             return new MilkResult(orderDetail);
         }
 
@@ -65,6 +73,37 @@ namespace MilkBusiness
                 result.Message = "OrderDetail creation failed";
             }
             return result;
+        }
+
+        public async Task<IMilkResult> UpdateOrderDetail(int id, UpdateOrderDetail orderDetail)
+        {
+            OrderDetail currentOrderDetail = await _unitOfWork.GetRepository<OrderDetail>()
+                .SingleOrDefaultAsync(predicate: od => od.OrderDetailId == id);
+            if (currentOrderDetail == null) return new MilkResult(-1, "Blog cannot be found");
+            else
+            {
+                currentOrderDetail.OrderId = orderDetail.OrderId;
+                currentOrderDetail.ProductId = orderDetail.ProductId;
+                currentOrderDetail.Quantity = orderDetail.Quantity;
+
+                _unitOfWork.GetRepository<OrderDetail>().UpdateAsync(currentOrderDetail);
+                await _unitOfWork.CommitAsync();
+            }
+
+            return new MilkResult(orderDetail);
+        }
+
+        public async Task<IMilkResult> DeleteOrderDetail(int id)
+        {
+            OrderDetail orderDetail = await _unitOfWork.GetRepository<OrderDetail>()
+                .SingleOrDefaultAsync(predicate: od => od.OrderDetailId == id);
+            if (orderDetail == null) return new MilkResult();
+            else
+            {
+                _unitOfWork.GetRepository<OrderDetail>().DeleteAsync(orderDetail);
+                await _unitOfWork.CommitAsync();
+            }
+            return new MilkResult(1, "Delete Successfull");
         }
         #endregion
     }

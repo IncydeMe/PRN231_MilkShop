@@ -45,10 +45,17 @@
 <table>
     <thead>
         <tr>
+            <th>OrderId</th>
             <th>AccountId</th>
+            <th>Description</th>
             <th>VoucherCode</th>
             <th>TotalPrice</th>
+            <th>Currency</th>
             <th>Status</th>
+            <th>PaymentType</th>
+            <th>CreateDate</th>
+            <th>UpdateDate</th>
+            <th>Note</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -90,6 +97,7 @@
                 var formData = new FormData();
                 formData.append("OrderId", $("#OrderId").val());
                 formData.append("AccountId", $("#AccountId").val());
+                formData.append("Description", $("#Description").val());
                 formData.append("VoucherCode", $("#VoucherCode").val());
                 formData.append("TotalPrice", $("#TotalPrice").val());
                 formData.append("Status", $("#Status").val());

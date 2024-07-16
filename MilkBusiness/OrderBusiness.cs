@@ -34,8 +34,8 @@ namespace MilkBusiness
                 selector: o => new GetOrder()
                 {
                     OrderId = o.OrderId,
-                    UpdateDate = DateTime.Now,
-                    CreateDate = DateTime.Now,
+                    UpdateDate = o.UpdateDate,
+                    CreateDate = o.CreateDate,
                     Status = o.Status,
                     AccountId = o.AccountId,
                     Currency = o.Currency,
@@ -55,8 +55,8 @@ namespace MilkBusiness
                 selector: o => new GetOrder()
                 {
                     OrderId = o.OrderId,
-                    UpdateDate = DateTime.Now,
-                    CreateDate = DateTime.Now,
+                    UpdateDate = o.UpdateDate,
+                    CreateDate = o.CreateDate,
                     Status = o.Status,
                     AccountId = o.AccountId,
                     Currency = o.Currency,
@@ -87,8 +87,8 @@ namespace MilkBusiness
                  selector: o => new GetOrder()
                  {
                      OrderId = o.OrderId,
-                     UpdateDate = DateTime.Now,
-                     CreateDate = DateTime.Now,
+                     UpdateDate = o.UpdateDate,
+                     CreateDate = o.CreateDate,
                      Status = o.Status,
                      AccountId = o.AccountId,
                      Currency = o.Currency,
@@ -115,7 +115,6 @@ namespace MilkBusiness
         {
             Order order = new Order
             {
-                OrderId = 0,
                 UpdateDate = DateTime.Now,
                 CreateDate = DateTime.Now,
                 Status = createOrder.Status,
@@ -152,6 +151,44 @@ namespace MilkBusiness
             order.Status = status;
             _unitOfWork.GetRepository<Order>().UpdateAsync(order);
             await _unitOfWork.CommitAsync();
+        }
+
+        public async Task<IMilkResult> UpdateOrder(int id, UpdateOrder updatedOrder)
+        {
+            Order currentOrder = await _unitOfWork.GetRepository<Order>()
+                .SingleOrDefaultAsync(predicate: o => o.OrderId == id);
+            if (currentOrder == null) return new MilkResult(-1, "Blog cannot be found");
+            else
+            {
+                currentOrder.AccountId = updatedOrder.AccountId;
+                currentOrder.Description = String.IsNullOrEmpty(updatedOrder.Description) ? currentOrder.Description : updatedOrder.Description;
+                currentOrder.VoucherCode = updatedOrder.VoucherCode;
+                currentOrder.TotalPrice = updatedOrder.TotalPrice;
+                currentOrder.Currency = String.IsNullOrEmpty(updatedOrder.Currency) ? currentOrder.Currency : updatedOrder.Currency;
+                currentOrder.Status = String.IsNullOrEmpty(updatedOrder.Status) ? currentOrder.Status : updatedOrder.Status;
+                currentOrder.PaymentType = String.IsNullOrEmpty(updatedOrder.PaymentType) ? currentOrder.PaymentType : updatedOrder.PaymentType;
+                currentOrder.CreateDate = updatedOrder.CreateDate;
+                currentOrder.UpdateDate = updatedOrder.UpdateDate;
+                currentOrder.Note = String.IsNullOrEmpty(updatedOrder.Note) ? currentOrder.Note : updatedOrder.Note;
+
+                _unitOfWork.GetRepository<Order>().UpdateAsync(currentOrder);
+                await _unitOfWork.CommitAsync();
+            }
+
+            return new MilkResult(updatedOrder);
+        }
+
+        public async Task<IMilkResult> DeleteOrder(int id)
+        {
+            Order order = await _unitOfWork.GetRepository<Order>()
+                .SingleOrDefaultAsync(predicate: o => o.OrderId == id);
+            if (order == null) return new MilkResult();
+            else
+            {
+                _unitOfWork.GetRepository<Order>().DeleteAsync(order);
+                await _unitOfWork.CommitAsync();
+            }
+            return new MilkResult(1, "Delete Successfull");
         }
 
         #endregion

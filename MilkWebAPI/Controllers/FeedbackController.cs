@@ -66,7 +66,7 @@ namespace MilkWebAPI.Controllers
         [SwaggerOperation(Summary = "Update Feedback Info")]
         public async Task<IActionResult> UpdateFeedback(int id, FeedbackDTO feedback)
         {
-            var response = await _feedbackBusiness.UpdateFeedBack(feedback);
+            var response = await _feedbackBusiness.UpdateFeedBack(id, feedback);
             if (response.Status >= 0)
                 return Ok(response);
             else

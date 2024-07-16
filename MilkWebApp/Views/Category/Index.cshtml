@@ -45,7 +45,12 @@
 <table>
     <thead>
         <tr>
-            <th>Name</th>
+            <th>CategoryId</th>
+            <th>CategoryName</th>
+            <th>CategoryCode</th>
+            <th>Description</th>
+            <th>ImageUrl</th>
+            <th>Status</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -87,6 +92,10 @@
                 var formData = new FormData();
                 formData.append("CategoryId", $("#CategoryId").val());
                 formData.append("CategoryName", $("#CategoryName").val());
+                formData.append("CategoryCode", $("#CategoryCode").val());
+                formData.append("Description", $("#Description").val());
+                formData.append("ImageUrl", $("#ImageUrl").val());
+                formData.append("Status", $("#Status").val());
                 formData.append("HttpMethod", method);
 
                 $.ajax({
@@ -122,7 +131,12 @@
                     var html = "";
                     $.each(result, function (key, item) {
                         html += '<tr>';
+                        html += '<td>' + item.categoryId + '</td>';
                         html += '<td>' + item.categoryName + '</td>';
+                        html += '<td>' + item.categoryCode + '</td>';
+                        html += '<td>' + item.description + '</td>';
+                        html += '<td>' + item.imageUrl + '</td>';
+                        html += '<td>' + item.status + '</td>';
                         html += '<td class="action-links">';
                         html += '<a href="#" onclick = "return detail(\'' + item.categoryId + '\')" > Detail </a> <a href="#" onclick="return edit(\'' + item.categoryId + '\')">Edit</a> <a href="#" onclick = "delele(\'' + item.categoryId + '\')" > Delete </a></td > ';
                         html += '</tr>';

@@ -20,7 +20,16 @@ namespace MilkBusiness
         //Get all categories
         public async Task<IMilkResult> GetAllCategory()
         {
-            var categoryList = await _unitOfWork.GetRepository<Category>().GetListAsync();
+            var categoryList = await _unitOfWork.GetRepository<Category>()
+                .GetListAsync(selector: x => new GetCategoryDTO
+                {
+                    CategoryName = x.CategoryName,
+                    CategoryCode = x.CategoryCode,
+                    CategoryId = x.CategoryId,
+                    Description = x.Description,
+                    ImageUrl = x.ImageUrl,
+                    Status = x.Status
+                });
             return new MilkResult(categoryList);
         }
 
@@ -28,7 +37,16 @@ namespace MilkBusiness
         public async Task<IMilkResult> GetCategoryInfo(int categoryId)
         {
             var category = await _unitOfWork.GetRepository<Category>()
-                .SingleOrDefaultAsync(predicate: c => c.CategoryId == categoryId);
+                .SingleOrDefaultAsync(predicate: c => c.CategoryId == categoryId,
+                                      selector: x => new GetCategoryDTO
+                                      {
+                                          CategoryName = x.CategoryName,
+                                          CategoryCode = x.CategoryCode,
+                                          CategoryId = x.CategoryId,
+                                          Description = x.Description,
+                                          ImageUrl = x.ImageUrl,
+                                          Status = x.Status
+                                      });
             return new MilkResult(category);
         }
 
@@ -40,7 +58,12 @@ namespace MilkBusiness
             if (currentCategory == null) return new MilkResult(-1, "Category cannot be found");
             else
             {
-                currentCategory.CategoryName = String.IsNullOrEmpty(categoryInfo.Name) ? currentCategory.CategoryName : categoryInfo.Name;
+                currentCategory.CategoryName = String.IsNullOrEmpty(categoryInfo.CategoryName) ? currentCategory.CategoryName : categoryInfo.CategoryName;
+                currentCategory.Description = String.IsNullOrEmpty(categoryInfo.Description) ? currentCategory.Description : categoryInfo.Description;
+                currentCategory.CategoryCode = String.IsNullOrEmpty(categoryInfo.CategoryCode) ? currentCategory.CategoryCode : categoryInfo.CategoryCode;
+                currentCategory.ImageUrl = String.IsNullOrEmpty(categoryInfo.ImageUrl) ? currentCategory.ImageUrl : categoryInfo.ImageUrl;
+                currentCategory.Status = String.IsNullOrEmpty(categoryInfo.Status) ? currentCategory.Status : categoryInfo.Status;
+
                 _unitOfWork.GetRepository<Category>().UpdateAsync(currentCategory);
                 await _unitOfWork.CommitAsync();
             }
@@ -67,8 +90,11 @@ namespace MilkBusiness
             MilkResult result = new MilkResult();
             Category newCategory = new Category
             {
-                CategoryId = category.CategoryId,
-                CategoryName = category.Name
+                CategoryName = category.CategoryName,
+                Description = category.Description,
+                Status = category.Status,
+                ImageUrl = category.ImageUrl,
+                CategoryCode = category.CategoryCode,
             };
             await _unitOfWork.GetRepository<Category>().InsertAsync(newCategory);
             bool isSuccessful = await _unitOfWork.CommitAsync() > 0;
@@ -84,6 +110,5 @@ namespace MilkBusiness
             }
             return result;
         }
-
     }
 }

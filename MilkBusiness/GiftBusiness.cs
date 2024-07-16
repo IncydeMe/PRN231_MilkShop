@@ -21,7 +21,7 @@ namespace MilkBusiness
         public async Task<IMilkResult> GetAllGift()
         {
             var giftList = await _unitOfWork.GetRepository<Gift>()
-                .GetListAsync(selector: x => new GiftDTO
+                .GetListAsync(selector: x => new GetGiftDTO
                 {
                     GiftId = x.GiftId,
                     Name = x.Name,
@@ -42,7 +42,7 @@ namespace MilkBusiness
         {
             var gift = await _unitOfWork.GetRepository<Gift>()
                 .SingleOrDefaultAsync(predicate: p => p.GiftId == giftId,
-                                    selector: x => new GiftDTO
+                                    selector: x => new GetGiftDTO
                                     {
                                         GiftId = x.GiftId,
                                         Name = x.Name,
@@ -84,7 +84,6 @@ namespace MilkBusiness
 
             Gift newGift = new Gift()
             {
-                GiftId = gift.GiftId,
                 Name = gift.Name,
                 Quantity = gift.Quantity,
                 Description = gift.Description,
