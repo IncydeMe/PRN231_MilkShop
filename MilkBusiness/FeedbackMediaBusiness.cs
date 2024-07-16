@@ -26,7 +26,7 @@ public class FeedbackMediaBusiness
                 FeedbackId = fm.FeedbackId,
                 UpdateDate = fm.UpdateDate,
                 CreateDate = fm.CreateDate,
-                FeedbackMediaId = fm.FeedbackId,
+                FeedbackMediaId = fm.FeedbackMediaId,
                 MediaType = fm.MediaType,
                 MediaUrl = fm.MediaUrl
             });
@@ -42,7 +42,7 @@ public class FeedbackMediaBusiness
                                       FeedbackId = fm.FeedbackId,
                                       UpdateDate = fm.UpdateDate,
                                       CreateDate = fm.CreateDate,
-                                      FeedbackMediaId = fm.FeedbackId,
+                                      FeedbackMediaId = fm.FeedbackMediaId,
                                       MediaType = fm.MediaType,
                                       MediaUrl = fm.MediaUrl
                                   });
