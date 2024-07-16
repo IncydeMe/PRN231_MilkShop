@@ -20,7 +20,6 @@ namespace MilkWebAPI.Controllers
             _orderBusiness = new OrderBusiness();
         }
 
-        [Authorize(Roles = "staff")]
         [HttpGet(ApiEndPointConstant.Order.OrdersEndPoint)]
         [SwaggerOperation(Summary = "Get all Orders")]
         public async Task<IActionResult> GetAllOrders()
@@ -32,7 +31,6 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize]
         [HttpGet(ApiEndPointConstant.Order.OrderEndPoint)]
         [SwaggerOperation(Summary = "Get Order by its id")]
         public async Task<IActionResult> GetOrderById(int id)
@@ -44,7 +42,6 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize]
         [HttpPost(ApiEndPointConstant.Order.OrdersEndPoint)]
         [SwaggerOperation(Summary = "Create a new Order")]
         public async Task<IActionResult> CreateOrder(OrderDTO.CreateOrder createOrder)
@@ -56,43 +53,6 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        //[HttpGet(ApiEndPointConstant.Order.OrderConfirmEndpoint)]
-        //[SwaggerOperation(Summary = "Payment Response")]
-        //public async Task<IActionResult> PaymentResponse([FromQuery] VNPayResponse response)
-        //{
-        //    try
-        //    {
-        //        var result = await _orderBusiness.CheckPaymentResponse(response);
-        //        PaymentDTO.PaymentReturnResponse paymentResponse = (PaymentDTO.PaymentReturnResponse)result.Data;
-        //        var order = await _orderBusiness.GetOrderById(paymentResponse.OrderId);
-        //        Guid accountId = ((Order)order.Data).AccountId;
-
-        //        if (paymentResponse.PaymentStatus.Equals("Success"))
-        //        {
-        //            await _orderBusiness.ChangeOrderStatus(paymentResponse.OrderId, "Delivering");
-        //        } else
-        //        {
-        //            await _orderBusiness.ChangeOrderStatus(paymentResponse.OrderId, "Failed");
-        //        }
-
-        //        PaymentDTO.PaymentReturnResponse paymentReturnResponse = new PaymentDTO.PaymentReturnResponse
-        //        {
-        //            OrderId = paymentResponse.OrderId,
-        //            PaymentStatus = paymentResponse.PaymentStatus,
-        //            PaymentMessage = paymentResponse.PaymentMessage,
-        //            Amount = paymentResponse.Amount
-        //        };
-        //        //redirect or ok?
-        //        return Ok(paymentReturnResponse);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        if (ex.GetType() == typeof(BadHttpRequestException))
-        //        {
-        //            return BadRequest(ex.Message);
-        //        }
-        //        return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-        //    }
-        //}
+        //Add update and delete
     }
 }

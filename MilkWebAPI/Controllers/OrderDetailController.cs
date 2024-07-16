@@ -42,7 +42,7 @@ namespace MilkWebAPI.Controllers
 
         [HttpPost(ApiEndPointConstant.OrderDetail.OrderDetailsEndPoint)]
         [SwaggerOperation(Summary = "Create a new Order Detail")]
-        public async Task<IActionResult> CreateOrderDetail(OrderDetailsInput input)
+        public async Task<IActionResult> CreateOrderDetail(CreateOrderDetail input)
         {
             var response = await _orderDetailBusiness.CreateOrderDetail(input);
             if (response.Status >= 0)
@@ -50,5 +50,7 @@ namespace MilkWebAPI.Controllers
             else
                 return BadRequest(response);
         }
+
+        //Add Update and Delete
     }
 }

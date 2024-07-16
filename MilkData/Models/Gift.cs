@@ -7,25 +7,21 @@ public partial class Gift
 {
     public int GiftId { get; set; }
 
-    public Guid AccountId { get; set; }
+    public string Name { get; set; } = null!;
 
-    public string Name { get; set; }
+    public string Description { get; set; } = null!;
 
-    public int Quantity { get; set; }
+    public string? Type { get; set; }
 
-    public string Description { get; set; }
-
-    public string ImageUrl { get; set; }
+    public string ImageUrl { get; set; } = null!;
 
     public int Point { get; set; }
 
-    public string Status { get; set; }
+    public int Quantity { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime? CreateDate { get; set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime? UpdateDate { get; set; }
 
-    public virtual Account Account { get; set; }
-
-    public virtual ICollection<Gifted> Gifteds { get; set; } = new List<Gifted>();
+    public string? Status { get; set; }
 }

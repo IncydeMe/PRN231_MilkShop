@@ -20,20 +20,20 @@ namespace MilkBusiness
         // Get all gift
         public async Task<IMilkResult> GetAllGift()
         {
-            var giftList = await _unitOfWork.GetRepository<Gift>().GetListAsync(
-                                              selector: x => new GiftDTO
-                                              {
-                                   GiftId = x.GiftId,
-                                   AccountId = x.AccountId,
-                                   Name = x.Name,
-                                   Quantity = x.Quantity,
-                                   Description = x.Description,
-                                   ImageUrl = x.ImageUrl,
-                                   Point = x.Point,
-                                   Status = x.Status,
-                                   CreatedAt = x.CreatedAt,
-                                   UpdatedAt = x.UpdatedAt
-                               });
+            var giftList = await _unitOfWork.GetRepository<Gift>()
+                .GetListAsync(selector: x => new GiftDTO
+                {
+                    GiftId = x.GiftId,
+                    Name = x.Name,
+                    Quantity = x.Quantity,
+                    Description = x.Description,
+                    ImageUrl = x.ImageUrl,
+                    Point = x.Point,
+                    Status = x.Status,
+                    UpdateDate = x.UpdateDate,
+                    CreateDate = x.CreateDate,
+                    Type = x.Type
+                });
             return new MilkResult(giftList);
         }
 
@@ -42,19 +42,19 @@ namespace MilkBusiness
         {
             var gift = await _unitOfWork.GetRepository<Gift>()
                 .SingleOrDefaultAsync(predicate: p => p.GiftId == giftId,
-                                                                    selector: x => new GiftDTO
-                                                                    {
-                                                         GiftId = x.GiftId,
-                                                         AccountId = x.AccountId,
-                                                         Name = x.Name,
-                                                         Quantity = x.Quantity,
-                                                         Description = x.Description,
-                                                         ImageUrl = x.ImageUrl,
-                                                         Point = x.Point,
-                                                         Status = x.Status,
-                                                         CreatedAt = x.CreatedAt,
-                                                         UpdatedAt = x.UpdatedAt
-                                                     });
+                                    selector: x => new GiftDTO
+                                    {
+                                        GiftId = x.GiftId,
+                                        Name = x.Name,
+                                        Quantity = x.Quantity,
+                                        Description = x.Description,
+                                        ImageUrl = x.ImageUrl,
+                                        Point = x.Point,
+                                        Status = x.Status,
+                                        UpdateDate = x.UpdateDate,
+                                        CreateDate = x.CreateDate,
+                                        Type = x.Type
+                                    });
             return new MilkResult(gift);
         }
 
@@ -85,15 +85,15 @@ namespace MilkBusiness
             Gift newGift = new Gift()
             {
                 GiftId = gift.GiftId,
-                AccountId = gift.AccountId,
                 Name = gift.Name,
                 Quantity = gift.Quantity,
                 Description = gift.Description,
                 ImageUrl = gift.ImageUrl,
                 Point = gift.Point,
                 Status = gift.Status,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                CreateDate = DateTime.Now,
+                UpdateDate = DateTime.Now,
+                Type = gift.Type
             };
 
             await _unitOfWork.GetRepository<Gift>().InsertAsync(newGift);
@@ -142,15 +142,15 @@ namespace MilkBusiness
                     giftInfo.Status = "Gifted";
                 }
 
-                currentGift.AccountId = giftInfo.AccountId;
                 currentGift.Name = String.IsNullOrEmpty(giftInfo.Name) ? currentGift.Name : giftInfo.Name;
                 currentGift.Quantity = giftInfo.Quantity;
                 currentGift.Description = String.IsNullOrEmpty(giftInfo.Description) ? currentGift.Description : giftInfo.Description;
                 currentGift.ImageUrl = String.IsNullOrEmpty(giftInfo.ImageUrl) ? currentGift.ImageUrl : giftInfo.ImageUrl;
                 currentGift.Point = giftInfo.Point;
                 currentGift.Status = giftInfo.Status;
-                currentGift.UpdatedAt = DateTime.Now;
-                
+                currentGift.UpdateDate = DateTime.Now;
+                currentGift.Type = giftInfo.Type;
+
                 _unitOfWork.GetRepository<Gift>().UpdateAsync(currentGift);
                 await _unitOfWork.CommitAsync();
             }
@@ -191,7 +191,7 @@ namespace MilkBusiness
             else
             {
                 currentGift.Status = newStatus;
-                currentGift.UpdatedAt = DateTime.Now;
+                currentGift.UpdateDate = DateTime.Now;
 
                 _unitOfWork.GetRepository<Gift>().UpdateAsync(currentGift);
                 await _unitOfWork.CommitAsync();

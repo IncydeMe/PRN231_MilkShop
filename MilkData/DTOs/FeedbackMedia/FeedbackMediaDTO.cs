@@ -12,8 +12,12 @@ namespace MilkData.DTOs.FeedbackMedia
 
         public int FeedbackId { get; set; }
 
-        public string MediaUrl { get; set; }
+        public string MediaUrl { get; set; } = null!;
 
-        public string MediaType { get; set; }
+        public string MediaType { get; set; } = null!;
+
+        public DateTime? CreateDate { get; set; }
+
+        public DateTime? UpdateDate { get; set; }
     }
 }

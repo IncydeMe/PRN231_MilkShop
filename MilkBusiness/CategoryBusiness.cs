@@ -40,7 +40,7 @@ namespace MilkBusiness
             if (currentCategory == null) return new MilkResult(-1, "Category cannot be found");
             else
             {
-                currentCategory.Name = String.IsNullOrEmpty(categoryInfo.Name) ? currentCategory.Name : categoryInfo.Name;
+                currentCategory.CategoryName = String.IsNullOrEmpty(categoryInfo.Name) ? currentCategory.CategoryName : categoryInfo.Name;
                 _unitOfWork.GetRepository<Category>().UpdateAsync(currentCategory);
                 await _unitOfWork.CommitAsync();
             }
@@ -68,7 +68,7 @@ namespace MilkBusiness
             Category newCategory = new Category
             {
                 CategoryId = category.CategoryId,
-                Name = category.Name
+                CategoryName = category.Name
             };
             await _unitOfWork.GetRepository<Category>().InsertAsync(newCategory);
             bool isSuccessful = await _unitOfWork.CommitAsync() > 0;

@@ -16,7 +16,6 @@ namespace MilkWebAPI.Controllers
             _voucherBusiness = new VoucherBusiness();
         }
 
-        [Authorize(Roles = "staff, member")]
         [HttpGet(ApiEndPointConstant.Voucher.VouchersEndpoint)]
         [SwaggerOperation(Summary = "Get all Vouchers")]
         public async Task<IActionResult> GetAllVouchers()
@@ -28,10 +27,9 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "staff, member")]
         [HttpGet(ApiEndPointConstant.Voucher.VoucherEndpoint)]
         [SwaggerOperation(Summary = "Get Voucher by its id")]
-        public async Task<IActionResult> GetVoucherInfo(int id)
+        public async Task<IActionResult> GetVoucherInfo(Guid id)
         {
             var response = await _voucherBusiness.GetVoucherInfo(id);
             if (response.Status >= 0)
@@ -40,7 +38,6 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "staff, member")]
         [HttpGet(ApiEndPointConstant.Voucher.VoucherEndpointByType)]
         [SwaggerOperation(Summary = "Get Voucher by its type")]
         public async Task<IActionResult> GetVoucherByType(string type)
@@ -52,7 +49,6 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "staff")]
         [HttpPost(ApiEndPointConstant.Voucher.VouchersEndpoint)]
         [SwaggerOperation(Summary = "Create a new Voucher")]
         public async Task<IActionResult> CreateVoucher(VoucherDTO voucher)
@@ -64,10 +60,9 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "staff")]
         [HttpPut(ApiEndPointConstant.Voucher.VoucherEndpoint)]
         [SwaggerOperation(Summary = "Update Voucher Info")]
-        public async Task<IActionResult> UpdateVoucherInfo(int id, VoucherDTO voucher)
+        public async Task<IActionResult> UpdateVoucherInfo(Guid id, VoucherDTO voucher)
         {
             var response = await _voucherBusiness.UpdateVoucherInfo(id, voucher);
             if (response.Status >= 0)
@@ -76,10 +71,9 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "staff")]
         [HttpDelete(ApiEndPointConstant.Voucher.VoucherEndpoint)]
         [SwaggerOperation(Summary = "Delete Voucher")]
-        public async Task<IActionResult> DeleteVoucher(int id)
+        public async Task<IActionResult> DeleteVoucher(Guid id)
         {
             var response = await _voucherBusiness.DeleteVoucher(id);
             if (response.Status >= 0)

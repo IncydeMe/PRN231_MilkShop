@@ -40,7 +40,9 @@ public class FeedbackMediaBusiness
             FeedbackMediaId = feMedia.FeedbackMediaId,
             MediaType = feMedia.MediaType,
             FeedbackId = feMedia.FeedbackId,
-            MediaUrl = feMedia.MediaUrl
+            MediaUrl = feMedia.MediaUrl,
+            CreateDate = feMedia.CreateDate,
+            UpdateDate = feMedia.UpdateDate
         };
 
         await _unitOfWork.GetRepository<FeedbackMedia>().InsertAsync(feedbackMedia);
@@ -69,6 +71,8 @@ public class FeedbackMediaBusiness
             currentFeMedia.MediaUrl = String.IsNullOrEmpty(feedbackMedia.MediaUrl) ? currentFeMedia.MediaUrl : feedbackMedia.MediaUrl;
             currentFeMedia.MediaType = String.IsNullOrEmpty(feedbackMedia.MediaType) ? currentFeMedia.MediaType : feedbackMedia.MediaType;
             currentFeMedia.FeedbackId = feedbackMedia.FeedbackId;
+            currentFeMedia.CreateDate = feedbackMedia.CreateDate;
+            currentFeMedia.UpdateDate = feedbackMedia.UpdateDate;
 
             _unitOfWork.GetRepository<FeedbackMedia>().UpdateAsync(currentFeMedia);
             await _unitOfWork.CommitAsync();

@@ -34,7 +34,7 @@ namespace MilkBusiness
                 return result;
             }
 
-            if (account.Disable)
+            if (!(bool)account.IsActive)
             {
                 result.Status = -1;
                 result.Message = "Your account is currently inactive (banned)";
@@ -63,18 +63,17 @@ namespace MilkBusiness
 
             Account newAccount = new Account
             {
-                AccountId = Guid.NewGuid(),
+                AccountId = 0,
                 FullName = email,
                 Password = password,
                 Email = email,
-                DateOfBirth = DateOnly.FromDateTime(DateTime.UtcNow),
                 Phone = String.Empty,
                 Address = String.Empty,
                 Point = 0,
                 AvatarUrl = String.Empty,
                 Role = "Custmer",
-                Disable = false,
-                CreatedAt = DateTime.UtcNow,
+                IsActive = true,
+                UserName = String.Empty
             };
 
             await _unitOfWork.GetRepository<Account>().InsertAsync(newAccount);
@@ -100,15 +99,14 @@ namespace MilkBusiness
         public async Task<IMilkResult> GetAllAccount()
         {
             var accList = await _unitOfWork.GetRepository<Account>()
-                .GetListAsync(predicate: a => !a.Disable,
+                .GetListAsync(predicate: a => (bool)a.IsActive,
                               selector: a => new AccountDTO
                               {
                                   AccountId = a.AccountId,
                                   Address = a.Address,
                                   AvatarUrl = a.AvatarUrl,
-                                  CreatedAt = a.CreatedAt,
-                                  DateOfBirth = a.DateOfBirth,
-                                  Disable = a.Disable,
+                                  IsActive = a.IsActive,
+                                  UserName = a.UserName,
                                   Email = a.Email,
                                   FullName = a.FullName,
                                   Password = a.Password,
@@ -119,18 +117,17 @@ namespace MilkBusiness
             return new MilkResult(accList);
         }
 
-        public async Task<IMilkResult> GetAccountInfo(Guid accountId)
+        public async Task<IMilkResult> GetAccountInfo(int accountId)
         {
             var acc = await _unitOfWork.GetRepository<Account>()
-                .SingleOrDefaultAsync(predicate: a => a.AccountId.Equals(accountId) && !a.Disable,
+                .SingleOrDefaultAsync(predicate: a => a.AccountId == accountId && (bool)a.IsActive,
                                       selector: a => new AccountDTO
                                       {
                                           AccountId = a.AccountId,
                                           Address = a.Address,
                                           AvatarUrl = a.AvatarUrl,
-                                          CreatedAt = a.CreatedAt,
-                                          DateOfBirth = a.DateOfBirth,
-                                          Disable = a.Disable,
+                                          IsActive = a.IsActive,
+                                          UserName = a.UserName,
                                           Email = a.Email,
                                           FullName = a.FullName,
                                           Password = a.Password,
@@ -145,15 +142,14 @@ namespace MilkBusiness
         public async Task<IMilkResult> GetAccountInfoByEmail(string email)
         {
             var acc = await _unitOfWork.GetRepository<Account>()
-                .SingleOrDefaultAsync(predicate: a => a.Email.Equals(email) && !a.Disable,
+                .SingleOrDefaultAsync(predicate: a => a.Email.Equals(email) && (bool)a.IsActive,
                                       selector: a => new AccountDTO
                                       {
                                           AccountId = a.AccountId,
                                           Address = a.Address,
                                           AvatarUrl = a.AvatarUrl,
-                                          CreatedAt = a.CreatedAt,
-                                          DateOfBirth = a.DateOfBirth,
-                                          Disable = a.Disable,
+                                          IsActive = a.IsActive,
+                                          UserName = a.UserName,
                                           Email = a.Email,
                                           FullName = a.FullName,
                                           Password = a.Password,
@@ -185,14 +181,13 @@ namespace MilkBusiness
                 FullName = inputedAccount.FullName,
                 Password = inputedAccount.Password,
                 Email = inputedAccount.Email,
-                DateOfBirth = inputedAccount.DateOfBirth,
                 Phone = inputedAccount.Phone,
                 Address = inputedAccount.Address,
                 Point = inputedAccount.Point,
                 AvatarUrl = inputedAccount.AvatarUrl,
                 Role = inputedAccount.Role,
-                Disable = inputedAccount.Disable,
-                CreatedAt = inputedAccount.CreatedAt
+                IsActive = true,
+                UserName = inputedAccount.UserName,
             };
 
             await _unitOfWork.GetRepository<Account>().InsertAsync(newAccount);
@@ -225,10 +220,9 @@ namespace MilkBusiness
                 currentAcc.Address = String.IsNullOrEmpty(accInfo.Address) ? currentAcc.Address : accInfo.Address;
                 currentAcc.Phone = String.IsNullOrEmpty(accInfo.Phone) ? currentAcc.Phone : accInfo.Phone;
                 currentAcc.AvatarUrl = String.IsNullOrEmpty(accInfo.AvatarUrl) ? currentAcc.AvatarUrl : accInfo.AvatarUrl;
-                currentAcc.DateOfBirth = accInfo.DateOfBirth;
+                currentAcc.UserName = String.IsNullOrEmpty(accInfo.UserName) ? currentAcc.UserName : accInfo.UserName;
                 currentAcc.Point = accInfo.Point;
-                currentAcc.Disable = accInfo.Disable;
-                currentAcc.CreatedAt = accInfo.CreatedAt;
+                currentAcc.IsActive = accInfo.IsActive == null ? currentAcc.IsActive : accInfo.IsActive;
 
                 _unitOfWork.GetRepository<Account>().UpdateAsync(currentAcc);
                 await _unitOfWork.CommitAsync();
@@ -237,10 +231,10 @@ namespace MilkBusiness
             return new MilkResult(accInfo);
         }
 
-        public async Task<IMilkResult> DeleteAccount(Guid id)
+        public async Task<IMilkResult> DeleteAccount(int id)
         {
             Account currentAcc = await _unitOfWork.GetRepository<Account>()
-               .SingleOrDefaultAsync(predicate: a => a.AccountId.Equals(id));
+               .SingleOrDefaultAsync(predicate: a => a.AccountId == id);
             if (currentAcc == null) return new MilkResult(-1, "Account cannot be found");
             else
             {
@@ -251,14 +245,14 @@ namespace MilkBusiness
             return new MilkResult("Delete Successfull");
         }
 
-        public async Task<IMilkResult> BanAccount(Guid accountId)
+        public async Task<IMilkResult> BanAccount(int accountId)
         {
             Account account = await _unitOfWork.GetRepository<Account>()
-                .SingleOrDefaultAsync(predicate: a => a.AccountId.Equals(accountId));
+                .SingleOrDefaultAsync(predicate: a => a.AccountId == accountId);
             if (account == null) return new MilkResult();
             else
             {
-                account.Disable = !account.Disable;
+                account.IsActive = false;
 
                 _unitOfWork.GetRepository<Account>().UpdateAsync(account);
                 await _unitOfWork.CommitAsync();

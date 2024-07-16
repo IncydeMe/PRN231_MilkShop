@@ -39,7 +39,6 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize]
         [HttpPost(ApiEndPointConstant.FeedbackMedia.FeedbackMediaEndPoint)]
         [SwaggerOperation(Summary = "Create a new Feedback Media")]
         public async Task<IActionResult> CreateFeedbackMedia(FeedbackMediaDTO feedbackMedia)
@@ -51,7 +50,6 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize]
         [HttpPut(ApiEndPointConstant.FeedbackMedia.FeedbacMediumkEndPoint)]
         [SwaggerOperation(Summary = "Update Feedback Media Info")]
         public async Task<IActionResult> UpdateFeedbackMedia(int id, FeedbackMediaDTO feedbackMedia)
@@ -63,7 +61,6 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize]
         [HttpDelete(ApiEndPointConstant.FeedbackMedia.FeedbacMediumkEndPoint)]
         [SwaggerOperation(Summary = "Delete Feedback Media")]
         public async Task<IActionResult> DeleteFeedbackMedia(int id)

@@ -38,7 +38,6 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "staff")]
         [HttpPost(ApiEndPointConstant.Product.ProductsEndPoint)]
         [SwaggerOperation(Summary = "Create a new Product")]
         public async Task<IActionResult> CreateProduct(ProductDTO product)
@@ -50,7 +49,6 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "staff")]
         [HttpPut(ApiEndPointConstant.Product.ProductEndPoint)]
         [SwaggerOperation(Summary = "Update Product Info")]
         public async Task<IActionResult> UpdateProductInfo(int id, ProductDTO product)
@@ -62,7 +60,6 @@ namespace MilkWebAPI.Controllers
                 return BadRequest(response);
         }
 
-        [Authorize(Roles = "staff")]
         [HttpDelete(ApiEndPointConstant.Product.ProductEndPoint)]
         [SwaggerOperation(Summary = "Delete Product by its id")]
         public async Task<IActionResult> DeleteProduct(int id)
@@ -73,6 +70,5 @@ namespace MilkWebAPI.Controllers
             else
                 return BadRequest(response);
         }
-
     }
 }

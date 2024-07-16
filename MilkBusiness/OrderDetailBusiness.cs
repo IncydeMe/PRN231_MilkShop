@@ -23,12 +23,12 @@ namespace MilkBusiness
         public async Task<IMilkResult> GetAllOrderDetail()
         {
             var orderDetailList = await _unitOfWork.GetRepository<OrderDetail>().GetListAsync(
-                selector: x => new
+                selector: x => new GetOrderDetail()
                 {
-                    x.OrderDetailId,
-                    x.Quantity,
-                    x.ProductId,
-                    x.OrderId
+                    OrderDetailId = x.OrderDetailId,
+                    OrderId = x.OrderId,
+                    ProductId = x.ProductId,
+                    Quantity = x.Quantity
                 });
             return new MilkResult(orderDetailList);
         }
@@ -40,19 +40,16 @@ namespace MilkBusiness
             return new MilkResult(orderDetail);
         }
 
-        public async Task<IMilkResult> CreateOrderDetail(OrderDetailsInput createOrderDetail)
+        public async Task<IMilkResult> CreateOrderDetail(CreateOrderDetail createOrderDetail)
         {
-            foreach (var orderDetails in createOrderDetail.OrderDetails)
+            OrderDetail newOrderDetail = new OrderDetail
             {
-                OrderDetail newOrderDetail = new OrderDetail
-                {
-                    OrderDetailId = _unitOfWork.GetRepository<OrderDetail>().GetListAsync().Result.Max(o => o.OrderDetailId) + 1,
-                    OrderId = createOrderDetail.OrderId,
-                    ProductId = orderDetails.ProductId,
-                    Quantity = orderDetails.Quantity,
-                };
-                await _unitOfWork.GetRepository<OrderDetail>().InsertAsync(newOrderDetail);
-            }
+                OrderDetailId = 0,
+                OrderId = createOrderDetail.OrderId,
+                ProductId = createOrderDetail.ProductId,
+                Quantity = createOrderDetail.Quantity,
+            };
+            await _unitOfWork.GetRepository<OrderDetail>().InsertAsync(newOrderDetail);
 
             MilkResult result = new MilkResult();
 
@@ -61,7 +58,8 @@ namespace MilkBusiness
             {
                 result.Status = 1;
                 result.Message = "OrderDetail created successfully";
-            } else
+            }
+            else
             {
                 result.Status = -1;
                 result.Message = "OrderDetail creation failed";
