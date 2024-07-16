@@ -100,7 +100,12 @@
                 formData.append("Description", $("#Description").val());
                 formData.append("VoucherCode", $("#VoucherCode").val());
                 formData.append("TotalPrice", $("#TotalPrice").val());
+                formData.append("Currency", $("#Currency").val());
                 formData.append("Status", $("#Status").val());
+                formData.append("PaymentType", $("#PaymentType").val());
+                formData.append("CreateDate", $("#CreateDate").val());
+                formData.append("UpdateDate", $("#UpdateDate").val());
+                formData.append("Note", $("#Note").val());
                 formData.append("HttpMethod", method);
 
                 $.ajax({
@@ -136,10 +141,17 @@
                     var html = "";
                     $.each(result, function (key, item) {
                         html += '<tr>';
+                        html += '<td>' + item.orderId + '</td>';
                         html += '<td>' + item.accountId + '</td>';
+                        html += '<td>' + item.description + '</td>';
                         html += '<td>' + item.voucherCode + '</td>';
                         html += '<td>' + item.totalPrice + '</td>';
+                        html += '<td>' + item.currency + '</td>';
                         html += '<td>' + item.status + '</td>';
+                        html += '<td>' + item.paymentType + '</td>';
+                        html += '<td>' + item.createDate + '</td>';
+                        html += '<td>' + item.updateDate + '</td>';
+                        html += '<td>' + item.note + '</td>';
                         html += '<td class="action-links">';
                         html += '<a href="#" onclick = "return detail(\'' + item.orderId + '\')" > Detail </a></td > ';
                         html += '</tr>';
