@@ -69,13 +69,13 @@ namespace MilkBusiness
                 AccountId = blog.AccountId,
                 BlogContent = blog.BlogContent,
                 CategoryName = blog.CategoryName,
-                CreatedDate = blog.CreatedDate,
+                CreatedDate = DateTime.Now,
                 ImageUrl = blog.ImageUrl,
                 Priority = blog.Priority,
                 ProductSuggestUrl = blog.ProductSuggestUrl,
                 Reference = blog.Reference,
                 Title = blog.Title,
-                UpdateDate = blog.UpdateDate
+                UpdateDate = DateTime.Now
             };
 
             await _unitOfWork.GetRepository<Blog>().InsertAsync(createdBlog);
@@ -110,8 +110,7 @@ namespace MilkBusiness
                 currentBlog.ImageUrl = String.IsNullOrEmpty(blogInfo.ImageUrl) ? currentBlog.ImageUrl : blogInfo.ImageUrl;
                 currentBlog.AccountId = blogInfo.AccountId;
                 currentBlog.Priority = blogInfo.Priority;
-                currentBlog.CreatedDate = blogInfo.CreatedDate;
-                currentBlog.UpdateDate = blogInfo.UpdateDate;
+                currentBlog.UpdateDate = DateTime.Now;
 
                 _unitOfWork.GetRepository<Blog>().UpdateAsync(currentBlog);
                 await _unitOfWork.CommitAsync();

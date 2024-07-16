@@ -78,7 +78,7 @@
                 </div>
                 <div class="modal-footer">
                     <button id="btSave" type="button" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="btClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             }
         </div>
@@ -169,6 +169,8 @@
             $("#topUpModalLabel").html("Add New");
             method = "POST";
 
+            $("#btSave").show();
+
             $.ajax({
                 url: '@Url.Action("AddNew", "Blog")',
                 type: "GET",
@@ -185,9 +187,11 @@
         function detail(id) {
             $("#topUpModalContent").html("");
             $("#topUpModalLabel").html("Detail");
-
+            $("#btClose").hide();
             var formData = new FormData();
             formData.append("id", id);
+
+            $("#btSave").hide();
 
             $.ajax({
                 url: '@Url.Action("Detail", "Blog")',
@@ -212,6 +216,8 @@
             $("#topUpModalContent").html("");
             $("#topUpModalLabel").html("Update");
             method = "PUT";
+
+            $("#btSave").show();
 
             var formData = new FormData();
             formData.append("id", id);

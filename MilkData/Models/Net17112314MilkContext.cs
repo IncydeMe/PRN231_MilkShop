@@ -56,7 +56,9 @@ public partial class Net17112314MilkContext : DbContext
             entity.Property(e => e.CategoryName).HasMaxLength(200);
             entity.Property(e => e.Reference).HasMaxLength(50);
 
-            entity.HasOne(d => d.Account).WithMany(p => p.Blogs).HasForeignKey(d => d.AccountId);
+            entity.HasOne(d => d.Account).WithMany(p => p.Blogs)
+                .HasForeignKey(d => d.AccountId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Category>(entity =>
@@ -73,9 +75,13 @@ public partial class Net17112314MilkContext : DbContext
             entity.Property(e => e.Type).HasMaxLength(100);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
-            entity.HasOne(d => d.Account).WithMany(p => p.Feedbacks).HasForeignKey(d => d.AccountId);
+            entity.HasOne(d => d.Account).WithMany(p => p.Feedbacks)
+                .HasForeignKey(d => d.AccountId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
-            entity.HasOne(d => d.Product).WithMany(p => p.Feedbacks).HasForeignKey(d => d.ProductId);
+            entity.HasOne(d => d.Product).WithMany(p => p.Feedbacks)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<FeedbackMedia>(entity =>
@@ -83,7 +89,9 @@ public partial class Net17112314MilkContext : DbContext
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
-            entity.HasOne(d => d.Feedback).WithMany(p => p.FeedbackMedia).HasForeignKey(d => d.FeedbackId);
+            entity.HasOne(d => d.Feedback).WithMany(p => p.FeedbackMedia)
+                .HasForeignKey(d => d.FeedbackId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Gift>(entity =>
@@ -102,14 +110,20 @@ public partial class Net17112314MilkContext : DbContext
             entity.Property(e => e.Status).HasMaxLength(20);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
-            entity.HasOne(d => d.Account).WithMany(p => p.Orders).HasForeignKey(d => d.AccountId);
+            entity.HasOne(d => d.Account).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.AccountId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails).HasForeignKey(d => d.OrderId);
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
+                .HasForeignKey(d => d.OrderId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
-            entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails).HasForeignKey(d => d.ProductId);
+            entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -121,7 +135,9 @@ public partial class Net17112314MilkContext : DbContext
             entity.Property(e => e.TotalRating).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
-            entity.HasOne(d => d.Category).WithMany(p => p.Products).HasForeignKey(d => d.CategoryId);
+            entity.HasOne(d => d.Category).WithMany(p => p.Products)
+                .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Voucher>(entity =>
