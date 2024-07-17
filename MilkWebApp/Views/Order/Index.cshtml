@@ -153,7 +153,7 @@
                         html += '<td>' + item.updateDate + '</td>';
                         html += '<td>' + item.note + '</td>';
                         html += '<td class="action-links">';
-                        html += '<a href="#" onclick = "return detail(\'' + item.orderId + '\')" > Detail </a></td > ';
+                        html += '<a href="#" onclick = "return detail(\'' + item.orderId + '\')" > Detail </a> <a href="#" onclick="return edit(\'' + item.orderId + '\')">Edit</a> <a href="#" onclick = "delele(\'' + item.orderId + '\')" > Delete </a></td > ';
                         html += '</tr>';
                     });
                     $('.tblOrdersList').html(html);
@@ -168,6 +168,8 @@
             $("#topUpModalContent").html("");
             $("#topUpModalLabel").html("Add New");
             method = "POST";
+
+            $("#btSave").show();
 
             $.ajax({
                 url: '@Url.Action("AddNew", "Order")',
@@ -188,6 +190,8 @@
 
             var formData = new FormData();
             formData.append("id", id);
+
+            $("#btSave").hide();
 
             $.ajax({
                 url: '@Url.Action("Detail", "Order")',
@@ -212,6 +216,8 @@
             $("#topUpModalContent").html("");
             $("#topUpModalLabel").html("Update");
             method = "PUT";
+
+            $("#btSave").show();
 
             var formData = new FormData();
             formData.append("id", id);
