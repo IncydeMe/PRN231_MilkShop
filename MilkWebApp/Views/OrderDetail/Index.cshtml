@@ -148,6 +148,8 @@
             $("#topUpModalLabel").html("Add New");
             method = "POST";
 
+            $("#btSave").show();
+
             $.ajax({
                 url: '@Url.Action("AddNew", "OrderDetail")',
                 type: "GET",
@@ -164,6 +166,8 @@
         function detail(id) {
             $("#topUpModalContent").html("");
             $("#topUpModalLabel").html("Detail");
+
+            $("#btSave").hide();
 
             var formData = new FormData();
             formData.append("id", id);
@@ -191,6 +195,8 @@
             $("#topUpModalContent").html("");
             $("#topUpModalLabel").html("Update");
             method = "PUT";
+
+            $("#btSave").show();
 
             var formData = new FormData();
             formData.append("id", id);
