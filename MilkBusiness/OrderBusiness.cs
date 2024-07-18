@@ -149,6 +149,7 @@ namespace MilkBusiness
         {
             var order = await _unitOfWork.GetRepository<Order>().SingleOrDefaultAsync(predicate: o => o.OrderId == orderId);
             order.Status = status;
+            order.UpdateDate = DateTime.Now;
             _unitOfWork.GetRepository<Order>().UpdateAsync(order);
             await _unitOfWork.CommitAsync();
         }
@@ -167,8 +168,7 @@ namespace MilkBusiness
                 currentOrder.Currency = String.IsNullOrEmpty(updatedOrder.Currency) ? currentOrder.Currency : updatedOrder.Currency;
                 currentOrder.Status = String.IsNullOrEmpty(updatedOrder.Status) ? currentOrder.Status : updatedOrder.Status;
                 currentOrder.PaymentType = String.IsNullOrEmpty(updatedOrder.PaymentType) ? currentOrder.PaymentType : updatedOrder.PaymentType;
-                currentOrder.CreateDate = updatedOrder.CreateDate;
-                currentOrder.UpdateDate = updatedOrder.UpdateDate;
+                currentOrder.UpdateDate = DateTime.Now;
                 currentOrder.Note = String.IsNullOrEmpty(updatedOrder.Note) ? currentOrder.Note : updatedOrder.Note;
 
                 _unitOfWork.GetRepository<Order>().UpdateAsync(currentOrder);
